@@ -40,8 +40,8 @@ export default class TSVFileReader implements FileReaderInterface {
         },
         id: Number(offerId),
         images: images.split(';'),
-        isFavorite: Boolean(isFavorite),
-        isPremium: Boolean(isPremium),
+        isFavorite: Boolean(Number(isFavorite)),
+        isPremium: Boolean(Number(isPremium)),
         location: {
           latitude: Number(offerLatitude),
           longitude: Number(offerLongitude),
