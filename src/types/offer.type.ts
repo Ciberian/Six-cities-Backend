@@ -9,7 +9,7 @@ export type Offer = {
 		};
 	};
 	description: string;
-	goods: [string];
+	goods: string[];
 	host: {
 		avatarUrl: string;
 		id: number;
@@ -17,7 +17,7 @@ export type Offer = {
 		name: string;
 	};
 	id: number;
-	images: [string];
+	images: string[];
 	isFavorite: boolean;
 	isPremium: boolean;
 	location: {
@@ -26,6 +26,7 @@ export type Offer = {
 		zoom: number;
 	};
 	maxAdults: number;
+  postDate: Date;
 	previewImage: string;
 	price: number;
 	rating: number;
