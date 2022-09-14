@@ -20,7 +20,7 @@ export default class TSVFileReader implements FileReaderInterface {
       .split('\n')
       .filter((row) => row.trim() !== '')
       .map((line) => line.split('\t'))
-      .map(([bedrooms, cityLatitude, cityLongitude, cityZoom, cityName, description, goods, hostAvatar, hostId, hostStatus, hostName, offerId, images, isFavorite, isPremium, offerLatitude, offerLongitude, offerZoom, maxAdults, postDate, previewImage, price, rating, title, type]) => ({
+      .map(([bedrooms, cityName, cityLatitude, cityLongitude, cityZoom, description, goods, hostAvatar, hostId, hostStatus, hostName, offerId, images, isFavorite, isPremium, offerLatitude, offerLongitude, offerZoom, maxAdults, postDate, previewImage, price, rating, title, type]) => ({
         bedrooms: Number(bedrooms),
         city: {
           name: cityName,
@@ -35,7 +35,7 @@ export default class TSVFileReader implements FileReaderInterface {
         host: {
           avatarUrl: hostAvatar,
           id: Number(hostId),
-          isPro: Boolean(hostStatus),
+          isPro: Boolean(Number(hostStatus)),
           name: hostName
         },
         id: Number(offerId),

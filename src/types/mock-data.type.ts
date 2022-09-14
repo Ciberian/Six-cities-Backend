@@ -5,4 +5,5 @@ export type MockData = {
   hostNames: string[];
   offerImages: string[];
   titles: string[];
+  offerTypes: string[];
 };
