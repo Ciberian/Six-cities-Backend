@@ -34,12 +34,12 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const cityZoom = ZOOM;
     const description = getRandomItem<string>(this.mockData.descriptions);
     const goods = getRandomItems<string>(this.mockData.goods);
-    const hostAvatar = `img;/${generateRandomValue()}}.png`;
+    const hostAvatar = `img/${generateRandomValue()}.png`;
     const hostId = generateRandomValue();
     const hostStatus = generateRandomValue(0, 1);
     const hostName = getRandomItem<string>(this.mockData.hostNames);
     const offerId = generateRandomValue();
-    const offerImages = getRandomItem<string>(this.mockData.offerImages);
+    const offerImages = getRandomItems<string>(this.mockData.offerImages);
     const isFavorite = generateRandomValue(0, 1);
     const isPremium = generateRandomValue(0, 1);
     const offerLatitude = cityLatitude + Math.random();
