@@ -13,8 +13,6 @@ export default class TSVFileReader extends EventEmitter implements FileReaderInt
       encoding: 'utf-8',
     });
 
-    console.log('Stream - ', stream);
-
     let lineRead = '';
     let endLinePosition = -1;
     let importedRowCount = 0;
