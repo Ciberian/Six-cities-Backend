@@ -40,3 +40,5 @@ export const createOffer = (row: string) => {
     type
   } as Offer;
 };
+
+export const getErrorMessage = (error: unknown): string => error instanceof Error ? error.message : '';
