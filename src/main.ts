@@ -7,9 +7,12 @@ import { LoggerInterface } from './common/logger/logger.interface.js';
 import { ConfigInterface } from './common/config/config.interface.js';
 import { UserServiceInterface } from './modules/user/user-service.interface.js';
 import { DatabaseInterface } from './common/database-client/database.interface.js';
+import { OfferServiceInterface } from './modules/offer/offer-service.interface.js';
+import { OfferEntity, OfferModel } from './modules/offer/offer.entity.js';
 import DatabaseService from './common/database-client/database.service.js';
 import ConfigService from './common/config/config.service.js';
 import LoggerService from './common/logger/logger.service.js';
+import OfferService from './modules/offer/offer.service.js';
 import UserService from './modules/user/user.service.js';
 import Application from './app/application.js';
 
@@ -20,6 +23,8 @@ applicationContainer.bind<ConfigInterface>(Component.ConfigInterface).to(ConfigS
 applicationContainer.bind<DatabaseInterface>(Component.DatabaseInterface).to(DatabaseService).inSingletonScope();
 applicationContainer.bind<UserServiceInterface>(Component.UserServiceInterface).to(UserService);
 applicationContainer.bind<types.ModelType<UserEntity>>(Component.UserModel).toConstantValue(UserModel);
+applicationContainer.bind<OfferServiceInterface>(Component.OfferServiceInterface).to(OfferService);
+applicationContainer.bind<types.ModelType<OfferEntity>>(Component.OfferModel).toConstantValue(OfferModel);
 
 const application = applicationContainer.get<Application>(Component.Application);
 await application.init();
