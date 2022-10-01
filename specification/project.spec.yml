@@ -1,0 +1,488 @@
+openapi: 3.1.0
+info:
+  title: API сервер для проекта «6 городов».
+  description: |-
+    * Список ресурсов и маршрутов сервера «6 городов».
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+  version: 2.0.0
+tags:
+  - name: users
+    description: Действия с пользователеми.
+  - name: offers
+    description: Действия с объявлениями.
+  - name: comments
+    description: Действия с комментариями.
+paths:
+  /users/register:
+    post:
+      tags:
+        - users
+      summary: Регистрация пользователя
+      description: Регистрирует нового пользователя.
+      requestBody:
+        description: Информация для создания нового пользователя.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        "201":
+          description: Пользователь зарегистрирован. Объект пользователя.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "409":
+          description: Пользователь с таким email уже существует.
+
+  /users/login:
+    post:
+      tags:
+        - users
+      summary: Авторизация пользователя.
+      description: Авторизует пользователя на основе логина и пароля.
+      requestBody:
+        description: Информация для авторизации.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+        required: true
+
+      responses:
+        "201":
+          description: Пользователь авторизован.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "401":
+          description: Ошибка авторизации, проверьте введённые данные.
+
+    get:
+      tags:
+        - users
+      summary: Проверить статус авторизации пользователя.
+      description: Возвращает информацию о статусе авторизации пользователя.
+      requestBody:
+        description: Информация для проверки авторизации.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/createUser'
+
+        required: true
+
+      parameters:
+        - in: header
+          name: X-token
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+
+      responses:
+        "201":
+          description: Пользователь авторизован.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user'
+
+        "400":
+          description: Ошибка авторизации, проверьте введённые данные.
+
+  /users/{userId}/avatar:
+    post:
+      tags:
+        - users
+      summary: Загрузить изображение аватара
+      description: Загружает изображение аватара пользователя. Изображение аватара должно быть в формате `png` или `jpg`.
+      responses:
+        "201":
+          description: Аватарка получена.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  avatarUrl:
+                    type: string
+                    example: img/1.png
+
+  /users/logout:
+    delete:
+      tags:
+        - users
+      summary: Завершить сеанс пользователя
+      description: Завершает сеанс работы — выход из закрытой части приложения.
+
+      parameters:
+        - in: header
+          name: X-token
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+
+      responses:
+        "201":
+          description: Сеанс завершён.
+
+  /offers/create:
+    post:
+      tags:
+        - offers
+      summary: Создание оффера
+      description: Создаёт новый оффер.
+      requestBody:
+        description: Информация для создания нового оффера.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+        required: true
+
+      responses:
+        "201":
+          description: Оффер успешно создан.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        "409":
+          description: Не удаётся создать оффер, проверьте правильность введённых данных.
+
+      parameters:
+      - in: header
+        name: X-token
+        schema:
+          type: string
+          example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+
+  /offers/update:
+    post:
+      tags:
+        - offers
+      summary: Редактирование оффера
+      description: Обновляет оффер.
+      requestBody:
+        description: Информация для обновления оффера.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offer'
+        required: true
+
+      responses:
+        "201":
+          description: Оффер успешно обновлён.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        "409":
+          description: Не удаётся обновить оффер, проверьте правильность введённых данных.
+
+      parameters:
+      - in: header
+        name: X-token
+        schema:
+          type: string
+          example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+
+  /offers/{offerId}/delete:
+    delete:
+      tags:
+        - offers
+      summary: Удалить оффер
+      description: Удаляет оффер с указанным id.
+
+      parameters:
+        - in: header
+          name: X-token
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+
+      responses:
+        "201":
+          description: Оффер был успешно удалён.
+
+  /offers/{offersCount}:
+    get:
+      tags:
+        - offers
+      summary: Получение списка офферов
+      description: Возвращает массив офферов. Каждый оффер описан в виде объекта.
+
+      responses:
+        "201":
+          description: Офферы успешно получены.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offer'
+
+        "409":
+          description: Не удаётся получить офферы, повторите попытку позже.
+
+      parameters:
+        - in: path
+          name: offersCount
+          schema:
+            type: integer
+            minimum: 60
+          description: Не обязательный параметр, указывающий на количество получаемых офферов.
+
+  /offers/{offerId}:
+    post:
+      tags:
+        - offers
+      summary: Получить оффер
+      description: Возвращает оффер с идентификатором offerId.
+
+      responses:
+        "201":
+          description: Оффер успешно получен.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offer'
+
+        "409":
+          description: Не удаётся получить оффер, повторите попытку позже.
+
+  /comments/{offerId}:
+    get:
+      tags:
+        - comments
+      summary: Получение списка комментариев
+      description: Возвращает массив комментариев для оффера с идентификатором offerId. Каждый комментарий описан в виде объекта.
+
+      responses:
+        "201":
+          description: Комментарии успешно получены.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/сomment'
+
+        "409":
+          description: Не удаётся получить комментарии, повторите попытку позже.
+
+    post:
+      tags:
+        - comments
+      summary: Добавление нового комментария
+      description: Добавляет новый комментарий для с идентификатором hotelId. Возвращает объект созданного комментария.
+      requestBody:
+        description: Информация для добавления комментария.
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/comment'
+        required: true
+
+      responses:
+        "201":
+          description: Комментарий успешно создан.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/сomment'
+
+        "400":
+          description: Ошибка запроса.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: string
+
+        "401":
+          description: Комментарий могут оставлять только авторизованные пользователи.
+
+      parameters:
+        - in: header
+          name: X-token
+          schema:
+            type: string
+            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+
+components:
+  schemas:
+    createUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        password:
+          type: string
+          example: 123456
+
+    user:
+      type: object
+      properties:
+        avatarUrl:
+          type: string
+          example: img/1.png
+        email:
+          type: string
+          example: Oliver.conner@gmail.com
+        id:
+          type: string
+          example: 6329c3d6a04ab1061c6425ea
+        isPro:
+          type: boolean
+          example: false
+        name:
+          type: string
+          example: Oliver.conner
+        token:
+          type: string
+          example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+
+    offer:
+      type: object
+      properties:
+        bedrooms:
+          type: number
+          example: 3
+        city:
+          type: object
+          properties:
+            location:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                  example: 52.370216
+                longitude:
+                  type: number
+                  example: 4.895168
+                zoom:
+                  type: number
+                  example: 10
+            name:
+              type: string
+              example: Amsterdam
+        description:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+        goods:
+          type: [string]
+          example: [Washer, Breakfast, Air conditioning]
+        host:
+          type: object
+          properties:
+            avatarUrl:
+              type: string
+              example: img/1.png
+            email:
+              type: string
+              example: Oliver.conner@gmail.com
+            id:
+              type: string
+              example: 6329c3d6a04ab1061c6425ea
+            isPro:
+              type: boolean
+              example: false
+            name:
+              type: string
+              example: Oliver.conner
+        id:
+          type: number
+          example: 1
+        images:
+          type: [string]
+          example: [img/1.png, img/2.png, img/3.png]
+        isFavorite:
+          type: boolean
+          example: true
+        isPremium:
+          type: boolean
+          example: false
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+              example: 52.35514938496378
+            longitude:
+              type: number
+              example: 4.673877537499948
+            zoom:
+              type: number
+              example: 8
+        maxAdults:
+          type: number
+          example: 5
+        previewImage:
+          type: string
+          example: img/1.png
+        price:
+          type: number
+          example: 120
+        rating:
+          type: number
+          example: 4.8
+        title:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        type:
+          type: string
+          example: apartment
+        commentsCount:
+          type: number
+          example: 7
+
+    сomment:
+      type: object
+      properties:
+        text:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+        date:
+          type: string
+          example: Sat Oct 01 2022 13:47:54 GMT+0500 (Екатеринбург, стандартное время)
+        id:
+          type: number
+          example: 1
+        rating:
+          type: number
+          example: 4.8
+        user:
+          type: object
+          properties:
+            avatarUrl:
+              type: string
+              example: img/1.png
+            email:
+              type: string
+              example: Oliver.conner@gmail.com
+            id:
+              type: string
+              example: 6329c3d6a04ab1061c6425ea
+            isPro:
+              type: boolean
+              example: false
+            name:
+              type: string
+              example: Oliver.conner
+
