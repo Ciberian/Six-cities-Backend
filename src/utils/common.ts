@@ -39,7 +39,7 @@ export const createOffer = (row: string) => {
     rating: Number(rating),
     title,
     type
-  } as Offer;
+  } as unknown as Offer;
 };
 
 export const getErrorMessage = (error: unknown): string => error instanceof Error ? error.message : '';
