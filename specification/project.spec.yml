@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.2
 info:
   title: API сервер для проекта «6 городов».
   description: |-
@@ -242,6 +242,7 @@ paths:
             type: integer
             minimum: 60
           description: Не обязательный параметр, указывающий на количество получаемых офферов.
+          required: true
 
   /offers/{offerId}:
     post:
@@ -291,8 +292,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              $ref: '#/components/schemas/comment'
+              $ref: '#/components/schemas/сomment'
         required: true
 
       responses:
@@ -307,12 +307,6 @@ paths:
 
         "400":
           description: Ошибка запроса.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error: string
 
         "401":
           description: Комментарий могут оставлять только авторизованные пользователи.
@@ -386,7 +380,7 @@ components:
           type: string
           example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
         goods:
-          type: [string]
+          type: array
           example: [Washer, Breakfast, Air conditioning]
         host:
           type: object
@@ -410,7 +404,7 @@ components:
           type: number
           example: 1
         images:
-          type: [string]
+          type: array
           example: [img/1.png, img/2.png, img/3.png]
         isFavorite:
           type: boolean
