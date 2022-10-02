@@ -55,7 +55,7 @@ paths:
         required: true
 
       responses:
-        "201":
+        "200":
           description: Пользователь авторизован.
           content:
             application/json:
@@ -87,14 +87,14 @@ paths:
             example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
 
       responses:
-        "201":
+        "200":
           description: Пользователь авторизован.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
 
-        "400":
+        "401":
           description: Ошибка авторизации, проверьте введённые данные.
 
   /users/{userId}/avatar:
@@ -104,7 +104,7 @@ paths:
       summary: Загрузить изображение аватара
       description: Загружает изображение аватара пользователя. Изображение аватара должно быть в формате `png` или `jpg`.
       responses:
-        "201":
+        "200":
           description: Аватарка получена.
           content:
             application/json:
@@ -130,7 +130,7 @@ paths:
             example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
 
       responses:
-        "201":
+        "200":
           description: Сеанс завершён.
 
   /offers/create:
@@ -155,7 +155,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/offer'
 
-        "409":
+        "400":
           description: Не удаётся создать оффер, проверьте правильность введённых данных.
 
       parameters:
@@ -180,14 +180,14 @@ paths:
         required: true
 
       responses:
-        "201":
+        "200":
           description: Оффер успешно обновлён.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/offer'
 
-        "409":
+        "400":
           description: Не удаётся обновить оффер, проверьте правильность введённых данных.
 
       parameters:
@@ -212,7 +212,7 @@ paths:
             example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
 
       responses:
-        "201":
+        "200":
           description: Оффер был успешно удалён.
 
   /offers/{offersCount}:
@@ -223,7 +223,7 @@ paths:
       description: Возвращает массив офферов. Каждый оффер описан в виде объекта.
 
       responses:
-        "201":
+        "200":
           description: Офферы успешно получены.
           content:
             application/json:
@@ -232,35 +232,35 @@ paths:
                 items:
                   $ref: '#/components/schemas/offer'
 
-        "409":
+        "408":
           description: Не удаётся получить офферы, повторите попытку позже.
 
       parameters:
-        - in: path
+        - in: query
           name: offersCount
           schema:
             type: integer
             minimum: 60
           description: Не обязательный параметр, указывающий на количество получаемых офферов.
-          required: true
+          required: false
 
   /offers/{offerId}:
-    post:
+    get:
       tags:
         - offers
       summary: Получить оффер
       description: Возвращает оффер с идентификатором offerId.
 
       responses:
-        "201":
+        "200":
           description: Оффер успешно получен.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/offer'
 
-        "409":
-          description: Не удаётся получить оффер, повторите попытку позже.
+        "404":
+          description: Не удаётся получить оффер, возможно оффер с указанным id отсутствует.
 
   /comments/{offerId}:
     get:
@@ -270,7 +270,7 @@ paths:
       description: Возвращает массив комментариев для оффера с идентификатором offerId. Каждый комментарий описан в виде объекта.
 
       responses:
-        "201":
+        "200":
           description: Комментарии успешно получены.
           content:
             application/json:
@@ -279,7 +279,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/сomment'
 
-        "409":
+        "408":
           description: Не удаётся получить комментарии, повторите попытку позже.
 
     post:
