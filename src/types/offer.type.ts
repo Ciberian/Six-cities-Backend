@@ -37,4 +37,5 @@ export type Offer = {
 	rating: number;
 	title: string;
 	type: HousingType;
+  commentCount: number
 };
