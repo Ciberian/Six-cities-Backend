@@ -88,7 +88,7 @@ export default class OfferService implements OfferServiceInterface {
   }
 
   public async calcRating(offerId: string, newRating: number): Promise<DocumentType<OfferEntity> | null> {
-    const oldOffer = await this.offerModel.findById(offerId);
+    const oldOffer = await this.offerModel.findById(offerId).lean();
     const oldRating = oldOffer?.rating;
 
     return this.offerModel
