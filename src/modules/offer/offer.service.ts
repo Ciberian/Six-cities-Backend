@@ -36,9 +36,27 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ?? DEFAULT_OFFER_COUNT;
-    return this.offerModel.find().limit(limit);
+  public async find(): Promise<DocumentType<OfferEntity>[]> {
+    return this.offerModel
+      .aggregate([
+        {
+          $lookup: {
+            from: 'comments',
+            let: { commentsId: '$_id'},
+            pipeline: [
+              { $match: { $expr: { $in: ['$$commentsId', '$commentsCount'] } } },
+              { $project: { _id: 1}}
+            ],
+            as: 'comments'
+          },
+        },
+        { $addFields:
+            { id: { $toString: '$_id'}, offerCount: { $size: '$comments'} }
+        },
+        { $unset: 'comments' },
+        { $limit: DEFAULT_OFFER_COUNT},
+        { $sort: { offerCount: SortType.Down } }
+      ]).exec();
   }
 
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
