@@ -87,13 +87,13 @@ export default class OfferService implements OfferServiceInterface {
       }}).exec();
   }
 
-  public async calcRating(offerId: string, rating: number): Promise<DocumentType<OfferEntity> | null> {
-    const oldOffer = this.offerModel.findById(offerId);
-    const oldRating = oldOffer.rating;
+  public async calcRating(offerId: string, newRating: number): Promise<DocumentType<OfferEntity> | null> {
+    const oldOffer = await this.offerModel.findById(offerId);
+    const oldRating = oldOffer?.rating;
 
     return this.offerModel
       .findByIdAndUpdate(offerId, {'$set': {
-        rating: ((oldRating + rating)/2).toFixed(1),
+        rating: oldRating ? ((oldRating + newRating)/2).toFixed(1) : newRating,
       }}).exec();
   }
 }
