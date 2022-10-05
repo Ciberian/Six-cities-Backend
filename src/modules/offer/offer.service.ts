@@ -52,7 +52,7 @@ export default class OfferService implements OfferServiceInterface {
           },
         },
         { $addFields:
-            { id: { $toString: '$_id'}, offerCount: { $size: '$comments'} }
+            { id: { $toString: '$_id'}, commentsCount: { $size: '$comments'} }
         },
         { $unset: 'comments' },
         { $limit: limit},
@@ -84,6 +84,16 @@ export default class OfferService implements OfferServiceInterface {
     return this.offerModel
       .findByIdAndUpdate(offerId, {'$inc': {
         commentCount: 1,
+      }}).exec();
+  }
+
+  public async calcRating(offerId: string, rating: number): Promise<DocumentType<OfferEntity> | null> {
+    const oldOffer = this.offerModel.findById(offerId);
+    const oldRating = oldOffer.rating;
+
+    return this.offerModel
+      .findByIdAndUpdate(offerId, {'$set': {
+        rating: ((oldRating + rating)/2).toFixed(1),
       }}).exec();
   }
 }

@@ -12,4 +12,5 @@ export interface OfferServiceInterface {
   findPremiums(count: number): Promise<DocumentType<OfferEntity>[]>;
   findFavorites(count: number): Promise<DocumentType<OfferEntity>[]>;
   incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
+  calcRating(offerId: string, rating: number): Promise<DocumentType<OfferEntity> | null>;
 }
