@@ -1,5 +1,4 @@
 import typegoose, { defaultClasses, getModelForClass, Ref } from '@typegoose/typegoose';
-import { GoodsType } from '../../types/goods-type.enum.js';
 import { HousingType } from '../../types/housing-type.enum.js';
 import { UserEntity } from '../user/user.entity.js';
 
@@ -38,8 +37,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public description!: string;
 
-  @prop({required: true, enum: GoodsType})
-  public goods!: GoodsType;
+  @prop({required: true})
+  public goods!: string[];
 
   @prop({
     ref: UserEntity,
@@ -48,9 +47,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public hostId!: Ref<UserEntity>;
 
   @prop({
-    required: true,
-    minlength: [6, 'It must to be only 6 images'],
-    maxlength: [6, 'It must to be only 6 images']
+    required: true
   })
   public images!: string[];
 
