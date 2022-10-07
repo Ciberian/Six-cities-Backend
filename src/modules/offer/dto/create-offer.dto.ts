@@ -1,6 +1,3 @@
-import { GoodsType } from '../../../types/goods-type.enum';
-import { HousingType } from '../../../types/housing-type.enum';
-
 export default class CreateOfferDto {
   public bedrooms!: number;
   public city!: {
@@ -13,7 +10,7 @@ export default class CreateOfferDto {
   };
 
   public description!: string;
-  public goods!: GoodsType;
+  public goods!: string[];
   public postDate!: Date;
   public hostId!: string;
   public images!: string[];
@@ -30,5 +27,5 @@ export default class CreateOfferDto {
   public price!: number;
   public rating!: number;
   public title!: string;
-  public type!: HousingType;
+  public type!: string[];
 }

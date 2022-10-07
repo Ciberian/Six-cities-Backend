@@ -1,5 +1,4 @@
 import typegoose, { defaultClasses, getModelForClass, Ref } from '@typegoose/typegoose';
-import { HousingType } from '../../types/housing-type.enum.js';
 import { UserEntity } from '../user/user.entity.js';
 
 const {prop, modelOptions} = typegoose;
@@ -95,8 +94,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public title!: string;
 
-  @prop({enum: HousingType})
-  public type!: HousingType;
+  @prop()
+  public type!: string[];
 }
 
 export const OfferModel = getModelForClass(OfferEntity);
