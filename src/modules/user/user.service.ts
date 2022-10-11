@@ -45,4 +45,3 @@ export default class UserService implements UserServiceInterface {
       .exec();
   }
 }
-
