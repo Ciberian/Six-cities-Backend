@@ -5,6 +5,8 @@ import { Controller } from '../../common/controller/controller.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { UserServiceInterface } from './user-service.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
+import { fillDTO } from '../../utils/common.js';
+import UserResponse from './response/user.response.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -32,7 +34,8 @@ export default class UserController extends Controller {
 
   public async getUserStatus(req: Request, res: Response): Promise<void> {
     const user = await this.userService.findByEmail(req.body.email);
-    this.ok(res, user);
+    const userResponse = fillDTO(UserResponse, user);
+    this.ok(res, userResponse);
   }
 }
 
