@@ -7,6 +7,7 @@ import { OfferServiceInterface } from './offer-service.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
 import OfferResponse from './response/offer.response';
+import CreateOfferDto from './dto/create-offer.dto.js';
 
 @injectable()
 export default class OfferController extends Controller {
@@ -23,8 +24,8 @@ export default class OfferController extends Controller {
     this.addRoute({ path: '/{offersCount}', method: HttpMethod.Get, handler: this.getOffers });
   }
 
-  public async createOffer(req: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.create(req.body.offerDto);
+  public async createOffer({body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
+    const offer = await this.offerService.create(body);
     this.created(res, offer);
   }
 
