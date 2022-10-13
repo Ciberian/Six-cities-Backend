@@ -35,13 +35,13 @@ export default class OfferController extends Controller {
   }
 
   public async getOffer(req: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.findById(req.body.id);
+    const offer = await this.offerService.findById(Number((req.url.match(/(?<=offers\/)(\d+)/g))));
     const offerResponse = fillDTO(OfferResponse, offer);
     this.ok(res, offerResponse);
   }
 
   public async getOffers(req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find(Number((req.url.match(/(?<=offers\/)(\d+)/g))));
+    const offers = await this.offerService.find(Number((req.url.match(/(?<=offers\?limit=)(\d+)/g))));
     const offerResponse = fillDTO(OfferResponse, offers);
     this.ok(res, offerResponse);
   }

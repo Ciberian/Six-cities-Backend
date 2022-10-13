@@ -23,14 +23,14 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
-  public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
+  public async updateById(offerId: number, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, {new: true})
       .populate(['hostId'])
       .exec();
   }
 
-  public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public async deleteById(offerId: number): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();
@@ -60,7 +60,7 @@ export default class OfferService implements OfferServiceInterface {
       ]).exec();
   }
 
-  public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public async findById(offerId: number): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel.findById(offerId).populate(['hostId']).exec();
   }
 
@@ -87,7 +87,7 @@ export default class OfferService implements OfferServiceInterface {
       }}).exec();
   }
 
-  public async calcRating(offerId: string, newRating: number): Promise<DocumentType<OfferEntity> | null> {
+  public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
     const oldOffer = await this.offerModel.findById(offerId).lean();
     const oldRating = oldOffer?.rating;
 
