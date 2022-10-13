@@ -41,7 +41,7 @@ export default class OfferController extends Controller {
   }
 
   public async getOffers(req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find(req.body.count);
+    const offers = await this.offerService.find(Number((req.url.match(/(?<=offers\/)(\d+)/g))));
     const offerResponse = fillDTO(OfferResponse, offers);
     this.ok(res, offerResponse);
   }
