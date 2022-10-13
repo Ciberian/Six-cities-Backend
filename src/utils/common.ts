@@ -52,3 +52,7 @@ export const createSHA256 = (line: string, salt: string): string => {
 
 export const fillDTO = <T, V>(responseObj: ClassConstructor<T>, plainObject: V) =>
   plainToInstance(responseObj, plainObject, {excludeExtraneousValues: true});
+
+export const createErrorObject = (message: string) => ({
+  error: message,
+});
