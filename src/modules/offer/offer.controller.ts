@@ -6,21 +6,21 @@ import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
-import OfferResponse from './response/offer.response';
+import OfferResponse from './response/offer.response.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 
 @injectable()
 export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
-    @inject(Component.OfferController) private readonly offerService: OfferServiceInterface,) {
+    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,) {
     super(logger);
 
     this.logger.info('Register routes for OfferController...');
 
     this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.createOffer });
     this.addRoute({ path: '/update', method: HttpMethod.Put, handler: this.updateOffer });
-    this.addRoute({ path: '/{offerId}', method: HttpMethod.Get, handler: this.getOffer });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.getOffer });
     this.addRoute({ path: '/{offersCount}', method: HttpMethod.Get, handler: this.getOffers });
   }
 
