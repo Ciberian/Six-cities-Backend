@@ -13,7 +13,7 @@ import CreateOfferDto from './dto/create-offer.dto.js';
 export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
-    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,) {
+    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface) {
     super(logger);
 
     this.logger.info('Register routes for OfferController...');

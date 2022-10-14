@@ -8,6 +8,7 @@ import { ControllerInterface } from '../common/controller/controller.interface.j
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
 import { Component } from '../types/component.types.js';
 import { getURI } from '../utils/db.js';
+import { OfferServiceInterface } from '../modules/offer/offer-service.interface.js';
 
 @injectable()
 export default class Application {
@@ -20,6 +21,7 @@ export default class Application {
     @inject(Component.UserController) private userController: ControllerInterface,
     @inject(Component.OfferController) private offerController: ControllerInterface,
     @inject(Component.ExceptionFilterInterface) private exceptionFilter: ExceptionFilterInterface,
+    @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface
   ) {
     this.expressApp = express();
   }
@@ -56,5 +58,6 @@ export default class Application {
     this.initExceptionFilters();
     this.expressApp.listen(this.config.get('PORT'));
     this.logger.info(`Server started on http://localhost:${this.config.get('PORT')}`);
+    console.log('Offers: !!!!!!!!!!!!!!', await this.offerService.find(), 'end!!!!!!!!!!!!!');
   }
 }
