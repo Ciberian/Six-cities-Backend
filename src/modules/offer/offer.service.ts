@@ -36,8 +36,8 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ?? DEFAULT_OFFER_COUNT;
+  public async find(count: number): Promise<DocumentType<OfferEntity>[]> {
+    const limit = isNaN(count) ? DEFAULT_OFFER_COUNT : count;
     return this.offerModel
       .aggregate([
         {
@@ -52,15 +52,15 @@ export default class OfferService implements OfferServiceInterface {
           },
         },
         { $addFields:
-            { id: { $toString: '$_id'}, commentsCount: { $size: '$comments'} }
+          { id: { $toString: '$_id'}, commentsCount: { $size: '$comments'} }
         },
         { $unset: 'comments' },
         { $limit: limit},
-        { $sort: { offerCount: SortType.Down } }
+        { $sort: { commentsCount: SortType.Down } }
       ]).exec();
   }
 
-  public async findById(offerId: number): Promise<DocumentType<OfferEntity> | null> {
+  public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel.findById(offerId).populate(['hostId']).exec();
   }
 

@@ -21,7 +21,7 @@ export default class OfferController extends Controller {
     this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.createOffer });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.updateOffer });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.getOffer });
-    this.addRoute({ path: '/{offersCount}', method: HttpMethod.Get, handler: this.getOffers });
+    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.getOffers });
   }
 
   public async createOffer({body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
@@ -30,19 +30,18 @@ export default class OfferController extends Controller {
   }
 
   public async updateOffer(req: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.updateById(Number(req.query.offerId), req.body.userDto);
+    const offer = await this.offerService.updateById(Number(req.params.offerId), req.body.userDto);
     this.ok(res, offer);
   }
 
   public async getOffer(req: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.findById(Number(req.query.offerId));
+    const offer = await this.offerService.findById(req.params.offerId);
     const offerResponse = fillDTO(OfferResponse, offer);
     this.ok(res, offerResponse);
   }
 
   public async getOffers(req: Request, res: Response): Promise<void> {
-    this.logger.info('REQUEST: ', req);
-    const offers = await this.offerService.find(Number(req.params.offersCount));
+    const offers = await this.offerService.find(Number(req.query.count));
     const offerResponse = fillDTO(OfferResponse, offers);
     this.ok(res, offerResponse);
   }
