@@ -30,7 +30,7 @@ export default class OfferController extends Controller {
   }
 
   public async updateOffer(req: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.updateById(Number(req.params.offerId), req.body.userDto);
+    const offer = await this.offerService.updateById(req.params.offerId, req.body);
     this.ok(res, offer);
   }
 

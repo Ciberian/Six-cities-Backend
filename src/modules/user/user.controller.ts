@@ -32,6 +32,7 @@ export default class UserController extends Controller {
     {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response,
   ): Promise<void> {
+    console.log('BODY EMAIL: ', body.email);
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (existsUser) {
@@ -50,8 +51,8 @@ export default class UserController extends Controller {
     );
   }
 
-  public async loginUser(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+  public async loginUser({body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _res: Response,
   ): Promise<void> {
     const existsUser = await this.userService.findByEmail(body.email);
@@ -66,7 +67,7 @@ export default class UserController extends Controller {
 
     throw new HttpError(
       StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented',
+      'Not implemented yet',
       'UserController',
     );
   }

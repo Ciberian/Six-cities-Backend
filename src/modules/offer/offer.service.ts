@@ -23,7 +23,7 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
-  public async updateById(offerId: number, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
+  public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndUpdate(offerId, dto, {new: true})
       .populate(['hostId'])
