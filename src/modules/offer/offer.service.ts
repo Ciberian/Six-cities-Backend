@@ -36,8 +36,8 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async find(count: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = isNaN(count) ? DEFAULT_OFFER_COUNT : count;
+  public async find(count: string): Promise<DocumentType<OfferEntity>[]> {
+    const limit = count === 'undefined' ? DEFAULT_OFFER_COUNT : count;
     return this.offerModel
       .aggregate([
         {
@@ -55,7 +55,7 @@ export default class OfferService implements OfferServiceInterface {
           { id: { $toString: '$_id'}, commentsCount: { $size: '$comments'} }
         },
         { $unset: 'comments' },
-        { $limit: limit},
+        { $limit: Number(limit)},
         { $sort: { commentsCount: SortType.Down } }
       ]).exec();
   }
