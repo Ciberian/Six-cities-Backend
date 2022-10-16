@@ -6,11 +6,11 @@ import UpdateOfferDto from './dto/update-offer.dto.js';
 export interface OfferServiceInterface {
 	create(dto: CreateOfferDto): Promise<DocumentType<OfferEntity>>;
   updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null>;
-  deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
-  find(): Promise<DocumentType<OfferEntity>[]>;
+  deleteById(offerId: number): Promise<DocumentType<OfferEntity> | null>;
+  find(count?: string): Promise<DocumentType<OfferEntity>[]>;
 	findById(offerId: string): Promise<DocumentType<OfferEntity> | null>;
   findPremiums(count: number): Promise<DocumentType<OfferEntity>[]>;
   findFavorites(count: number): Promise<DocumentType<OfferEntity>[]>;
   incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null>;
-  calcRating(offerId: string, rating: number): Promise<DocumentType<OfferEntity> | null>;
+  calcRating(offerId: number, rating: number): Promise<DocumentType<OfferEntity> | null>;
 }

@@ -1,6 +1,3 @@
-import { GoodsType } from './goods-type.enum';
-import { HousingType } from './housing-type.enum';
-
 export type Offer = {
 	bedrooms: number;
 	city: {
@@ -12,7 +9,7 @@ export type Offer = {
 		};
 	};
 	description: string;
-	goods: GoodsType;
+	goods: string[];
 	host: {
     email: string;
     password: string;
@@ -36,6 +33,6 @@ export type Offer = {
 	price: number;
 	rating: number;
 	title: string;
-	type: HousingType;
+	type: string[];
   commentCount: number
 };

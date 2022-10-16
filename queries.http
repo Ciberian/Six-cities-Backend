@@ -1,0 +1,138 @@
+## Набор тестов для проверки всех возможных роутов
+
+##------------------------Offers----------------------------
+## Получить заголовки запроса
+### В контроллере этот роут не описан, но он почему-то работает!!!
+HEAD http://localhost:5000/offers HTTP/1.1
+###
+
+## Получить список офферов (60 офферов, по умолчанию)
+GET http://localhost:5000/offers/ HTTP/1.1
+Content-Type: application/json
+###
+
+## Получить 5 офферов, через параметр запроса
+GET http://localhost:5000/offers?count=5 HTTP/1.1
+Content-Type: application/json
+###
+
+## Получить подробную информацию по одному офферу,
+## с помощью именованного параметра, в котором передаём ID оффера
+GET http://localhost:5000/offers/633f1922ae735a967e899b60 HTTP/1.1
+Content-Type: application/json
+###
+
+## Обновить оффер
+PATCH  http://localhost:5000/offers/633f1922ae735a967e899b60 HTTP/1.1
+Content-Type: application/json
+
+{
+  "bedrooms": 3,
+  "city": {
+    "name": "Khanty-Mansiysk",
+    "location": {
+      "latitude": 61.0042,
+      "longitude": 69.0019,
+      "zoom": 10
+    }
+  },
+  "description": "Completely renovated. Lovely neighbourhood, lot of trendy shops, restaurants and bars in a walking distance.",
+  "goods": [
+    "Breakfast,Towels,Dishwasher"
+  ],
+  "hostId": {
+    "_id": "632f0973b5a4c0bffc182a06"
+  },
+  "images": [
+    "https://10.react.pages.academy/static/hotel/3.jpg,https://10.react.pages.academy/static/hotel/20.jpg,https://10.react.pages.academy/static/hotel/15.jpg,https://10.react.pages.academy/static/hotel/19.jpg"
+  ],
+  "isFavorite": true,
+  "isPremium": false,
+  "location": {
+    "latitude": 53.194470184955,
+    "longitude": 5.409322006871073,
+    "zoom": 10
+  },
+  "maxAdults": 9,
+  "previewImage": "https://10.react.pages.academy/static/hotel/10.jpg",
+  "price": 81275,
+  "rating": 2,
+  "title": "Nice, cozy, warm big bed apartment",
+  "type": [
+    "room"
+  ]
+}
+###
+
+## Создать оффер
+POST http://localhost:5000/offers/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "bedrooms": 2,
+  "city": {
+    "name": "Winterfell",
+    "location": {
+      "latitude": 61.0042,
+      "longitude": 69.0019,
+      "zoom": 10
+    }
+  },
+  "description": "City in Khanty-Mansi Autonomous Okrug, Russia, located on the Ob River near its junction with the Irtysh River. It is one of the few cities in Russia to be larger than the capital or the administrative center of its federal subject in terms of population, economic activity, and tourist traffic..",
+  "goods": [
+    "Breakfast,Towels,Dishwasher"
+  ],
+  "hostId": {
+    "_id": "6333c5c7ef1aa90df4f600f5"
+  },
+  "images": [
+    "https://10.react.pages.academy/static/hotel/3.jpg,https://10.react.pages.academy/static/hotel/20.jpg,https://10.react.pages.academy/static/hotel/15.jpg,https://10.react.pages.academy/static/hotel/19.jpg"
+  ],
+  "isFavorite": true,
+  "isPremium": false,
+  "location": {
+    "latitude": 53.194470184955,
+    "longitude": 5.409322006871073,
+    "zoom": 10
+  },
+  "maxAdults": 7,
+  "previewImage": "https://10.react.pages.academy/static/hotel/10.jpg",
+  "price": 23456,
+  "rating": 2,
+  "title": "Winter is coming",
+  "type": [
+    "house"
+  ]
+}
+###
+
+##------------------------Users----------------------------
+## Запрос на регистрацию и создание нового пользователя
+POST http://localhost:5000/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "example@mail.com",
+  "password": "7654321"
+}
+###
+
+## Запрос на авторизацию пользователя
+POST http://localhost:5000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "example@mail.com",
+  "password": "7654321"
+}
+###
+
+## Запрос статуса пользователя
+GET http://localhost:5000/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "example@mail.com",
+  "password": "7654321"
+}
+###

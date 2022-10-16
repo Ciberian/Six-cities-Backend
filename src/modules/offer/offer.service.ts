@@ -30,14 +30,14 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public async deleteById(offerId: number): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();
   }
 
-  public async find(count?: number): Promise<DocumentType<OfferEntity>[]> {
-    const limit = count ?? DEFAULT_OFFER_COUNT;
+  public async find(count: string): Promise<DocumentType<OfferEntity>[]> {
+    const limit = count === 'undefined' ? DEFAULT_OFFER_COUNT : count;
     return this.offerModel
       .aggregate([
         {
@@ -52,11 +52,11 @@ export default class OfferService implements OfferServiceInterface {
           },
         },
         { $addFields:
-            { id: { $toString: '$_id'}, commentsCount: { $size: '$comments'} }
+          { id: { $toString: '$_id'}, commentsCount: { $size: '$comments'} }
         },
         { $unset: 'comments' },
-        { $limit: limit},
-        { $sort: { offerCount: SortType.Down } }
+        { $limit: Number(limit)},
+        { $sort: { commentsCount: SortType.Down } }
       ]).exec();
   }
 
@@ -87,7 +87,7 @@ export default class OfferService implements OfferServiceInterface {
       }}).exec();
   }
 
-  public async calcRating(offerId: string, newRating: number): Promise<DocumentType<OfferEntity> | null> {
+  public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
     const oldOffer = await this.offerModel.findById(offerId).lean();
     const oldRating = oldOffer?.rating;
 
