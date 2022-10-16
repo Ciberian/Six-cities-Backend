@@ -32,7 +32,6 @@ export default class UserController extends Controller {
     {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response,
   ): Promise<void> {
-    console.log('BODY EMAIL: ', body.email);
     const existsUser = await this.userService.findByEmail(body.email);
 
     if (existsUser) {
