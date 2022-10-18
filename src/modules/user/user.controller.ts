@@ -23,12 +23,12 @@ export default class UserController extends Controller {
 
     this.logger.info('Register routes for UserController...');
 
-    this.addRoute({ path: '/register', method: HttpMethod.Post, handler: this.createUser });
+    this.addRoute({ path: '/register', method: HttpMethod.Post, handler: this.create });
     this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.loginUser });
-    this.addRoute({ path: '/login', method: HttpMethod.Get, handler: this.getUserStatus });
+    this.addRoute({ path: '/login', method: HttpMethod.Get, handler: this.show });
   }
 
-  public async createUser(
+  public async create(
     {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response,
   ): Promise<void> {
@@ -71,7 +71,7 @@ export default class UserController extends Controller {
     );
   }
 
-  public async getUserStatus(req: Request, res: Response): Promise<void> {
+  public async show(req: Request, res: Response): Promise<void> {
     const user = await this.userService.findByEmail(req.body.email);
     const userResponse = fillDTO(UserResponse, user);
     this.ok(res, userResponse);

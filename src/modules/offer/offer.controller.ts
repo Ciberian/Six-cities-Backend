@@ -18,29 +18,29 @@ export default class OfferController extends Controller {
 
     this.logger.info('Register routes for OfferController...');
 
-    this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.createOffer });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.updateOffer });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.getOffer });
-    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.getOffers });
+    this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.update });
+    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show });
+    this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
   }
 
-  public async createOffer({body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
+  public async create({body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
     const offer = await this.offerService.create(body);
     this.created(res, offer);
   }
 
-  public async updateOffer(req: Request, res: Response): Promise<void> {
+  public async update(req: Request, res: Response): Promise<void> {
     const offer = await this.offerService.updateById(req.params.offerId, req.body);
     this.ok(res, offer);
   }
 
-  public async getOffer(req: Request, res: Response): Promise<void> {
+  public async show(req: Request, res: Response): Promise<void> {
     const offer = await this.offerService.findById(req.params.offerId);
     const offerResponse = fillDTO(OfferResponse, offer);
     this.ok(res, offerResponse);
   }
 
-  public async getOffers(req: Request, res: Response): Promise<void> {
+  public async index(req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.find(String(req.query.count));
     const offerResponse = fillDTO(OfferResponse, offers);
     this.ok(res, offerResponse);

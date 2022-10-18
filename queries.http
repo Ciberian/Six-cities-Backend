@@ -8,22 +8,23 @@ HEAD http://localhost:5000/offers HTTP/1.1
 
 ## Получить список офферов (60 офферов, по умолчанию)
 GET http://localhost:5000/offers/ HTTP/1.1
-Content-Type: application/json
+Accept: application/json
 ###
 
 ## Получить 5 офферов, через параметр запроса
 GET http://localhost:5000/offers?count=5 HTTP/1.1
-Content-Type: application/json
+Accept: application/json
 ###
 
 ## Получить подробную информацию по одному офферу,
 ## с помощью именованного параметра, в котором передаём ID оффера
 GET http://localhost:5000/offers/633f1922ae735a967e899b60 HTTP/1.1
-Content-Type: application/json
+Accept: application/json
 ###
 
 ## Обновить оффер
 PATCH  http://localhost:5000/offers/633f1922ae735a967e899b60 HTTP/1.1
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -66,6 +67,7 @@ Content-Type: application/json
 
 ## Создать оффер
 POST http://localhost:5000/offers/create HTTP/1.1
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -109,6 +111,7 @@ Content-Type: application/json
 ##------------------------Users----------------------------
 ## Запрос на регистрацию и создание нового пользователя
 POST http://localhost:5000/users/register HTTP/1.1
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -119,6 +122,7 @@ Content-Type: application/json
 
 ## Запрос на авторизацию пользователя
 POST http://localhost:5000/users/login HTTP/1.1
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -129,7 +133,7 @@ Content-Type: application/json
 
 ## Запрос статуса пользователя
 GET http://localhost:5000/users/login HTTP/1.1
-Content-Type: application/json
+Accept: application/json
 
 {
   "email": "example@mail.com",
