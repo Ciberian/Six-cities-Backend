@@ -176,3 +176,8 @@ Content-Type: application/json
   "userId": "6333c5c7ef1aa90df4f600f5"
 }
 ###
+
+## Получить список комментариев к офферу
+GET http://localhost:5000/offers/633f1922ae735a967e899b5d/comments HTTP/1.1
+Accept: application/json
+###
