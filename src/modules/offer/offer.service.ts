@@ -65,6 +65,10 @@ export default class OfferService implements OfferServiceInterface {
     return this.offerModel.findById(offerId).populate(['hostId']).exec();
   }
 
+  public async exists(offerId: string): Promise<boolean> {
+    return (await this.offerModel.exists({_id: offerId})) !== null;
+  }
+
   public async findPremiums(): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
       .find({isPremium: true})
