@@ -8,6 +8,12 @@ import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
 import OfferResponse from './response/offer.response.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
+import UpdateOfferDto from './dto/update-offer.dto.js';
+import * as core from 'express-serve-static-core';
+
+type ParamsGetOffer = {
+  offerId: string;
+}
 
 @injectable()
 export default class OfferController extends Controller {
@@ -21,29 +27,48 @@ export default class OfferController extends Controller {
     this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.update });
     this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show });
+    this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.delete});
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
   }
 
-  public async create({body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>, res: Response): Promise<void> {
-    const offer = await this.offerService.create(body);
-    this.created(res, offer);
+  public async create(
+    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
+    res: Response
+  ): Promise<void> {
+    const result = await this.offerService.create(body);
+    const offer = await this.offerService.findById(result.id);
+    this.created(res, fillDTO(OfferResponse, offer));
   }
 
-  public async update(req: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.updateById(req.params.offerId, req.body);
-    this.ok(res, offer);
+  public async update(
+    {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
+    res: Response
+  ): Promise<void> {
+    const updatedOffer = await this.offerService.updateById(params.offerId, body);
+    this.ok(res, fillDTO(OfferResponse, updatedOffer));
   }
 
-  public async show(req: Request, res: Response): Promise<void> {
-    const offer = await this.offerService.findById(req.params.offerId);
-    const offerResponse = fillDTO(OfferResponse, offer);
-    this.ok(res, offerResponse);
+  public async show(
+    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    res: Response
+  ): Promise<void> {
+    const {offerId} = params;
+    const offer = await this.offerService.findById(offerId);
+    this.ok(res, fillDTO(OfferResponse, offer));
+  }
+
+  public async delete(
+    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    res: Response
+  ): Promise<void> {
+    const {offerId} = params;
+    const offer = await this.offerService.deleteById(offerId);
+    this.noContent(res, offer);
   }
 
   public async index(req: Request, res: Response): Promise<void> {
     const offers = await this.offerService.find(String(req.query.count));
-    const offerResponse = fillDTO(OfferResponse, offers);
-    this.ok(res, offerResponse);
+    this.ok(res, fillDTO(OfferResponse, offers));
   }
 }
 

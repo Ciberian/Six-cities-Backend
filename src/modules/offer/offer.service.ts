@@ -30,7 +30,7 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async deleteById(offerId: number): Promise<DocumentType<OfferEntity> | null> {
+  public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();

@@ -108,6 +108,10 @@ Content-Type: application/json
 }
 ###
 
+## Удалить оффер
+DELETE http://localhost:5000/offers/633f1922ae735a967e899b60 HTTP/1.1
+###
+
 ##------------------------Users----------------------------
 ## Запрос на регистрацию и создание нового пользователя
 POST http://localhost:5000/users/register HTTP/1.1
