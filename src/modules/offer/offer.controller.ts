@@ -4,6 +4,7 @@ import { Component } from '../../types/component.types.js';
 import { Controller } from '../../common/controller/controller.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
+import { RequestQuery } from '../../types/request-query.type.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
 import OfferResponse from './response/offer.response.js';
@@ -66,8 +67,11 @@ export default class OfferController extends Controller {
     this.noContent(res, offer);
   }
 
-  public async index(req: Request, res: Response): Promise<void> {
-    const offers = await this.offerService.find(String(req.query.count));
+  public async index(
+    {query}: Request<core.ParamsDictionary | unknown, unknown, unknown, RequestQuery>,
+    res: Response
+  ): Promise<void> {
+    const offers = await this.offerService.find(query.count);
     this.ok(res, fillDTO(OfferResponse, offers));
   }
 }
