@@ -65,10 +65,11 @@ export default class OfferService implements OfferServiceInterface {
     return (await this.offerModel.exists({_id: offerId})) !== null;
   }
 
-  public async findPremiums(): Promise<DocumentType<OfferEntity>[]> {
+  public async findPremiums(count: number): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
       .find({isPremium: true})
       .sort({createdAt: SortType.Down})
+      .limit(count)
       .populate(['hostId'])
       .exec();
   }

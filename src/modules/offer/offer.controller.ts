@@ -16,6 +16,7 @@ import CommentResponse from '../comment/response/comment.response.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import * as core from 'express-serve-static-core';
+import { DEFAULT_PREMIUM_OFFER_COUNT } from './offer.constant.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -56,6 +57,8 @@ export default class OfferController extends Controller {
       handler: this.getComments,
       middlewares: [new ValidateObjectIdMiddleware('offerId')]
     });
+    this.addRoute({ path: '/bundles/premiums', method: HttpMethod.Get, handler: this.getPremiums });
+    this.addRoute({ path: '/bundles/favorites', method: HttpMethod.Get, handler: this.getFavorites });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
   }
 
@@ -117,5 +120,16 @@ export default class OfferController extends Controller {
     const offers = await this.offerService.find(query.count);
     this.ok(res, fillDTO(OfferResponse, offers));
   }
-}
 
+  public async getPremiums(_req: Request, res: Response) {
+    const premiumOffers = await this.offerService.findPremiums(DEFAULT_PREMIUM_OFFER_COUNT);
+    console.log('premiumOffers - ', premiumOffers);
+    this.ok(res, fillDTO(OfferResponse, premiumOffers));
+  }
+
+  public async getFavorites(_req: Request, res: Response) {
+    const favoriteOffers = await this.offerService.findFavorites();
+    console.log('favoriteOffers - ', favoriteOffers);
+    this.ok(res, fillDTO(OfferResponse, favoriteOffers));
+  }
+}

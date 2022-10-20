@@ -16,6 +16,16 @@ GET http://localhost:5000/offers?count=5 HTTP/1.1
 Accept: application/json
 ###
 
+## Получить премиальные офферы
+GET http://localhost:5000/offers/bundles/premiums HTTP/1.1
+Accept: application/json
+###
+
+## Получить избранные офферы
+GET http://localhost:5000/offers/bundles/favorites HTTP/1.1
+Accept: application/json
+###
+
 ## Получить подробную информацию по одному офферу,
 ## с помощью именованного параметра, в котором передаём ID оффера
 GET http://localhost:5000/offers/633f1922ae735a967e899b5d HTTP/1.1
