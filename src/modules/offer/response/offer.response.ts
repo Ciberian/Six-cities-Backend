@@ -2,6 +2,9 @@ import { Expose } from 'class-transformer';
 
 export default class OfferResponse {
   @Expose()
+  public id!: string;
+
+  @Expose()
   public bedrooms!: number;
 
   @Expose()
