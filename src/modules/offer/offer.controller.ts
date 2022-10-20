@@ -6,15 +6,16 @@ import { Controller } from '../../common/controller/controller.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
+import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
+import HttpError from '../../common/errors/http-error.js';
 import OfferResponse from './response/offer.response.js';
 import CommentResponse from '../comment/response/comment.response.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import * as core from 'express-serve-static-core';
-import HttpError from '../../common/errors/http-error.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -31,10 +32,30 @@ export default class OfferController extends Controller {
     this.logger.info('Register routes for OfferController...');
 
     this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Patch, handler: this.update });
-    this.addRoute({ path: '/:offerId', method: HttpMethod.Get, handler: this.show });
-    this.addRoute({path: '/:offerId', method: HttpMethod.Delete, handler: this.delete});
-    this.addRoute({path: '/:offerId/comments', method: HttpMethod.Get, handler: this.getComments});
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Patch,
+      handler: this.update,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Get,
+      handler: this.show,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId',
+      method: HttpMethod.Delete,
+      handler: this.delete,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
+    this.addRoute({
+      path: '/:offerId/comments',
+      method: HttpMethod.Get,
+      handler: this.getComments,
+      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+    });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
   }
 
