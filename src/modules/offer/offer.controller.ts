@@ -7,17 +7,18 @@ import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
+import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
+import { DEFAULT_PREMIUM_OFFER_COUNT } from './offer.constant.js';
 import HttpError from '../../common/errors/http-error.js';
 import OfferResponse from './response/offer.response.js';
 import CommentResponse from '../comment/response/comment.response.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import * as core from 'express-serve-static-core';
-import { DEFAULT_PREMIUM_OFFER_COUNT } from './offer.constant.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -45,26 +46,36 @@ export default class OfferController extends Controller {
       handler: this.update,
       middlewares: [
         new ValidateObjectIdMiddleware('offerId'),
-        new ValidateDtoMiddleware(UpdateOfferDto)
+        new ValidateDtoMiddleware(UpdateOfferDto),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
       ]
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Get,
       handler: this.show,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+      ]
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Delete,
       handler: this.delete,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
+      ]
     });
     this.addRoute({
       path: '/:offerId/comments',
       method: HttpMethod.Get,
       handler: this.getComments,
-      middlewares: [new ValidateObjectIdMiddleware('offerId')]
+      middlewares: [
+        new ValidateObjectIdMiddleware('offerId'),
+        new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
+      ]
     });
     this.addRoute({ path: '/bundles/premiums', method: HttpMethod.Get, handler: this.getPremiums });
     this.addRoute({ path: '/bundles/favorites', method: HttpMethod.Get, handler: this.getFavorites });
