@@ -69,9 +69,7 @@ Content-Type: application/json
   "price": 81275,
   "rating": 2,
   "title": "Nice, cozy, warm big bed apartment",
-  "type": [
-    "room"
-  ]
+  "type":"room"
 }
 ###
 
@@ -112,9 +110,7 @@ Content-Type: application/json
   "price": 23456,
   "rating": 2,
   "title": "Winter is coming",
-  "type": [
-    "house"
-  ]
+  "type":  "house"
 }
 ###
 
@@ -162,6 +158,7 @@ Content-Type: application/json
 
 {
   "text": "Mongoose. Mongoose — это ODM (ORM), или проще говоря надстройка.",
+  "rank": 1,
   "offerId": "633f1922ae735a967e899b5d",
   "userId": "632f089f3834c748200fe6c1"
 }
@@ -172,6 +169,7 @@ Content-Type: application/json
 
 {
   "text": "Она работает поверх оригинального драйвера. Можно сказать, что использует его.",
+  "rank": 2,
   "offerId": "633f1922ae735a967e899b5d",
   "userId": "632f0973b5a4c0bffc182a06"
 }
@@ -182,6 +180,7 @@ Content-Type: application/json
 
 {
   "text": "Mongoose предоставляет дополнительный слой абстракции.",
+  "rank": 3,
   "offerId": "633f1922ae735a967e899b5d",
   "userId": "6333c5c7ef1aa90df4f600f5"
 }

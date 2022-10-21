@@ -58,7 +58,7 @@ export default class OfferResponse {
   public title!: string;
 
   @Expose()
-  public type!: string[];
+  public type!: string;
 
   @Expose()
   public commentsCount!: number;

@@ -39,10 +39,10 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({
     match: [/^(?:.*\.(?=(jpg|jpeg|png)$))?[^.]*$/i, 'Only jpg or png format is allowed']
   })
-  public avatarUrl!: string;
+  public avatarUrl?: string;
 
   @prop()
-  public isPro!: boolean;
+  public isPro?: boolean;
 
   @prop({
     minlength: [1, 'Min length for the name is 1 simbol'],

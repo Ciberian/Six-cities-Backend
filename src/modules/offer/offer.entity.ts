@@ -95,7 +95,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public title!: string;
 
   @prop()
-  public type!: string[];
+  public type!: string;
 
   @prop()
   public commentsCount!: number;
