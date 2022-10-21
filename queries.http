@@ -129,7 +129,7 @@ Content-Type: application/json
 
 {
   "text": "Mongoose. Mongoose — это ODM (ORM), или проще говоря надстройка.",
-  "rank": 1,
+  "rank": 5,
   "offerId": "633f1922ae735a967e899b5d",
   "userId": "632f089f3834c748200fe6c1"
 }
