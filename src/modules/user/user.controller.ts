@@ -30,7 +30,12 @@ export default class UserController extends Controller {
       handler: this.create,
       middlewares: [new ValidateDtoMiddleware(CreateUserDto)]
     });
-    this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.loginUser });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login,
+      middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
+    });
     this.addRoute({ path: '/login', method: HttpMethod.Get, handler: this.show });
   }
 
@@ -56,7 +61,7 @@ export default class UserController extends Controller {
     );
   }
 
-  public async loginUser({body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+  public async login({body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _res: Response,
   ): Promise<void> {
