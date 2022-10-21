@@ -7,6 +7,7 @@ import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
@@ -32,7 +33,12 @@ export default class OfferController extends Controller {
 
     this.logger.info('Register routes for OfferController...');
 
-    this.addRoute({ path: '/create', method: HttpMethod.Post, handler: this.create });
+    this.addRoute({
+      path: '/create',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+    });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Patch,
@@ -123,13 +129,13 @@ export default class OfferController extends Controller {
 
   public async getPremiums(_req: Request, res: Response) {
     const premiumOffers = await this.offerService.findPremiums(DEFAULT_PREMIUM_OFFER_COUNT);
-    console.log('premiumOffers - ', premiumOffers);
+
     this.ok(res, fillDTO(OfferResponse, premiumOffers));
   }
 
   public async getFavorites(_req: Request, res: Response) {
     const favoriteOffers = await this.offerService.findFavorites();
-    console.log('favoriteOffers - ', favoriteOffers);
+
     this.ok(res, fillDTO(OfferResponse, favoriteOffers));
   }
 }

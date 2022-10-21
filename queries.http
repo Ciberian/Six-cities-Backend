@@ -92,9 +92,7 @@ Content-Type: application/json
   "goods": [
     "Breakfast,Towels,Dishwasher"
   ],
-  "hostId": {
-    "_id": "6333c5c7ef1aa90df4f600f5"
-  },
+  "hostId":  "6333c5c7ef1aa90df4f600f5",
   "images": [
     "https://10.react.pages.academy/static/hotel/3.jpg,https://10.react.pages.academy/static/hotel/20.jpg,https://10.react.pages.academy/static/hotel/15.jpg,https://10.react.pages.academy/static/hotel/19.jpg"
   ],
@@ -106,6 +104,7 @@ Content-Type: application/json
     "zoom": 10
   },
   "maxAdults": 7,
+  "postDate": "2022-10-21T13:26:37.573Z",
   "previewImage": "https://10.react.pages.academy/static/hotel/10.jpg",
   "price": 23456,
   "rating": 2,

@@ -36,9 +36,6 @@ export default class UpdateOfferDto {
   @IsString({each: true, message: 'Goods field must be an array of string'})
   public goods?: string[];
 
-  @IsDateString({}, {message: 'postDate must be valid ISO date'})
-  public postDate!: Date;
-
   @IsMongoId({each: true, message: 'HostId field must be a valid id'})
   public hostId?: string;
 
@@ -71,6 +68,9 @@ export default class UpdateOfferDto {
   @Min(100, {message: 'Minimum price is 100'})
   @Max(100000, {message: 'Maximum price is 100000'})
   public price?: number;
+
+  @IsDateString({}, {message: 'postDate must be valid ISO date'})
+  public postDate!: Date;
 
   @Min(1, {message: 'Field rating must be greater than 1 or equal'})
   @Max(5, {message: 'Field rating must be lower then 5 or equal'})

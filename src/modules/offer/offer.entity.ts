@@ -80,6 +80,9 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public price!: number;
 
+  @prop()
+  public postDate!: Date;
+
   @prop({
     required: true,
     min: 1,

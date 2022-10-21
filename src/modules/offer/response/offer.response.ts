@@ -52,6 +52,9 @@ export default class OfferResponse {
   public price!: number;
 
   @Expose()
+  public postDate!: string;
+
+  @Expose()
   public rating!: number;
 
   @Expose()
