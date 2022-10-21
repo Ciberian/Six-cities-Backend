@@ -124,8 +124,9 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "example@mail.com",
-  "password": "7654321"
+  "email": "asdf@mail.com",
+  "password": "7654321",
+  "name": "sdfsadffdsaf"
 }
 ###
 
