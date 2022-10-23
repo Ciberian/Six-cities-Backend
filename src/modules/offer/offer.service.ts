@@ -44,15 +44,17 @@ export default class OfferService implements OfferServiceInterface {
         {
           $lookup: {
             from: 'comments',
-            pipeline: [
-              { $match: { offerId: '$_id' }},
-              { $project: { _id: 1}}
-            ],
-            as: 'comments'
-          },
+            localField: '_id',
+            foreignField: 'offerId',
+            as: 'commentsCount'
+          }
         },
-        { $addFields: { id: { $toString: '$_id'}, commentsCount: { $size: '$comments'} }},
-        { $unset: 'comments' },
+        {
+          $set: {
+            'commentsCount': { $size: '$commentsCount' }
+          }
+        },
+        { $addFields: { id: { $toString: '$_id'}}},
         { $limit: Number(limit)}
       ]).exec();
   }
