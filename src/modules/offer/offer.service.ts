@@ -8,6 +8,7 @@ import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
 import { SortType } from '../../types/sort-type.enum.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
+import mongoose from 'mongoose';
 
 @injectable()
 export default class OfferService implements OfferServiceInterface {
@@ -41,30 +42,37 @@ export default class OfferService implements OfferServiceInterface {
 
     return this.offerModel
       .aggregate([
-        {
-          $lookup: {
-            from: 'comments',
-            localField: '_id',
-            foreignField: 'offerId',
-            as: 'commentsCount'
-          }
-        },
-        {
-          $set: {
-            'commentsCount': { $size: '$commentsCount' }
-          }
-        },
-        { $addFields: { id: { $toString: '$_id'}}},
-        { $limit: Number(limit)}
+        {$lookup: {
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'offerId',
+          as: 'commentsCount'
+        }},
+        {$set: {'commentsCount': { $size: '$commentsCount' }}},
+        {$addFields: { id: { $toString: '$_id'}}},
+        {$limit: Number(limit)}
       ]).exec();
   }
 
   public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel.findById(offerId).populate(['hostId']).exec();
-  }
-
-  public async exists(offerId: string): Promise<boolean> {
-    return (await this.offerModel.exists({_id: offerId})) !== null;
+    return this.offerModel
+      .aggregate([
+        {$match: {_id: new mongoose.Types.ObjectId(offerId)}},
+        {$lookup: {
+          from: 'users',
+          localField: 'hostId',
+          foreignField: '_id',
+          as: 'user'
+        }},
+        {$lookup: {
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'offerId',
+          as: 'commentsCount'
+        }},
+        {$set: {'hostId': '$user', 'commentsCount': { $size: '$commentsCount' }}},
+        {$addFields: {id: {$toString: '$_id'}}},
+      ]).exec() as unknown as Promise<DocumentType<OfferEntity>>;
   }
 
   public async findPremiums(count: number): Promise<DocumentType<OfferEntity>[]> {
@@ -92,5 +100,9 @@ export default class OfferService implements OfferServiceInterface {
       .findByIdAndUpdate(offerId, {'$set': {
         rating: oldRating ? ((oldRating + newRating)/2).toFixed(1) : newRating,
       }}).exec();
+  }
+
+  public async exists(offerId: string): Promise<boolean> {
+    return (await this.offerModel.exists({_id: offerId})) !== null;
   }
 }

@@ -39,7 +39,8 @@ Content-Type: application/json
 {
   "bedrooms": 4,
   "maxAdults": 10,
-  "postDate": "2022-10-21T15:00:00.573Z"
+  "postDate": "2022-10-21T15:00:00.573Z",
+  "hostId": "6333c5c7ef1aa90df4f600f5"
 }
 ###
 
