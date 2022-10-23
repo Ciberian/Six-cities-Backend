@@ -33,6 +33,6 @@ export type Offer = {
 	price: number;
 	rating: number;
 	title: string;
-	type: string[];
+	type: string;
   commentCount: number
 };
