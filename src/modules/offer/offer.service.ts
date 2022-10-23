@@ -84,13 +84,6 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async incCommentCount(offerId: string): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel
-      .findByIdAndUpdate(offerId, {'$inc': {
-        commentCount: 1,
-      }}).exec();
-  }
-
   public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
     const oldOffer = await this.offerModel.findById(offerId).lean();
     const oldRating = oldOffer?.rating;
