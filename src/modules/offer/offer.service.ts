@@ -72,24 +72,55 @@ export default class OfferService implements OfferServiceInterface {
         }},
         {$set: {'hostId': '$user', 'commentsCount': { $size: '$commentsCount' }}},
         {$addFields: {id: {$toString: '$_id'}}},
-      ]).exec() as unknown as Promise<DocumentType<OfferEntity>>;
+      ])
+      .exec() as unknown as Promise<DocumentType<OfferEntity>>;
   }
 
   public async findPremiums(count: number): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
-      .find({isPremium: true})
+      .aggregate([
+        {$match: {isPremium: true}},
+        {$lookup: {
+          from: 'users',
+          localField: 'hostId',
+          foreignField: '_id',
+          as: 'user'
+        }},
+        {$lookup: {
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'offerId',
+          as: 'commentsCount'
+        }},
+        {$set: {'hostId': '$user', 'commentsCount': { $size: '$commentsCount' }}},
+        {$addFields: {id: {$toString: '$_id'}}},
+      ])
       .sort({createdAt: SortType.Down})
       .limit(count)
-      .populate(['hostId'])
-      .exec();
+      .exec() as unknown as Promise<DocumentType<OfferEntity>[]>;
   }
 
   public async findFavorites(): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
-      .find({isFavorite: true})
+      .aggregate([
+        {$match: {isFavorite: true}},
+        {$lookup: {
+          from: 'users',
+          localField: 'hostId',
+          foreignField: '_id',
+          as: 'user'
+        }},
+        {$lookup: {
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'offerId',
+          as: 'commentsCount'
+        }},
+        {$set: {'hostId': '$user', 'commentsCount': { $size: '$commentsCount' }}},
+        {$addFields: {id: {$toString: '$_id'}}},
+      ])
       .sort({createdAt: SortType.Down})
-      .populate(['hostId'])
-      .exec();
+      .exec() as unknown as Promise<DocumentType<OfferEntity>[]>;
   }
 
   public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
