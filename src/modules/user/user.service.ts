@@ -15,6 +15,12 @@ export default class UserService implements UserServiceInterface {
     @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>
   ) {}
 
+  public async find(): Promise<DocumentType<UserEntity>[]> {
+    const users = await this.userModel.find();
+
+    return users;
+  }
+
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
     const user = new UserEntity(dto);
     user.setPassword(dto.password, salt);

@@ -1,0 +1,30 @@
+{
+	"api": {
+		"names": [
+      "Angelina",
+      "Brad",
+      "Leonardo",
+      "Elizabeth",
+      "Kate",
+      "Robert"
+    ],
+		"emails": [
+      "one@mail.ru",
+      "two@gmail.com",
+      "three@mail.ru",
+      "four@mail.com",
+      "five@mail.com",
+      "six@mail.ru",
+      "seven@mail.com"
+    ],
+		"passwords": [
+      "asdfasdf",
+      "wfsdcv34r",
+      "2903fjsdfj",
+      "Efaskjl3w2",
+      "2342039fjkds",
+      "12343432"
+    ]
+	}
+}
+

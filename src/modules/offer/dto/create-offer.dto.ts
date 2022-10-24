@@ -2,7 +2,6 @@ import {
   IsDateString,
   IsArray,
   IsObject,
-  IsMongoId,
   IsBoolean,
   IsString,
   MaxLength,
@@ -36,7 +35,7 @@ export default class CreateOfferDto {
   @IsString({each: true, message: 'Goods field must be an array of string'})
   public goods!: string[];
 
-  @IsMongoId({each: true, message: 'HostId field must be a valid id'})
+  @IsString({each: true, message: 'HostId field must be a valid id'})
   public hostId!: string;
 
   @IsArray({message: 'Field images must be an array'})

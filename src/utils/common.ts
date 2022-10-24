@@ -4,7 +4,7 @@ import { plainToInstance, ClassConstructor } from 'class-transformer';
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
-  const [bedrooms, cityName, cityLatitude, cityLongitude, cityZoom, description, goods, hostAvatar, hostId, hostStatus, hostName, offerId, images, isFavorite, isPremium, offerLatitude, offerLongitude, offerZoom, maxAdults, postDate, previewImage, price, rating, title, type] = tokens;
+  const [bedrooms, cityName, cityLatitude, cityLongitude, cityZoom, description, goods, images, isFavorite, isPremium, offerLatitude, offerLongitude, offerZoom, maxAdults, postDate, previewImage, price, rating, title, type] = tokens;
 
   return {
     bedrooms: Number(bedrooms),
@@ -18,13 +18,6 @@ export const createOffer = (row: string) => {
     },
     description: description,
     goods: goods.split(';'),
-    host: {
-      avatarUrl: hostAvatar,
-      id: Number(hostId),
-      isPro: Boolean(Number(hostStatus)),
-      name: hostName
-    },
-    id: Number(offerId),
     images: images.split(';'),
     isFavorite: Boolean(Number(isFavorite)),
     isPremium: Boolean(Number(isPremium)),
