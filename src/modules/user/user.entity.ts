@@ -17,9 +17,10 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     super();
 
     this.email = data.email;
+    this.password = data.password;
+    this.name = data.name;
     this.avatarUrl = data.avatarUrl;
     this.isPro = data.isPro;
-    this.name = data.name;
   }
 
   @prop({
@@ -37,18 +38,18 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   public password!: string;
 
   @prop({
-    match: [/^(?:.*\.(?=(jpg|jpeg|png)$))?[^.]*$/i, 'Only jpg or png format is allowed']
+    minlength: [1, 'Min length for the name is 1 simbol'],
+    maxlength: [15, 'Max length for the name is 15 simbols'],
   })
-  public avatarUrl?: string;
+  public name!: string;
 
   @prop()
   public isPro?: boolean;
 
   @prop({
-    minlength: [1, 'Min length for the name is 1 simbol'],
-    maxlength: [15, 'Max length for the name is 15 simbols'],
+    match: [/^(?:.*\.(?=(jpg|jpeg|png)$))?[^.]*$/i, 'Only jpg or png format is allowed']
   })
-  public name!: string;
+  public avatarUrl?: string;
 
   public setPassword(password: string, salt: string) {
     this.password = createSHA256(password, salt);

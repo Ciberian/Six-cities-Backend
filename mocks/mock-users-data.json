@@ -1,13 +1,5 @@
 {
 	"api": {
-		"names": [
-      "Angelina",
-      "Brad",
-      "Leonardo",
-      "Elizabeth",
-      "Kate",
-      "Robert"
-    ],
 		"emails": [
       "one@mail.ru",
       "two@gmail.com",
@@ -24,6 +16,14 @@
       "Efaskjl3w2",
       "2342039fjkds",
       "12343432"
+    ],
+		"names": [
+      "Angelina",
+      "Brad",
+      "Leonardo",
+      "Elizabeth",
+      "Kate",
+      "Robert"
     ]
 	}
 }

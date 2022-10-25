@@ -12,6 +12,6 @@ export default class UserGenerator implements UserGeneratorInterface {
     const password = getRandomItem<string>(this.mockData.passwords);
     const isPro = Math.random() >= 0.5;
 
-    return [email, name, password, isPro].join('\t');
+    return [email, password, name, isPro].join('\t');
   }
 }

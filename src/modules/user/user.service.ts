@@ -11,7 +11,7 @@ import UpdateUserDto from './dto/update-user.dto.js';
 @injectable()
 export default class UserService implements UserServiceInterface {
   constructor(
-    @inject(Component.LoggerInterface) private logger: LoggerInterface,
+    @inject(Component.LoggerInterface) private readonly logger: LoggerInterface,
     @inject(Component.UserModel) private readonly userModel: types.ModelType<UserEntity>
   ) {}
 
@@ -22,7 +22,7 @@ export default class UserService implements UserServiceInterface {
   }
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {
-    const user = new UserEntity(dto);
+    const user = new UserEntity({...dto, email: `${Math.random()}${dto.email}`});
     user.setPassword(dto.password, salt);
 
     const result = await this.userModel.create(user);

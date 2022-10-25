@@ -127,5 +127,13 @@ npm run mock:server
 Для создания комментариев:
 `node ./dist/cli.js --generate 100 ./mocks/comments-data.tsv http://localhost:4002/api`
 
-7. Для команды --import передаём аргументы: файл из которого будет идти импорт, логин, пароль, локальный хост, название БД и "соль" для хеширования.
-`node ./dist/cli.js --import ./mocks/offers-data.tsv admin P455w0r_DB 127.0.0.1 course-nodejs kdlfjasfjsdkwrimesdfdfv`
+7. Для команды --import передаём аргументы: 
+- имя создаваемой коллекции (users, offers, comments);
+- файл из которого будет идти импорт;
+- логин;
+- пароль;
+- локальный хост;
+- название БД;
+- "соль" для хеширования.
+Пример:
+`node ./dist/cli.js --import offers ./mocks/offers-data.tsv admin P455w0r_DB 127.0.0.1 course-nodejs kdlfjasfjsdkwrimesdfdfv`
