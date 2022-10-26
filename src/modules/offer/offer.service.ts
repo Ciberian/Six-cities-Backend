@@ -81,18 +81,12 @@ export default class OfferService implements OfferServiceInterface {
       .aggregate([
         {$match: {isPremium: true}},
         {$lookup: {
-          from: 'users',
-          localField: 'hostId',
-          foreignField: '_id',
-          as: 'user'
-        }},
-        {$lookup: {
           from: 'comments',
           localField: '_id',
           foreignField: 'offerId',
           as: 'commentsCount'
         }},
-        {$set: {'hostId': '$user', 'commentsCount': { $size: '$commentsCount' }}},
+        {$set: {'commentsCount': { $size: '$commentsCount' }}},
         {$addFields: {id: {$toString: '$_id'}}},
       ])
       .sort({createdAt: SortType.Down})
@@ -105,18 +99,12 @@ export default class OfferService implements OfferServiceInterface {
       .aggregate([
         {$match: {isFavorite: true}},
         {$lookup: {
-          from: 'users',
-          localField: 'hostId',
-          foreignField: '_id',
-          as: 'user'
-        }},
-        {$lookup: {
           from: 'comments',
           localField: '_id',
           foreignField: 'offerId',
           as: 'commentsCount'
         }},
-        {$set: {'hostId': '$user', 'commentsCount': { $size: '$commentsCount' }}},
+        {$set: {'commentsCount': { $size: '$commentsCount' }}},
         {$addFields: {id: {$toString: '$_id'}}},
       ])
       .sort({createdAt: SortType.Down})
