@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 
-export default class OfferResponse {
+export default class OffersResponse {
   @Expose()
   public id!: string;
 
@@ -24,7 +24,7 @@ export default class OfferResponse {
   public goods!: string[];
 
   @Expose()
-  public host!: string;
+  public hostId!: string;
 
   @Expose()
   public images!: string[];

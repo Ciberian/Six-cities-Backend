@@ -25,10 +25,10 @@ export default class OfferService implements OfferServiceInterface {
   }
 
   public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
-    return this.offerModel
-      .findByIdAndUpdate(offerId, dto, {new: true})
-      .populate(['hostId'])
-      .exec();
+    const result = await this.offerModel.findByIdAndUpdate(offerId, dto, {new: true});
+    this.logger.info(`Offer with id ${offerId}, was updated`);
+
+    return result;
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
@@ -62,6 +62,10 @@ export default class OfferService implements OfferServiceInterface {
           from: 'users',
           localField: 'hostId',
           foreignField: '_id',
+          pipeline: [
+            {$project: {email: 1, password: 1, name: 1, isPro: 1}},
+            {$unset: '_id'}
+          ],
           as: 'user'
         }},
         {$lookup: {
@@ -70,7 +74,7 @@ export default class OfferService implements OfferServiceInterface {
           foreignField: 'offerId',
           as: 'commentsCount'
         }},
-        {$set: {'hostId': '$user', 'commentsCount': { $size: '$commentsCount' }}},
+        {$set: {'host': {$arrayElemAt: ['$user', 0]}, 'commentsCount': { $size: '$commentsCount' }}},
         {$addFields: {id: {$toString: '$_id'}}},
       ])
       .exec() as unknown as Promise<DocumentType<OfferEntity>>;

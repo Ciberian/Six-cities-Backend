@@ -37,10 +37,10 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "bedrooms": 4,
-  "maxAdults": 10,
-  "postDate": "2022-10-21T15:00:00.573Z",
-  "hostId": "6333c5c7ef1aa90df4f600f5"
+  "bedrooms": 2,
+  "maxAdults": 1,
+  "description": "TEST, test, TeSt, TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST",
+  "hostId": "6357581ca98a052adbef8e34"
 }
 ###
 
@@ -63,7 +63,7 @@ Content-Type: application/json
   "goods": [
     "Breakfast,Towels,Dishwasher"
   ],
-  "hostId":  "6333c5c7ef1aa90df4f600f5",
+  "hostId":  "6357581ca98a052adbef8e34",
   "images": [
     "https://10.react.pages.academy/static/hotel/3.jpg,https://10.react.pages.academy/static/hotel/20.jpg,https://10.react.pages.academy/static/hotel/15.jpg,https://10.react.pages.academy/static/hotel/19.jpg"
   ],

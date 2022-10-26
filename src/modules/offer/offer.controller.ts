@@ -15,6 +15,7 @@ import { fillDTO } from '../../utils/common.js';
 import { DEFAULT_PREMIUM_OFFER_COUNT } from './offer.constant.js';
 import HttpError from '../../common/errors/http-error.js';
 import OfferResponse from './response/offer.response.js';
+import OffersResponse from './response/offers.response.js';
 import CommentResponse from '../comment/response/comment.response.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
@@ -95,8 +96,10 @@ export default class OfferController extends Controller {
     {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
     res: Response
   ): Promise<void> {
-    const updatedOffer = await this.offerService.updateById(params.offerId, body);
-    this.ok(res, fillDTO(OfferResponse, updatedOffer));
+    // Изменил код, чтобы воспользоваться агрегацией в методе findById (в последующих коммитах этот комментарий затру)
+    await this.offerService.updateById(params.offerId, body);
+    const offer = await this.offerService.findById(params.offerId);
+    this.ok(res, fillDTO(OfferResponse, offer));
   }
 
   public async show(
@@ -138,18 +141,18 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     const offers = await this.offerService.find(query.count);
-    this.ok(res, fillDTO(OfferResponse, offers));
+    this.ok(res, fillDTO(OffersResponse, offers));
   }
 
   public async getPremiums(_req: Request, res: Response) {
     const premiumOffers = await this.offerService.findPremiums(DEFAULT_PREMIUM_OFFER_COUNT);
 
-    this.ok(res, fillDTO(OfferResponse, premiumOffers));
+    this.ok(res, fillDTO(OffersResponse, premiumOffers));
   }
 
   public async getFavorites(_req: Request, res: Response) {
     const favoriteOffers = await this.offerService.findFavorites();
 
-    this.ok(res, fillDTO(OfferResponse, favoriteOffers));
+    this.ok(res, fillDTO(OffersResponse, favoriteOffers));
   }
 }
