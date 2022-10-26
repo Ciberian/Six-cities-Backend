@@ -35,7 +35,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const description = getRandomItem<string>(this.mockData.descriptions);
     const goods = getRandomItems<string>(this.mockData.goods);
     const offerImages = getRandomItems<string>(this.mockData.offerImages);
-    const isFavorite = generateRandomValue(0, 1);
+    const isFavorite = 0;
     const isPremium = generateRandomValue(0, 1);
     const offerLatitude = cityLatitude + Math.random();
     const offerLongitude = cityLongitude + Math.random();

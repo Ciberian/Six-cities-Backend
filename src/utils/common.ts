@@ -31,8 +31,8 @@ export const createOffer = (row: string) => {
       }
     },
     description: description,
-    goods: goods.split(';'),
-    images: images.split(';'),
+    goods: goods.split(','),
+    images: images.split(','),
     isFavorite: Boolean(Number(isFavorite)),
     isPremium: Boolean(Number(isPremium)),
     location: {
