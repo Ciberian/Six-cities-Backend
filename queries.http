@@ -20,19 +20,19 @@ GET http://localhost:5000/offers/bundles/premiums HTTP/1.1
 Accept: application/json
 ###
 
-## Получить избранные офферы
-GET http://localhost:5000/offers/bundles/favorites HTTP/1.1
+## Получить избранные офферы для пользователя с ID = 635910512572ced352c15664
+GET http://localhost:5000/offers/bundles/favorites?userId=635910512572ced352c15664 HTTP/1.1
 Accept: application/json
 ###
 
 ## Получить подробную информацию по одному офферу,
 ## с помощью именованного параметра, в котором передаём ID оффера
-GET http://localhost:5000/offers/635758470c0eec7c5adaf08a HTTP/1.1
+GET http://localhost:5000/offers/63591061932cdbbb3079349d HTTP/1.1
 Accept: application/json
 ###
 
 ## Обновить оффер
-PATCH  http://localhost:5000/offers/635758460c0eec7c5adaef70 HTTP/1.1
+PATCH  http://localhost:5000/offers/63591062932cdbbb307935c0?userId=635910512572ced352c15664 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 
@@ -40,7 +40,7 @@ Content-Type: application/json
   "bedrooms": 2,
   "maxAdults": 1,
   "description": "TEST, test, TeSt, TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST",
-  "hostId": "6357581ca98a052adbef8e34"
+  "isFavorite": true
 }
 ###
 

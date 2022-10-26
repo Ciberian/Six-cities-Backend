@@ -2,8 +2,9 @@ import { inject, injectable } from 'inversify';
 import { OfferEntity } from './offer.entity.js';
 import { DocumentType, types } from '@typegoose/typegoose';
 import { Component } from '../../types/component.types.js';
-import { OfferServiceInterface } from './offer-service.interface.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
+import { UserServiceInterface } from '../user/user-service.interface.js';
+import { OfferServiceInterface } from './offer-service.interface.js';
 import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
 import { SortType } from '../../types/sort-type.enum.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
@@ -14,6 +15,7 @@ import mongoose from 'mongoose';
 export default class OfferService implements OfferServiceInterface {
   constructor(
 		@inject(Component.LoggerInterface) private readonly logger: LoggerInterface,
+		@inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
 		@inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
   ) {}
 
@@ -98,21 +100,16 @@ export default class OfferService implements OfferServiceInterface {
       .exec() as unknown as Promise<DocumentType<OfferEntity>[]>;
   }
 
-  public async findFavorites(): Promise<DocumentType<OfferEntity>[]> {
+  public async findFavorites(userId?: string): Promise<DocumentType<OfferEntity>[]> {
+    const user = await this.userService.findById(userId);
+
+    if (!user || !user.favorites.length) {
+      return [];
+    }
+
     return this.offerModel
-      .aggregate([
-        {$match: {isFavorite: true}},
-        {$lookup: {
-          from: 'comments',
-          localField: '_id',
-          foreignField: 'offerId',
-          as: 'commentsCount'
-        }},
-        {$set: {'commentsCount': { $size: '$commentsCount' }}},
-        {$addFields: {id: {$toString: '$_id'}}},
-      ])
-      .sort({createdAt: SortType.Down})
-      .exec() as unknown as Promise<DocumentType<OfferEntity>[]>;
+      .find({_id: {$in: user.favorites}})
+      .exec();
   }
 
   public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
