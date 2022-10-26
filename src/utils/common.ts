@@ -13,6 +13,7 @@ export const createUser = (row: string) => {
     password: password,
     name: name,
     isPro: isPro,
+    favorites: []
   } as unknown as User;
 };
 

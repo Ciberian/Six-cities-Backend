@@ -51,6 +51,9 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   })
   public avatarUrl?: string;
 
+  @prop()
+  public favorites!: string[];
+
   public setPassword(password: string, salt: string) {
     this.password = createSHA256(password, salt);
   }
