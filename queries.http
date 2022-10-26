@@ -31,7 +31,7 @@ GET http://localhost:5000/offers/63591061932cdbbb3079349d HTTP/1.1
 Accept: application/json
 ###
 
-## Обновить оффер
+## Обновить оффер - добавляем оффер в избранное, для пользователя с ID = 635910512572ced352c15664
 PATCH  http://localhost:5000/offers/63591061932cdbbb3079349d?userId=635910512572ced352c15664 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
@@ -40,7 +40,7 @@ Content-Type: application/json
   "bedrooms": 2,
   "maxAdults": 1,
   "description": "TEST, test, TeSt, TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST",
-  "isFavorite": false
+  "isFavorite": true
 }
 ###
 
@@ -63,11 +63,11 @@ Content-Type: application/json
   "goods": [
     "Breakfast,Towels,Dishwasher"
   ],
-  "hostId":  "6357581ca98a052adbef8e34",
+  "hostId":  "635910512572ced352c15664",
   "images": [
     "https://10.react.pages.academy/static/hotel/3.jpg,https://10.react.pages.academy/static/hotel/20.jpg,https://10.react.pages.academy/static/hotel/15.jpg,https://10.react.pages.academy/static/hotel/19.jpg"
   ],
-  "isFavorite": true,
+  "isFavorite": false,
   "isPremium": false,
   "location": {
     "latitude": 53.194470184955,

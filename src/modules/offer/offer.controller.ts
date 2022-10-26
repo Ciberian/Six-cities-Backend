@@ -88,8 +88,12 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     const result = await this.offerService.create(body);
+    // Все нижеследующие комментарии в коде (включая этот) удалю в последующих коммитах.
+    // Метод aggregate в офферСервисе возвращает массив с одним оффером...
     const offer = await this.offerService.findById(result.id);
-    this.created(res, fillDTO(OfferResponse, offer));
+    // ...но ТупСкрип не даёт нормально мне вытащить из массива этот оффер, поэтому вот так вот:
+    const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
+    this.created(res, fillDTO(OfferResponse, offerFromArray));
   }
 
   public async update(
@@ -98,7 +102,8 @@ export default class OfferController extends Controller {
   ): Promise<void> {
     await this.offerService.updateById(params.offerId, body, query.userId);
     const offer = await this.offerService.findById(params.offerId);
-    this.ok(res, fillDTO(OfferResponse, offer));
+    const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
+    this.ok(res, fillDTO(OfferResponse, offerFromArray));
   }
 
   public async show(
@@ -107,7 +112,8 @@ export default class OfferController extends Controller {
   ): Promise<void> {
     const {offerId} = params;
     const offer = await this.offerService.findById(offerId);
-    this.ok(res, fillDTO(OfferResponse, offer));
+    const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
+    this.ok(res, fillDTO(OfferResponse, offerFromArray));
   }
 
   public async delete(
