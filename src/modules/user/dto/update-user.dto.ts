@@ -5,4 +5,5 @@ export default class CreateUserDto {
   id?: string;
   isPro?: boolean;
   name?: string;
+  favorites?: string[];
 }

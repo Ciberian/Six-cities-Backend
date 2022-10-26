@@ -63,7 +63,11 @@ export default class ImportCommand implements CliCommandInterface {
     if (!offers.length) {
       throw new Error('Before create comments, create offers first');
     }
+    const users = await this.userService.find();
     const offer = getRandomItem(offers);
+    const user = getRandomItem(users);
+
+    this.userService.updateById(String(user._id), {favorites: [String(offer._id)]});
 
     await this.commentService.create({...comment, offerId: String(offer._id), userId: String(offer.hostId)});
   }
