@@ -32,7 +32,7 @@ Accept: application/json
 ###
 
 ## Обновить оффер
-PATCH  http://localhost:5000/offers/63591062932cdbbb307935c0?userId=635910512572ced352c15664 HTTP/1.1
+PATCH  http://localhost:5000/offers/63591061932cdbbb3079349d?userId=635910512572ced352c15664 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
 
@@ -40,7 +40,7 @@ Content-Type: application/json
   "bedrooms": 2,
   "maxAdults": 1,
   "description": "TEST, test, TeSt, TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST",
-  "isFavorite": true
+  "isFavorite": false
 }
 ###
 

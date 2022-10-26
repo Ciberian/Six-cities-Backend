@@ -26,11 +26,25 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
-  public async updateById(offerId: string, dto: UpdateOfferDto): Promise<DocumentType<OfferEntity> | null> {
-    const result = await this.offerModel.findByIdAndUpdate(offerId, dto, {new: true});
+  public async updateById(offerId: string, dto: UpdateOfferDto, userId?: string): Promise<void> {
+    const offerBeforeUpdate = await this.offerModel.findById(offerId);
+    const offerAfterUpdate = await this.offerModel.findByIdAndUpdate(offerId, dto, {new: true});
     this.logger.info(`Offer with id ${offerId}, was updated`);
 
-    return result;
+    if(offerBeforeUpdate?.isFavorite === offerAfterUpdate?.isFavorite) {
+      return;
+    }
+
+    const currentUser = await this.userService.findById(userId);
+    if (currentUser) {
+      if (offerBeforeUpdate?.isFavorite) {
+        // Временно присваиваем userId значение по умолчанию, т.к. этот айдишник получен через параметр запроса
+        this.userService.updateById(userId = '635910512572ced352c15664', {favorites: currentUser.favorites.filter((favoriteOffer) => favoriteOffer !== offerId)});
+      } else {
+        // Временно присваиваем userId значение по умолчанию, т.к. этот айдишник получен через параметр запроса
+        this.userService.updateById(userId = '635910512572ced352c15664', {favorites: [...currentUser.favorites, offerId]});
+      }
+    }
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {

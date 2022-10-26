@@ -93,11 +93,10 @@ export default class OfferController extends Controller {
   }
 
   public async update(
-    {body, params}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
+    {body, params, query}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto, RequestQuery>,
     res: Response
   ): Promise<void> {
-    // Изменил код, чтобы воспользоваться агрегацией в методе findById (в последующих коммитах этот комментарий затру)
-    await this.offerService.updateById(params.offerId, body);
+    await this.offerService.updateById(params.offerId, body, query.userId);
     const offer = await this.offerService.findById(params.offerId);
     this.ok(res, fillDTO(OfferResponse, offer));
   }
