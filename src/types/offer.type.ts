@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongoose';
+
 export type Offer = {
 	bedrooms: number;
 	city: {
@@ -10,15 +12,7 @@ export type Offer = {
 	};
 	description: string;
 	goods: string[];
-	host: {
-    email: string;
-    password: string;
-		avatarUrl: string;
-		id: number;
-		isPro: boolean;
-		name: string;
-	};
-	id: number;
+	host: ObjectId,
 	images: string[];
 	isFavorite: boolean;
 	isPremium: boolean;
@@ -33,6 +27,5 @@ export type Offer = {
 	price: number;
 	rating: number;
 	title: string;
-	type: string[];
-  commentCount: number
+	type: string;
 };

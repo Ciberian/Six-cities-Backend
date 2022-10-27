@@ -1,10 +1,25 @@
 import crypto from 'crypto';
+import { User } from '../types/user.type.js';
 import { Offer } from '../types/offer.type.js';
+import { Comment } from '../types/comment.type.js';
 import { plainToInstance, ClassConstructor } from 'class-transformer';
+
+export const createUser = (row: string) => {
+  const tokens = row.replace('\n', '').split('\t');
+  const [email, password, name, isPro] = tokens;
+
+  return {
+    email: email,
+    password: password,
+    name: name,
+    isPro: isPro,
+    favorites: []
+  } as unknown as User;
+};
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
-  const [bedrooms, cityName, cityLatitude, cityLongitude, cityZoom, description, goods, hostAvatar, hostId, hostStatus, hostName, offerId, images, isFavorite, isPremium, offerLatitude, offerLongitude, offerZoom, maxAdults, postDate, previewImage, price, rating, title, type] = tokens;
+  const [bedrooms, cityName, cityLatitude, cityLongitude, cityZoom, description, goods, images, isFavorite, isPremium, offerLatitude, offerLongitude, offerZoom, maxAdults, postDate, previewImage, price, rating, title, type] = tokens;
 
   return {
     bedrooms: Number(bedrooms),
@@ -17,15 +32,8 @@ export const createOffer = (row: string) => {
       }
     },
     description: description,
-    goods: goods.split(';'),
-    host: {
-      avatarUrl: hostAvatar,
-      id: Number(hostId),
-      isPro: Boolean(Number(hostStatus)),
-      name: hostName
-    },
-    id: Number(offerId),
-    images: images.split(';'),
+    goods: goods.split(','),
+    images: images.split(','),
     isFavorite: Boolean(Number(isFavorite)),
     isPremium: Boolean(Number(isPremium)),
     location: {
@@ -41,6 +49,16 @@ export const createOffer = (row: string) => {
     title,
     type
   } as unknown as Offer;
+};
+
+export const createComment = (row: string) => {
+  const tokens = row.replace('\n', '').split('\t');
+  const [text, rank] = tokens;
+
+  return {
+    text: text,
+    rank: rank
+  } as unknown as Comment;
 };
 
 export const getErrorMessage = (error: unknown): string => error instanceof Error ? error.message : '';

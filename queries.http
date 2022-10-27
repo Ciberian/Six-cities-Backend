@@ -2,70 +2,51 @@
 
 ##------------------------Offers----------------------------
 ## Получить заголовки запроса
-### В контроллере этот роут не описан, но он почему-то работает!!!
 HEAD http://localhost:5000/offers HTTP/1.1
 ###
 
 ## Получить список офферов (60 офферов, по умолчанию)
 GET http://localhost:5000/offers/ HTTP/1.1
-Content-Type: application/json
+Accept: application/json
 ###
 
 ## Получить 5 офферов, через параметр запроса
 GET http://localhost:5000/offers?count=5 HTTP/1.1
-Content-Type: application/json
+Accept: application/json
+###
+
+## Получить премиальные офферы (3 оффера, по умолчанию)
+GET http://localhost:5000/offers/bundles/premiums HTTP/1.1
+Accept: application/json
+###
+
+## Получить избранные офферы для пользователя с ID = 635910512572ced352c15664
+GET http://localhost:5000/offers/bundles/favorites?userId=635910512572ced352c15664 HTTP/1.1
+Accept: application/json
 ###
 
 ## Получить подробную информацию по одному офферу,
 ## с помощью именованного параметра, в котором передаём ID оффера
-GET http://localhost:5000/offers/633f1922ae735a967e899b60 HTTP/1.1
-Content-Type: application/json
+GET http://localhost:5000/offers/63591061932cdbbb3079349d HTTP/1.1
+Accept: application/json
 ###
 
-## Обновить оффер
-PATCH  http://localhost:5000/offers/633f1922ae735a967e899b60 HTTP/1.1
+## Обновить оффер - добавляем оффер в избранное, для пользователя с ID = 635910512572ced352c15664
+PATCH  http://localhost:5000/offers/63591061932cdbbb3079349d?userId=635910512572ced352c15664 HTTP/1.1
+Accept: application/json
 Content-Type: application/json
 
 {
-  "bedrooms": 3,
-  "city": {
-    "name": "Khanty-Mansiysk",
-    "location": {
-      "latitude": 61.0042,
-      "longitude": 69.0019,
-      "zoom": 10
-    }
-  },
-  "description": "Completely renovated. Lovely neighbourhood, lot of trendy shops, restaurants and bars in a walking distance.",
-  "goods": [
-    "Breakfast,Towels,Dishwasher"
-  ],
-  "hostId": {
-    "_id": "632f0973b5a4c0bffc182a06"
-  },
-  "images": [
-    "https://10.react.pages.academy/static/hotel/3.jpg,https://10.react.pages.academy/static/hotel/20.jpg,https://10.react.pages.academy/static/hotel/15.jpg,https://10.react.pages.academy/static/hotel/19.jpg"
-  ],
-  "isFavorite": true,
-  "isPremium": false,
-  "location": {
-    "latitude": 53.194470184955,
-    "longitude": 5.409322006871073,
-    "zoom": 10
-  },
-  "maxAdults": 9,
-  "previewImage": "https://10.react.pages.academy/static/hotel/10.jpg",
-  "price": 81275,
-  "rating": 2,
-  "title": "Nice, cozy, warm big bed apartment",
-  "type": [
-    "room"
-  ]
+  "bedrooms": 2,
+  "maxAdults": 1,
+  "description": "TEST, test, TeSt, TEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEST",
+  "isFavorite": true
 }
 ###
 
 ## Создать оффер
 POST http://localhost:5000/offers/create HTTP/1.1
+Accept: application/json
 Content-Type: application/json
 
 {
@@ -82,13 +63,11 @@ Content-Type: application/json
   "goods": [
     "Breakfast,Towels,Dishwasher"
   ],
-  "hostId": {
-    "_id": "6333c5c7ef1aa90df4f600f5"
-  },
+  "hostId":  "635910512572ced352c15664",
   "images": [
     "https://10.react.pages.academy/static/hotel/3.jpg,https://10.react.pages.academy/static/hotel/20.jpg,https://10.react.pages.academy/static/hotel/15.jpg,https://10.react.pages.academy/static/hotel/19.jpg"
   ],
-  "isFavorite": true,
+  "isFavorite": false,
   "isPremium": false,
   "location": {
     "latitude": 53.194470184955,
@@ -96,30 +75,46 @@ Content-Type: application/json
     "zoom": 10
   },
   "maxAdults": 7,
+  "postDate": "2022-10-21T13:26:37.573Z",
   "previewImage": "https://10.react.pages.academy/static/hotel/10.jpg",
   "price": 23456,
   "rating": 2,
   "title": "Winter is coming",
-  "type": [
-    "house"
-  ]
+  "type":  "house"
 }
+###
+
+## Удалить оффер
+DELETE http://localhost:5000/offers/63575b4d9b8cfae6a94f6c0e HTTP/1.1
 ###
 
 ##------------------------Users----------------------------
 ## Запрос на регистрацию и создание нового пользователя
 POST http://localhost:5000/users/register HTTP/1.1
+Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "example@mail.com",
-  "password": "7654321"
+  "email": "asdf@mail.com",
+  "password": "7654321",
+  "name": "sdfsadffdsaf"
 }
 ###
 
 ## Запрос на авторизацию пользователя
 POST http://localhost:5000/users/login HTTP/1.1
+Accept: application/json
 Content-Type: application/json
+
+{
+  "email": "asdf@mail.com",
+  "password": "7654321sdfgsdfgsdfg"
+}
+###
+
+## Запрос статуса пользователя
+GET http://localhost:5000/users/login HTTP/1.1
+Accept: application/json
 
 {
   "email": "example@mail.com",
@@ -127,12 +122,42 @@ Content-Type: application/json
 }
 ###
 
-## Запрос статуса пользователя
-GET http://localhost:5000/users/login HTTP/1.1
+##------------------------Comments----------------------------
+## Создать комментарий №1
+POST http://localhost:5000/comments HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "example@mail.com",
-  "password": "7654321"
+  "text": "Mongoose. Mongoose — это ODM (ORM), или проще говоря надстройка.",
+  "rank": 5,
+  "offerId": "635758460c0eec7c5adaef70",
+  "userId": "632f089f3834c748200fe6c1"
 }
+###
+## Создать комментарий №2
+POST http://localhost:5000/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "Она работает поверх оригинального драйвера. Можно сказать, что использует его.",
+  "rank": 2,
+  "offerId": "635758460c0eec7c5adaef70",
+  "userId": "632f0973b5a4c0bffc182a06"
+}
+###
+## Создать комментарий №3
+POST http://localhost:5000/comments HTTP/1.1
+Content-Type: application/json
+
+{
+  "text": "Mongoose предоставляет дополнительный слой абстракции.",
+  "rank": 3,
+  "offerId": "635758460c0eec7c5adaef70",
+  "userId": "6333c5c7ef1aa90df4f600f5"
+}
+###
+
+## Получить список комментариев к офферу
+GET http://localhost:5000/offers/635758460c0eec7c5adaef70/comments HTTP/1.1
+Accept: application/json
 ###

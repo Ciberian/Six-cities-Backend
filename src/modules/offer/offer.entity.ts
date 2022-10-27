@@ -80,6 +80,9 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   })
   public price!: number;
 
+  @prop()
+  public postDate!: Date;
+
   @prop({
     required: true,
     min: 1,
@@ -95,7 +98,7 @@ export class OfferEntity extends defaultClasses.TimeStamps {
   public title!: string;
 
   @prop()
-  public type!: string[];
+  public type!: string;
 
   @prop()
   public commentsCount!: number;

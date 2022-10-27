@@ -2,9 +2,10 @@ import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
 import { Component } from '../../types/component.types.js';
 import { Controller } from '../../common/controller/controller.js';
-import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { UserServiceInterface } from './user-service.interface.js';
+import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { ConfigInterface } from '../../common/config/config.interface.js';
+import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { StatusCodes } from 'http-status-codes';
 import { fillDTO } from '../../utils/common.js';
@@ -23,12 +24,22 @@ export default class UserController extends Controller {
 
     this.logger.info('Register routes for UserController...');
 
-    this.addRoute({ path: '/register', method: HttpMethod.Post, handler: this.createUser });
-    this.addRoute({ path: '/login', method: HttpMethod.Post, handler: this.loginUser });
-    this.addRoute({ path: '/login', method: HttpMethod.Get, handler: this.getUserStatus });
+    this.addRoute({
+      path: '/register',
+      method: HttpMethod.Post,
+      handler: this.create,
+      middlewares: [new ValidateDtoMiddleware(CreateUserDto)]
+    });
+    this.addRoute({
+      path: '/login',
+      method: HttpMethod.Post,
+      handler: this.login,
+      middlewares: [new ValidateDtoMiddleware(LoginUserDto)]
+    });
+    this.addRoute({ path: '/login', method: HttpMethod.Get, handler: this.show });
   }
 
-  public async createUser(
+  public async create(
     {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateUserDto>,
     res: Response,
   ): Promise<void> {
@@ -50,7 +61,7 @@ export default class UserController extends Controller {
     );
   }
 
-  public async loginUser({body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+  public async login({body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _res: Response,
   ): Promise<void> {
@@ -71,7 +82,7 @@ export default class UserController extends Controller {
     );
   }
 
-  public async getUserStatus(req: Request, res: Response): Promise<void> {
+  public async show(req: Request, res: Response): Promise<void> {
     const user = await this.userService.findByEmail(req.body.email);
     const userResponse = fillDTO(UserResponse, user);
     this.ok(res, userResponse);
