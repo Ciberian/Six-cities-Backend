@@ -38,10 +38,8 @@ export default class OfferService implements OfferServiceInterface {
     const currentUser = await this.userService.findById(userId);
     if (currentUser) {
       if (offerBeforeUpdate?.isFavorite) {
-        // Временно присваиваем userId значение по умолчанию, т.к. этот айдишник получен через параметр запроса
         this.userService.updateById(userId = '635910512572ced352c15664', {favorites: currentUser.favorites.filter((favoriteOffer) => favoriteOffer !== offerId)});
       } else {
-        // Временно присваиваем userId значение по умолчанию, т.к. этот айдишник получен через параметр запроса
         this.userService.updateById(userId = '635910512572ced352c15664', {favorites: [...currentUser.favorites, offerId]});
       }
     }

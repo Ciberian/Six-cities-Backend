@@ -88,10 +88,7 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     const result = await this.offerService.create(body);
-    // Все нижеследующие комментарии в коде (включая этот) удалю в последующих коммитах.
-    // Метод aggregate в офферСервисе возвращает массив с одним оффером...
     const offer = await this.offerService.findById(result.id);
-    // ...но ТупСкрип не даёт нормально мне вытащить из массива этот оффер, поэтому вот так вот:
     const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
     this.created(res, fillDTO(OfferResponse, offerFromArray));
   }
