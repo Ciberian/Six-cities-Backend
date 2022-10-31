@@ -108,7 +108,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "0.21193140929229148asdf@mail.com",
+  "email": "asdf@mail.com",
   "password": "7a6b5c4321"
 }
 ###
