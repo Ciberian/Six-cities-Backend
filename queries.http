@@ -102,7 +102,7 @@ Content-Type: application/json
 }
 ###
 
-## Запрос на авторизацию пользователя
+## Запрос на авторизацию(логин) пользователя
 POST http://localhost:5000/users/login HTTP/1.1
 Accept: application/json
 Content-Type: application/json

@@ -6,6 +6,7 @@ import { ConfigInterface } from '../common/config/config.interface.js';
 import { DatabaseInterface } from '../common/database-client/database.interface.js';
 import { ControllerInterface } from '../common/controller/controller.interface.js';
 import { ExceptionFilterInterface } from '../common/errors/exception-filter.interface.js';
+import { AuthenticateMiddleware } from '../common/middlewares/authenticate.middleware.js';
 import { Component } from '../types/component.types.js';
 import { getURI } from '../utils/db.js';
 
@@ -33,10 +34,10 @@ export default class Application {
 
   public initMiddleware() {
     this.expressApp.use(express.json());
-    this.expressApp.use(
-      '/upload',
-      express.static(this.config.get('UPLOAD_DIRECTORY'))
-    );
+    this.expressApp.use('/upload', express.static(this.config.get('UPLOAD_DIRECTORY')));
+
+    const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
+    this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
   }
 
   public initExceptionFilters() {
