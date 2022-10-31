@@ -26,7 +26,7 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
-  public async updateById(offerId: string, dto: UpdateOfferDto, userId?: string): Promise<void> {
+  public async updateById(offerId: string, dto: UpdateOfferDto, userId: string): Promise<void> {
     const offerBeforeUpdate = await this.offerModel.findById(offerId);
     const offerAfterUpdate = await this.offerModel.findByIdAndUpdate(offerId, dto, {new: true});
     this.logger.info(`Offer with id ${offerId}, was updated`);
@@ -38,9 +38,9 @@ export default class OfferService implements OfferServiceInterface {
     const currentUser = await this.userService.findById(userId);
     if (currentUser) {
       if (offerBeforeUpdate?.isFavorite) {
-        this.userService.updateById(userId = '635910512572ced352c15664', {favorites: currentUser.favorites.filter((favoriteOffer) => favoriteOffer !== offerId)});
+        this.userService.updateById(userId, {favorites: currentUser.favorites.filter((favoriteOffer) => favoriteOffer !== offerId)});
       } else {
-        this.userService.updateById(userId = '635910512572ced352c15664', {favorites: [...currentUser.favorites, offerId]});
+        this.userService.updateById(userId, {favorites: [...currentUser.favorites, offerId]});
       }
     }
   }

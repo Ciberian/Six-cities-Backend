@@ -3,7 +3,6 @@ import {
   IsDateString,
   IsArray,
   IsObject,
-  IsMongoId,
   IsBoolean,
   IsString,
   MaxLength,
@@ -46,7 +45,6 @@ export default class UpdateOfferDto {
   public postDate!: Date;
 
   @IsOptional()
-  @IsMongoId({each: true, message: 'HostId field must be a valid id'})
   public hostId?: string;
 
   @IsOptional()

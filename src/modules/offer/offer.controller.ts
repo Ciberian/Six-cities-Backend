@@ -103,10 +103,11 @@ export default class OfferController extends Controller {
   }
 
   public async update(
-    {body, params, query}: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto, RequestQuery>,
+    req: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>, UpdateOfferDto>,
     res: Response
   ): Promise<void> {
-    await this.offerService.updateById(params.offerId, body, query.userId);
+    const {params, body, user} = req;
+    await this.offerService.updateById(params.offerId, body, user.id);
     const offer = await this.offerService.findById(params.offerId);
     const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
     this.ok(res, fillDTO(OfferResponse, offerFromArray));
