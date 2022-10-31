@@ -7,6 +7,7 @@ import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { CommentServiceInterface } from './comment-service.interface.js';
 import { OfferServiceInterface } from '../offer/offer-service.interface.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { fillDTO } from '../../utils/common.js';
 import CreateCommentDto from './dto/create-comment.dto.js';
@@ -27,7 +28,7 @@ export default class CommentController extends Controller {
       path: '/',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateCommentDto)]
+      middlewares: [new PrivateRouteMiddleware(), new ValidateDtoMiddleware(CreateCommentDto)]
     });
   }
 

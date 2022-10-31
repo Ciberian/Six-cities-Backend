@@ -8,6 +8,7 @@ import { OfferServiceInterface } from './offer-service.interface.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
 import { DocumentExistsMiddleware } from '../../common/middlewares/document-exists.middleware.js';
+import { PrivateRouteMiddleware } from '../../common/middlewares/private-route.middleware.js';
 import { ValidateDtoMiddleware } from '../../common/middlewares/validate-dto.middleware.js';
 import { RequestQuery } from '../../types/request-query.type.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
@@ -39,13 +40,14 @@ export default class OfferController extends Controller {
       path: '/create',
       method: HttpMethod.Post,
       handler: this.create,
-      middlewares: [new ValidateDtoMiddleware(CreateOfferDto)]
+      middlewares: [new PrivateRouteMiddleware(), new ValidateDtoMiddleware(CreateOfferDto)]
     });
     this.addRoute({
       path: '/:offerId',
       method: HttpMethod.Patch,
       handler: this.update,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new ValidateDtoMiddleware(UpdateOfferDto),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId'),
@@ -65,6 +67,7 @@ export default class OfferController extends Controller {
       method: HttpMethod.Delete,
       handler: this.delete,
       middlewares: [
+        new PrivateRouteMiddleware(),
         new ValidateObjectIdMiddleware('offerId'),
         new DocumentExistsMiddleware(this.offerService, 'Offer', 'offerId')
       ]
@@ -79,7 +82,12 @@ export default class OfferController extends Controller {
       ]
     });
     this.addRoute({ path: '/bundles/premiums', method: HttpMethod.Get, handler: this.getPremiums });
-    this.addRoute({ path: '/bundles/favorites', method: HttpMethod.Get, handler: this.getFavorites });
+    this.addRoute({
+      path: '/bundles/favorites',
+      method: HttpMethod.Get,
+      handler: this.getFavorites,
+      middlewares: [new PrivateRouteMiddleware()]
+    });
     this.addRoute({ path: '/', method: HttpMethod.Get, handler: this.index });
   }
 

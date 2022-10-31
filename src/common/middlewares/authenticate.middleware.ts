@@ -9,7 +9,6 @@ export class AuthenticateMiddleware implements MiddlewareInterface {
   constructor(private readonly jwtSecret: string) {}
 
   public async execute(req: Request, _res: Response, next: NextFunction): Promise<void> {
-    console.log('Req.headers---------------------------', req.headers);
     const authorizationHeader = req.headers?.authorization?.split(' ');
     if (!authorizationHeader) {
       return next();
