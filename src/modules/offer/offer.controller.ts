@@ -92,10 +92,11 @@ export default class OfferController extends Controller {
   }
 
   public async create(
-    {body}: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
+    req: Request<Record<string, unknown>, Record<string, unknown>, CreateOfferDto>,
     res: Response
   ): Promise<void> {
-    const result = await this.offerService.create(body);
+    const {body, user} = req;
+    const result = await this.offerService.create({...body, hostId: user.id});
     const offer = await this.offerService.findById(result.id);
     const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
     this.created(res, fillDTO(OfferResponse, offerFromArray));
