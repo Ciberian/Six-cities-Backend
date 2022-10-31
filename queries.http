@@ -96,8 +96,9 @@ Content-Type: application/json
 
 {
   "email": "asdf@mail.com",
-  "password": "7654321",
-  "name": "sdfsadffdsaf"
+  "password": "7a6b5c4321",
+  "name": "Vasya Pupkin",
+  "favorites": []
 }
 ###
 
@@ -107,8 +108,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "asdf@mail.com",
-  "password": "7654321sdfgsdfgsdfg"
+  "email": "0.21193140929229148asdf@mail.com",
+  "password": "7a6b5c4321"
 }
 ###
 

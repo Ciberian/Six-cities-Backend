@@ -1,3 +1,4 @@
+import * as jose from 'jose';
 import crypto from 'crypto';
 import { User } from '../types/user.type.js';
 import { Offer } from '../types/offer.type.js';
@@ -74,3 +75,10 @@ export const fillDTO = <T, V>(responseObj: ClassConstructor<T>, plainObject: V) 
 export const createErrorObject = (message: string) => ({
   error: message,
 });
+
+export const createJWT = async (algoritm: string, jwtSecret: string, payload: object): Promise<string> =>
+  new jose.SignJWT({...payload})
+    .setProtectedHeader({ alg: algoritm})
+    .setIssuedAt()
+    .setExpirationTime('2d')
+    .sign(crypto.createSecretKey(jwtSecret, 'utf-8'));

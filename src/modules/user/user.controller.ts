@@ -10,11 +10,13 @@ import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-ob
 import { UploadFileMiddleware } from '../../common/middlewares/upload-file.middleware.js';
 import { HttpMethod } from '../../types/http-method.enum.js';
 import { StatusCodes } from 'http-status-codes';
-import { fillDTO } from '../../utils/common.js';
-import UserResponse from './response/user.response.js';
-import CreateUserDto from './dto/create-user.dto.js';
+import { fillDTO, createJWT } from '../../utils/common.js';
+import { JWT_ALGORITM } from './user.constant.js';
 import HttpError from '../../common/errors/http-error.js';
 import LoginUserDto from './dto/login-user.dto.js';
+import CreateUserDto from './dto/create-user.dto.js';
+import UserResponse from './response/user.response.js';
+import LoggedUserResponse from './response/logged-user.response.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -72,25 +74,27 @@ export default class UserController extends Controller {
     );
   }
 
-  public async login({body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _res: Response,
+  public async login(
+    {body}: Request<Record<string, unknown>, Record<string, unknown>, LoginUserDto>,
+    res: Response,
   ): Promise<void> {
-    const existsUser = await this.userService.findByEmail(body.email);
+    const user = await this.userService.verifyUser(body, this.configService.get('SALT'));
 
-    if (!existsUser) {
+    if (!user) {
       throw new HttpError(
         StatusCodes.UNAUTHORIZED,
-        `User with email ${body.email} not found.`,
+        'Unauthorized',
         'UserController',
       );
     }
 
-    throw new HttpError(
-      StatusCodes.NOT_IMPLEMENTED,
-      'Not implemented yet',
-      'UserController',
+    const token = await createJWT(
+      JWT_ALGORITM,
+      this.configService.get('JWT_SECRET'),
+      { email: user.email, id: user.id}
     );
+
+    this.ok(res, fillDTO(LoggedUserResponse, {email: user.email, token}));
   }
 
   public async uploadAvatar(req: Request, res: Response) {
