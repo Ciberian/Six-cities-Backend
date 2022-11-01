@@ -37,6 +37,8 @@ export default class OfferService implements OfferServiceInterface {
       return;
     }
 
+    await this.offerModel.findByIdAndUpdate(offerId, {...dto, isFavorite: false});
+
     const currentUser = await this.userService.findById(userId);
     if (currentUser) {
       if (offerBeforeUpdate?.isFavorite) {
@@ -83,7 +85,7 @@ export default class OfferService implements OfferServiceInterface {
 
   public async findById(offerId: string, userId: string): Promise<DocumentType<OfferEntity> | null> {
     const user = await this.userService.findById(userId);
-    const isFavorite = user ? user?.favorites.includes(offerId): false;
+    const isFavorite = user ? user.favorites.includes(offerId): false;
 
     return this.offerModel
       .aggregate([

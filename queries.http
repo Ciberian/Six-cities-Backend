@@ -18,6 +18,7 @@ Accept: application/json
 ## Получить премиальные офферы (3 оффера, по умолчанию)
 GET http://localhost:5000/offers/bundles/premiums HTTP/1.1
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI3Nzcxc2l4QG1haWwucnUiLCJpZCI6IjYzNjAyNjNiNTlhMzY4MTQ5NzMxMjg1MCIsImlhdCI6MTY2NzMyMDg3NSwiZXhwIjoxNjY3NDkzNjc1fQ.3IABMotlpuep3kZ1rOYXe2wD9GFJ2ja_3cDaBBoxH20
 ###
 
 ## Получить избранные офферы
@@ -33,16 +34,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjYyNTQyZml2ZUBtYWlsLmNvb
 ###
 
 ## Обновить оффер - добавляем оффер в избранное
-PATCH  http://localhost:5000/offers/636026416bdbf41ee9675858 HTTP/1.1
+PATCH  http://localhost:5000/offers/636026426bdbf41ee9675972 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyYXNkZmFAZ21haWwuY29tIiwiaWQiOiI2MzYwZGRkYjg5YmFhNjlhNjRkMGEyNTMiLCJpYXQiOjE2NjcyOTM3MjcsImV4cCI6MTY2NzQ2NjUyN30.hZ_ynn93K9bFuKzbbcmLXuQBAnWD2NsyPHOXrW7GKhE
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI3Nzcxc2l4QG1haWwucnUiLCJpZCI6IjYzNjAyNjNiNTlhMzY4MTQ5NzMxMjg1MCIsImlhdCI6MTY2NzMyMDg3NSwiZXhwIjoxNjY3NDkzNjc1fQ.3IABMotlpuep3kZ1rOYXe2wD9GFJ2ja_3cDaBBoxH20
 
 {
   "bedrooms": 7,
   "maxAdults": 1,
-  "description": "New long-long-long description",
-  "hostId": "6360263c59a3681497312900"
+  "description": "New long-long-long description2!!!",
+  "isFavorite": true
 }
 ###
 
@@ -112,8 +113,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "62542five@mail.com",
-  "password": "Efaskjl3w2"
+  "email": "27771six@mail.ru",
+  "password": "wfsdcv34r"
 }
 ###
 

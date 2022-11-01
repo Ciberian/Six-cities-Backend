@@ -21,6 +21,7 @@ import CommentResponse from '../comment/response/comment.response.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
 import * as core from 'express-serve-static-core';
+import { UserServiceInterface } from '../user/user-service.interface.js';
 
 type ParamsGetOffer = {
   offerId: string;
@@ -31,6 +32,7 @@ export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
+    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface) {
     super(logger);
 
@@ -108,7 +110,7 @@ export default class OfferController extends Controller {
   ): Promise<void> {
     const {params, body, user} = req;
     await this.offerService.updateById(params.offerId, body, user.id);
-    const offer = await this.offerService.findById(params.offerId);
+    const offer = await this.offerService.findById(params.offerId, user.id);
     const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
     this.ok(res, fillDTO(OfferResponse, offerFromArray));
   }
@@ -164,10 +166,19 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OffersResponse, offers));
   }
 
-  public async getPremiums(_req: Request, res: Response) {
+  public async getPremiums(req: Request, res: Response) {
     const premiumOffers = await this.offerService.findPremiums(DEFAULT_PREMIUM_OFFER_COUNT);
+    const user = await this.userService.findById(req.user?.id);
 
-    this.ok(res, fillDTO(OffersResponse, premiumOffers));
+    const offers = premiumOffers.map((premiumOffer) => {
+      if (user?.favorites.includes(String(premiumOffer._id))) {
+        return {...premiumOffer, isFavorite: true};
+      }
+
+      return {...premiumOffer, isFavorite: false};
+    });
+
+    this.ok(res, fillDTO(OffersResponse, offers));
   }
 
   public async getFavorites(req: Request, res: Response) {
