@@ -32,10 +32,10 @@ Accept: application/json
 ###
 
 ## Обновить оффер - добавляем оффер в избранное
-PATCH  http://localhost:5000/offers/636026416bdbf41ee96758d3 HTTP/1.1
+PATCH  http://localhost:5000/offers/636026416bdbf41ee9675858 HTTP/1.1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjQ1YXNkZmFAZ21haWwuY29tIiwiaWQiOiI2MzVmOTgyNGVhMDE0MDYxMTVhMTBlYjgiLCJpYXQiOjE2NjcyMzQzMjcsImV4cCI6MTY2NzQwNzEyN30.C67vu90e1MCVyXl4B22DVmxIBRsgYXMyW3mHYy9zdWs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyYXNkZmFAZ21haWwuY29tIiwiaWQiOiI2MzYwZGRkYjg5YmFhNjlhNjRkMGEyNTMiLCJpYXQiOjE2NjcyOTM3MjcsImV4cCI6MTY2NzQ2NjUyN30.hZ_ynn93K9bFuKzbbcmLXuQBAnWD2NsyPHOXrW7GKhE
 
 {
   "bedrooms": 7,
@@ -96,9 +96,10 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "45asdfa@gmail.com",
+  "email": "12asdfa@gmail.com",
   "password": "765432",
   "name": "Adsfsadfasd",
+  "isPro": false,
   "favorites": []
 }
 ###
@@ -109,7 +110,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "45asdfa@gmail.com",
+  "email": "12asdfa@gmail.com",
   "password": "765432"
 }
 ###
@@ -117,11 +118,7 @@ Content-Type: application/json
 ## Запрос статуса пользователя
 GET http://localhost:5000/users/login HTTP/1.1
 Accept: application/json
-
-{
-  "email": "example@mail.com",
-  "password": "7654321"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyYXNkZmFAZ21haWwuY29tIiwiaWQiOiI2MzYwZGRkYjg5YmFhNjlhNjRkMGEyNTMiLCJpYXQiOjE2NjcyOTM3MjcsImV4cCI6MTY2NzQ2NjUyN30.hZ_ynn93K9bFuKzbbcmLXuQBAnWD2NsyPHOXrW7GKhE
 ###
 
 ## Отправка аватарки пользователю

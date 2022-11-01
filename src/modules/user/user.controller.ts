@@ -104,7 +104,7 @@ export default class UserController extends Controller {
   }
 
   public async show(req: Request, res: Response): Promise<void> {
-    const user = await this.userService.findByEmail(req.body.email);
+    const user = await this.userService.findByEmail(req.user.email);
     const userResponse = fillDTO(UserResponse, user);
     this.ok(res, userResponse);
   }

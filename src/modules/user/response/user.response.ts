@@ -8,14 +8,14 @@ export default class UserResponse {
   public email!: string;
 
   @Expose()
-  public id!:  string;
-
-  @Expose()
-  public isPro?: boolean;
+  public isPro!: boolean;
 
   @Expose()
   public name!: string;
 
   @Expose()
-  public token?: string;
+  public token!: string;
+
+  @Expose()
+  public favorites!: string[];
 }
