@@ -50,6 +50,15 @@ export default class OfferService implements OfferServiceInterface {
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
     this.commentService.deleteByOfferId(offerId);
 
+    const users = await this.userService.find();
+    const usersWithDeleteOffer = users.filter((user) => user.favorites.includes(offerId));
+    for (const user of usersWithDeleteOffer) {
+      this.userService.updateById(
+        String(user._id),
+        {...user, favorites: user.favorites.filter((favoriteOfferId) => favoriteOfferId !== offerId )}
+      );
+    }
+
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();
