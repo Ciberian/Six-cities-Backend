@@ -81,7 +81,10 @@ export default class OfferService implements OfferServiceInterface {
       ]).exec();
   }
 
-  public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public async findById(offerId: string, userId: string): Promise<DocumentType<OfferEntity> | null> {
+    const user = await this.userService.findById(userId);
+    const isFavorite = user ? user?.favorites.includes(offerId): false;
+
     return this.offerModel
       .aggregate([
         {$match: {_id: new mongoose.Types.ObjectId(offerId)}},
@@ -101,7 +104,11 @@ export default class OfferService implements OfferServiceInterface {
           foreignField: 'offerId',
           as: 'commentsCount'
         }},
-        {$set: {'host': {$arrayElemAt: ['$user', 0]}, 'commentsCount': { $size: '$commentsCount' }}},
+        {$set: {
+          'host': {$arrayElemAt: ['$user', 0]},
+          'commentsCount': { $size: '$commentsCount'},
+          'isFavorite': isFavorite
+        }},
         {$addFields: {id: {$toString: '$_id'}}},
       ])
       .exec() as unknown as Promise<DocumentType<OfferEntity>>;

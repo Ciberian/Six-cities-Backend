@@ -114,11 +114,11 @@ export default class OfferController extends Controller {
   }
 
   public async show(
-    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    req: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>>,
     res: Response
   ): Promise<void> {
-    const {offerId} = params;
-    const offer = await this.offerService.findById(offerId);
+    const {params, user} = req;
+    const offer = await this.offerService.findById(params.offerId, user?.id);
     const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
     this.ok(res, fillDTO(OfferResponse, offerFromArray));
   }

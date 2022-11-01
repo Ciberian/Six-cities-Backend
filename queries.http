@@ -26,10 +26,10 @@ Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyYXNkZmFAZ21haWwuY29tIiwiaWQiOiI2MzYwZGRkYjg5YmFhNjlhNjRkMGEyNTMiLCJpYXQiOjE2NjcyOTM3MjcsImV4cCI6MTY2NzQ2NjUyN30.hZ_ynn93K9bFuKzbbcmLXuQBAnWD2NsyPHOXrW7GKhE
 ###
 
-## Получить подробную информацию по одному офферу,
-## с помощью именованного параметра, в котором передаём ID оффера
+## Получить подробную информацию по одному офферу
 GET http://localhost:5000/offers/636026416bdbf41ee96758d3 HTTP/1.1
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjYyNTQyZml2ZUBtYWlsLmNvbSIsImlkIjoiNjM2MDI2M2I1OWEzNjgxNDk3MzEyODRjIiwiaWF0IjoxNjY3MzE3NTY2LCJleHAiOjE2Njc0OTAzNjZ9.7KEjTK4XUuX13eyR7EirRTv4DVl0H5qUXAgJ_2ILyo0
 ###
 
 ## Обновить оффер - добавляем оффер в избранное
@@ -112,8 +112,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "55030five@mail.com",
-  "password": "2903fjsdfj"
+  "email": "62542five@mail.com",
+  "password": "Efaskjl3w2"
 }
 ###
 
