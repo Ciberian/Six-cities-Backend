@@ -159,10 +159,22 @@ export default class OfferController extends Controller {
   }
 
   public async index(
-    {query}: Request<core.ParamsDictionary | unknown, unknown, unknown, RequestQuery>,
+    req: Request<core.ParamsDictionary | unknown, unknown, unknown, RequestQuery>,
     res: Response
   ): Promise<void> {
-    const offers = await this.offerService.find(query.count);
+    const {query, user} = req;
+    const currentUser = await this.userService.findById(user?.id);
+
+    const allOffers = await this.offerService.find(query.count);
+
+    const offers = allOffers.map((offer) => {
+      if (currentUser?.favorites.includes(String(offer._id))) {
+        return {...offer, isFavorite: true};
+      }
+
+      return {...offer, isFavorite: false};
+    });
+
     this.ok(res, fillDTO(OffersResponse, offers));
   }
 
