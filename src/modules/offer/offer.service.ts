@@ -5,6 +5,7 @@ import { Component } from '../../types/component.types.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { UserServiceInterface } from '../user/user-service.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
+import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
 import { SortType } from '../../types/sort-type.enum.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
@@ -16,6 +17,7 @@ export default class OfferService implements OfferServiceInterface {
   constructor(
 		@inject(Component.LoggerInterface) private readonly logger: LoggerInterface,
 		@inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
+		@inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
 		@inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
   ) {}
 
@@ -46,6 +48,8 @@ export default class OfferService implements OfferServiceInterface {
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+    this.commentService.deleteByOfferId(offerId);
+
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();
@@ -124,6 +128,7 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
+  // Похоже этот метод не нужен, если на последнем ДЗ не пригодится, то удалю его
   public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
     const oldOffer = await this.offerModel.findById(offerId).lean();
     const oldRating = oldOffer?.rating;
@@ -136,5 +141,10 @@ export default class OfferService implements OfferServiceInterface {
 
   public async exists(offerId: string): Promise<boolean> {
     return (await this.offerModel.exists({_id: offerId})) !== null;
+  }
+
+  public async hasOwnOffer(offerId: string, userId: string): Promise<boolean> {
+    const offer = await this.offerModel.findById(offerId);
+    return String(offer?.hostId) !== userId;
   }
 }

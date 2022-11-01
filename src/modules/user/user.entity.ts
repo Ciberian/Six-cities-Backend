@@ -44,7 +44,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   public name!: string;
 
   @prop()
-  public isPro?: boolean;
+  public isPro: boolean;
 
   @prop({
     match: [/^(?:.*\.(?=(jpg|jpeg|png)$))?[^.]*$/i, 'Only jpg or png format is allowed']

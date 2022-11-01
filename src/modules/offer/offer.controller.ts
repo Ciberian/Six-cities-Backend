@@ -124,11 +124,19 @@ export default class OfferController extends Controller {
   }
 
   public async delete(
-    {params}: Request<core.ParamsDictionary | ParamsGetOffer>,
+    req: Request<core.ParamsDictionary | ParamsGetOffer, Record<string, unknown>>,
     res: Response
   ): Promise<void> {
-    const {offerId} = params;
-    const offer = await this.offerService.deleteById(offerId);
+    const {params, user} = req;
+    if (await this.offerService.hasOwnOffer(params.offerId, user.id)) {
+      throw new HttpError(
+        StatusCodes.NOT_ACCEPTABLE,
+        'The user can only delete his own offers.',
+        'OfferController'
+      );
+    }
+
+    const offer = await this.offerService.deleteById(params.offerId);
     this.noContent(res, offer);
   }
 
