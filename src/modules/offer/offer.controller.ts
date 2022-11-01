@@ -162,11 +162,8 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OffersResponse, premiumOffers));
   }
 
-  public async getFavorites(
-    {query}: Request<core.ParamsDictionary | unknown, unknown, unknown, RequestQuery>,
-    res: Response
-  ) {
-    const favoriteOffers = await this.offerService.findFavorites(query.userId);
+  public async getFavorites(req: Request, res: Response) {
+    const favoriteOffers = await this.offerService.findFavorites(req.user.id);
 
     this.ok(res, fillDTO(OffersResponse, favoriteOffers));
   }

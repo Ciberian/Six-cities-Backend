@@ -112,7 +112,7 @@ export default class OfferService implements OfferServiceInterface {
       .exec() as unknown as Promise<DocumentType<OfferEntity>[]>;
   }
 
-  public async findFavorites(userId?: string): Promise<DocumentType<OfferEntity>[]> {
+  public async findFavorites(userId: string): Promise<DocumentType<OfferEntity>[]> {
     const user = await this.userService.findById(userId);
 
     if (!user || !user.favorites.length) {

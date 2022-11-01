@@ -20,9 +20,10 @@ GET http://localhost:5000/offers/bundles/premiums HTTP/1.1
 Accept: application/json
 ###
 
-## Получить избранные офферы для пользователя с ID = 6360263b59a368149731284c
-GET http://localhost:5000/offers/bundles/favorites?userId=6360263b59a368149731284c HTTP/1.1
+## Получить избранные офферы
+GET http://localhost:5000/offers/bundles/favorites HTTP/1.1
 Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyYXNkZmFAZ21haWwuY29tIiwiaWQiOiI2MzYwZGRkYjg5YmFhNjlhNjRkMGEyNTMiLCJpYXQiOjE2NjcyOTM3MjcsImV4cCI6MTY2NzQ2NjUyN30.hZ_ynn93K9bFuKzbbcmLXuQBAnWD2NsyPHOXrW7GKhE
 ###
 
 ## Получить подробную информацию по одному офферу,
