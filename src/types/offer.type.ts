@@ -25,7 +25,6 @@ export type Offer = {
   postDate: Date;
 	previewImage: string;
 	price: number;
-	rating: number;
 	title: string;
 	type: string;
 };

@@ -6,7 +6,7 @@ import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { UserServiceInterface } from '../user/user-service.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
-import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
+import { DEFAULT_OFFER_COUNT, DEFAULT_OFFER_RANK } from './offer.constant.js';
 import { SortType } from '../../types/sort-type.enum.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
 import UpdateOfferDto from './dto/update-offer.dto.js';
@@ -146,14 +146,17 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
-    const oldOffer = await this.offerModel.findById(offerId).lean();
-    const oldRating = oldOffer?.rating;
+  public async calcRank(offerId: string): Promise<number> {
+    const comments = await this.commentService.findByOfferId(offerId);
 
-    return this.offerModel
-      .findByIdAndUpdate(offerId, {'$set': {
-        rating: oldRating ? ((oldRating + newRating)/2).toFixed(1) : newRating,
-      }}).exec();
+    if (comments.length) {
+      const totalRank = comments.reduce((sum, comment) => sum + comment.rank, DEFAULT_OFFER_RANK);
+      const averageRank = (totalRank/comments.length).toFixed(1);
+
+      return Number(averageRank);
+    }
+
+    return DEFAULT_OFFER_RANK;
   }
 
   public async exists(offerId: string): Promise<boolean> {

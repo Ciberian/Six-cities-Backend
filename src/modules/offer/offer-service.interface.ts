@@ -14,5 +14,5 @@ export interface OfferServiceInterface extends DocumentExistsInterface {
 	findById(offerId: string, userId?: string): Promise<DocumentType<OfferEntity> | null>;
   findPremiums(count: number): Promise<DocumentType<OfferEntity>[]>;
   findFavorites(userId?: string): Promise<DocumentType<OfferEntity>[]>;
-  calcRating(offerId: number, rating: number): Promise<DocumentType<OfferEntity> | null>;
+  calcRank(offerId: string): Promise<number>;
 }
