@@ -44,7 +44,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   public name!: string;
 
   @prop()
-  public isPro?: boolean;
+  public isPro: boolean;
 
   @prop({
     match: [/^(?:.*\.(?=(jpg|jpeg|png)$))?[^.]*$/i, 'Only jpg or png format is allowed']
@@ -60,6 +60,11 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
 
   public getPassword() {
     return this.password;
+  }
+
+  public verifyPassword(password: string, salt: string) {
+    const hashPassword = createSHA256(password, salt);
+    return hashPassword === this.password;
   }
 }
 

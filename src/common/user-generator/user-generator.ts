@@ -8,7 +8,7 @@ export default class UserGenerator implements UserGeneratorInterface {
 
   public generate(): string {
     const name = getRandomItem<string>(this.mockData.names);
-    const email = getRandomItem<string>(this.mockData.emails);
+    const email = (Math.random().toFixed(5) + getRandomItem<string>(this.mockData.emails)).slice(2);
     const password = getRandomItem<string>(this.mockData.passwords);
     const isPro = Math.random() >= 0.5;
 

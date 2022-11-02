@@ -5,6 +5,7 @@ import { Component } from '../../types/component.types.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
 import { UserServiceInterface } from '../user/user-service.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
+import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import { DEFAULT_OFFER_COUNT } from './offer.constant.js';
 import { SortType } from '../../types/sort-type.enum.js';
 import CreateOfferDto from './dto/create-offer.dto.js';
@@ -16,6 +17,7 @@ export default class OfferService implements OfferServiceInterface {
   constructor(
 		@inject(Component.LoggerInterface) private readonly logger: LoggerInterface,
 		@inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
+		@inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface,
 		@inject(Component.OfferModel) private readonly offerModel: types.ModelType<OfferEntity>,
   ) {}
 
@@ -26,7 +28,7 @@ export default class OfferService implements OfferServiceInterface {
     return result;
   }
 
-  public async updateById(offerId: string, dto: UpdateOfferDto, userId?: string): Promise<void> {
+  public async updateById(offerId: string, dto: UpdateOfferDto, userId: string): Promise<void> {
     const offerBeforeUpdate = await this.offerModel.findById(offerId);
     const offerAfterUpdate = await this.offerModel.findByIdAndUpdate(offerId, dto, {new: true});
     this.logger.info(`Offer with id ${offerId}, was updated`);
@@ -35,17 +37,30 @@ export default class OfferService implements OfferServiceInterface {
       return;
     }
 
+    await this.offerModel.findByIdAndUpdate(offerId, {...dto, isFavorite: false});
+
     const currentUser = await this.userService.findById(userId);
     if (currentUser) {
       if (offerBeforeUpdate?.isFavorite) {
-        this.userService.updateById(userId = '635910512572ced352c15664', {favorites: currentUser.favorites.filter((favoriteOffer) => favoriteOffer !== offerId)});
+        this.userService.updateById(userId, {favorites: currentUser.favorites.filter((favoriteOffer) => favoriteOffer !== offerId)});
       } else {
-        this.userService.updateById(userId = '635910512572ced352c15664', {favorites: [...currentUser.favorites, offerId]});
+        this.userService.updateById(userId, {favorites: [...currentUser.favorites, offerId]});
       }
     }
   }
 
   public async deleteById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+    this.commentService.deleteByOfferId(offerId);
+
+    const users = await this.userService.find();
+    const usersWithDeleteOffer = users.filter((user) => user.favorites.includes(offerId));
+    for (const user of usersWithDeleteOffer) {
+      this.userService.updateById(
+        String(user._id),
+        {...user, favorites: user.favorites.filter((favoriteOfferId) => favoriteOfferId !== offerId )}
+      );
+    }
+
     return this.offerModel
       .findByIdAndDelete(offerId)
       .exec();
@@ -68,7 +83,10 @@ export default class OfferService implements OfferServiceInterface {
       ]).exec();
   }
 
-  public async findById(offerId: string): Promise<DocumentType<OfferEntity> | null> {
+  public async findById(offerId: string, userId: string): Promise<DocumentType<OfferEntity> | null> {
+    const user = await this.userService.findById(userId);
+    const isFavorite = user ? user.favorites.includes(offerId): false;
+
     return this.offerModel
       .aggregate([
         {$match: {_id: new mongoose.Types.ObjectId(offerId)}},
@@ -88,7 +106,11 @@ export default class OfferService implements OfferServiceInterface {
           foreignField: 'offerId',
           as: 'commentsCount'
         }},
-        {$set: {'host': {$arrayElemAt: ['$user', 0]}, 'commentsCount': { $size: '$commentsCount' }}},
+        {$set: {
+          'host': {$arrayElemAt: ['$user', 0]},
+          'commentsCount': { $size: '$commentsCount'},
+          'isFavorite': isFavorite
+        }},
         {$addFields: {id: {$toString: '$_id'}}},
       ])
       .exec() as unknown as Promise<DocumentType<OfferEntity>>;
@@ -112,7 +134,7 @@ export default class OfferService implements OfferServiceInterface {
       .exec() as unknown as Promise<DocumentType<OfferEntity>[]>;
   }
 
-  public async findFavorites(userId?: string): Promise<DocumentType<OfferEntity>[]> {
+  public async findFavorites(userId: string): Promise<DocumentType<OfferEntity>[]> {
     const user = await this.userService.findById(userId);
 
     if (!user || !user.favorites.length) {
@@ -124,6 +146,7 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
+  // Похоже этот метод не нужен, если на последнем ДЗ не пригодится, то удалю его
   public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
     const oldOffer = await this.offerModel.findById(offerId).lean();
     const oldRating = oldOffer?.rating;
@@ -136,5 +159,10 @@ export default class OfferService implements OfferServiceInterface {
 
   public async exists(offerId: string): Promise<boolean> {
     return (await this.offerModel.exists({_id: offerId})) !== null;
+  }
+
+  public async hasOwnOffer(offerId: string, userId: string): Promise<boolean> {
+    const offer = await this.offerModel.findById(offerId);
+    return String(offer?.hostId) !== userId;
   }
 }
