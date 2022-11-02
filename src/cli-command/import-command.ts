@@ -39,7 +39,7 @@ export default class ImportCommand implements CliCommandInterface {
 
     this.logger = new ConsoleLoggerService();
     this.userService = new UserService(this.logger, UserModel);
-    this.offerService = new OfferService(this.logger, this.userService, OfferModel);
+    this.offerService = new OfferService(this.logger, this.userService, this.commentService, OfferModel);
     this.commentService = new CommentService(this.logger, CommentModel);
     this.databaseService = new DatabaseService(this.logger);
   }
