@@ -1,4 +1,4 @@
-import { IsMongoId, IsString, Length, Min, Max } from 'class-validator';
+import { IsString, Length, Min, Max } from 'class-validator';
 
 export default class CreateCommentDto {
   @IsString({message: 'text is required'})
@@ -9,7 +9,6 @@ export default class CreateCommentDto {
   @Max(5, {message: 'Maximum rank is 5'})
   public rank!: number;
 
-  @IsMongoId({message: 'offerId field must be a valid id'})
   public offerId!: string;
 
   public userId!: string;

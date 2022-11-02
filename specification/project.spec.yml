@@ -6,7 +6,7 @@ info:
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
-  version: 2.0.0
+  version: 2.0.1
 tags:
   - name: users
     description: Действия с пользователеми.
@@ -51,7 +51,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/createUser'
+              $ref: '#/components/schemas/loginUser'
         required: true
 
       responses:
@@ -60,7 +60,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: '#/components/schemas/loginResponse'
 
         "401":
           description: Ошибка авторизации, проверьте введённые данные.
@@ -70,21 +70,13 @@ paths:
         - users
       summary: Проверить статус авторизации пользователя.
       description: Возвращает информацию о статусе авторизации пользователя.
-      requestBody:
-        description: Информация для проверки авторизации.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/createUser'
-
-        required: true
 
       parameters:
         - in: header
-          name: X-token
+          name: Autorization
           schema:
             type: string
-            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+            example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjU1MDMwZml2ZUBtYWlsLmNvbSIsImlkIjoiNjM2MDI2M2M1OWEzNjgxNDk3MzEyOTAwIiwiaWF0IjoxNjY3Mjk2NDI1LCJleHAiOjE2Njc0NjkyMjV9.E6r-n2O-YC88cb2klVQYqTuBI3znnmKCL5JdY_Wpt74
 
       responses:
         "200":
@@ -103,35 +95,36 @@ paths:
         - users
       summary: Загрузить изображение аватара
       description: Загружает изображение аватара пользователя. Изображение аватара должно быть в формате `png` или `jpg`.
+      parameters:
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            example: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+        - in: header
+          name: Content-Type
+          schema:
+            type: string
+            example: image/png
+
+        - in: header
+          name: Content-Disposition
+          schema:
+            type: string
+            example: form-data; name="avatar"; filename="Ava.png"
+
       responses:
-        "200":
-          description: Аватарка получена.
+        "201":
+          description: Аватарка загружена.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  avatarUrl:
+                  filepath:
                     type: string
-                    example: img/1.png
-
-  /users/logout:
-    delete:
-      tags:
-        - users
-      summary: Завершить сеанс пользователя
-      description: Завершает сеанс работы — выход из закрытой части приложения.
-
-      parameters:
-        - in: header
-          name: X-token
-          schema:
-            type: string
-            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
-
-      responses:
-        "200":
-          description: Сеанс завершён.
+                    example: "upload\\LFNDd61tFJwmDqtAZFkko.png"
 
   /offers/create:
     post:
@@ -144,7 +137,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/offer'
+              $ref: '#/components/schemas/createOffer'
         required: true
 
       responses:
@@ -158,12 +151,26 @@ paths:
         "400":
           description: Не удаётся создать оффер, проверьте правильность введённых данных.
 
+        "401":
+          description: Пользователь не авторизован.
+
       parameters:
       - in: header
-        name: X-token
+        name: Accept
         schema:
           type: string
-          example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+          example: application/json
+      - in: header
+        name: Content-Type
+        schema:
+          type: string
+          example: application/json
+      - in: header
+        name: Autorization
+        schema:
+          type: string
+          example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
+        required: true
 
   /offers/update:
     post:
@@ -176,7 +183,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/offer'
+              $ref: '#/components/schemas/updateOffer'
         required: true
 
       responses:
@@ -190,12 +197,26 @@ paths:
         "400":
           description: Не удаётся обновить оффер, проверьте правильность введённых данных.
 
+        "401":
+          description: Пользователь не авторизован.
+
       parameters:
       - in: header
-        name: X-token
+        name: Accept
         schema:
           type: string
-          example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+          example: application/json
+      - in: header
+        name: Content-Type
+        schema:
+          type: string
+          example: application/json
+      - in: header
+        name: Autorization
+        schema:
+          type: string
+          example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
+        required: true
 
   /offers/{offerId}/delete:
     delete:
@@ -206,14 +227,21 @@ paths:
 
       parameters:
         - in: header
-          name: X-token
+          name: Autorization
           schema:
             type: string
-            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+            example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
+          required: true
 
       responses:
         "200":
           description: Оффер был успешно удалён.
+
+        "406":
+          description: Пользователь может удалять только свои офферы.
+
+        "401":
+          description: Пользователь не авторизован.
 
   /offers/{offersCount}:
     get:
@@ -230,7 +258,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/offer'
+                  $ref: '#/components/schemas/offerItem'
 
         "408":
           description: Не удаётся получить офферы, повторите попытку позже.
@@ -242,6 +270,17 @@ paths:
             type: integer
             minimum: 60
           description: Не обязательный параметр, указывающий на количество получаемых офферов.
+          required: false
+        - in: header
+          name: Accept
+          schema:
+            type: string
+            example: application/json
+        - in: header
+          name: Autorization
+          schema:
+            type: string
+            example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
           required: false
 
   /offers/{offerId}:
@@ -261,6 +300,88 @@ paths:
 
         "404":
           description: Не удаётся получить оффер, возможно оффер с указанным id отсутствует.
+
+      parameters:
+      - in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+      - in: header
+        name: Autorization
+        schema:
+          type: string
+          example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
+        required: false
+
+  /offers/bundles/premiums:
+    get:
+      tags:
+        - offers
+      summary: Получение списка премиальных офферов (не более 3 офферов)
+      description: Возвращает массив премиальных офферов. Каждый оффер описан в виде объекта.
+
+      responses:
+        "200":
+          description: Офферы успешно получены.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerItem'
+
+        "408":
+          description: Не удаётся получить офферы, повторите попытку позже.
+
+      parameters:
+      - in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+      - in: header
+        name: Autorization
+        schema:
+          type: string
+          example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
+        required: false
+
+  /offers/bundles/favorites:
+    get:
+      tags:
+        - offers
+      summary: Получение списка избранных офферов
+      description: Возвращает массив избранных офферов. Каждый оффер описан в виде объекта.
+
+      responses:
+        "200":
+          description: Офферы успешно получены.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/offerItem'
+
+        "408":
+          description: Не удаётся получить офферы, повторите попытку позже.
+
+        "401":
+          description: Пользователь не авторизован.
+
+      parameters:
+      - in: header
+        name: Accept
+        schema:
+          type: string
+          example: application/json
+      - in: header
+        name: Autorization
+        schema:
+          type: string
+          example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
+        required: true
 
   /comments/{offerId}:
     get:
@@ -282,6 +403,9 @@ paths:
         "408":
           description: Не удаётся получить комментарии, повторите попытку позже.
 
+        "404":
+          description: Оффер с указанным идентификатором не найден.
+
     post:
       tags:
         - comments
@@ -292,7 +416,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/сomment'
+              $ref: '#/components/schemas/сreateComment'
         required: true
 
       responses:
@@ -301,7 +425,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
+                type: object
                 items:
                   $ref: '#/components/schemas/сomment'
 
@@ -312,11 +436,17 @@ paths:
           description: Комментарий могут оставлять только авторизованные пользователи.
 
       parameters:
-        - in: header
-          name: X-token
-          schema:
-            type: string
-            example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+      - in: header
+        name: Content-Type
+        schema:
+          type: string
+          example: application/json
+      - in: header
+        name: Autorization
+        schema:
+          type: string
+          example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
+        required: true
 
 components:
   schemas:
@@ -329,28 +459,48 @@ components:
         password:
           type: string
           example: 123456
-
+        name:
+          type: string
+          example: John Doe
+        isPro:
+          type: boolean
+          example: false
+        favorites:
+          type: array
+          example: []
+    loginUser:
+      type: object
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        password:
+          type: string
+          example: 123456
+    loginResponse:
+      type: object
+      properties:
+        email:
+          type: string
+          example: keks@htmlacademy.ru
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
     user:
       type: object
       properties:
-        avatarUrl:
-          type: string
-          example: img/1.png
         email:
           type: string
           example: Oliver.conner@gmail.com
-        id:
-          type: string
-          example: 6329c3d6a04ab1061c6425ea
         isPro:
           type: boolean
           example: false
         name:
           type: string
           example: Oliver.conner
-        token:
-          type: string
-          example: T2xpdmVyLmNvbm5lckBnbWFpbC5jb20=
+        favorites:
+          type: array
+          example: []
 
     offer:
       type: object
@@ -385,15 +535,12 @@ components:
         host:
           type: object
           properties:
-            avatarUrl:
-              type: string
-              example: img/1.png
             email:
               type: string
               example: Oliver.conner@gmail.com
-            id:
+            password:
               type: string
-              example: 6329c3d6a04ab1061c6425ea
+              example: 608290aa9b06e414c2d3533f32566789ecd7cc8d5c11c7c7babd60cb3a63f53e
             isPro:
               type: boolean
               example: false
@@ -444,7 +591,172 @@ components:
           example: apartment
         commentsCount:
           type: number
+          example: 0
+    createOffer:
+      type: object
+      properties:
+        bedrooms:
+          type: number
+          example: 3
+        city:
+          type: object
+          properties:
+            location:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                  example: 52.370216
+                longitude:
+                  type: number
+                  example: 4.895168
+                zoom:
+                  type: number
+                  example: 10
+            name:
+              type: string
+              example: Amsterdam
+        description:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+        goods:
+          type: array
+          example: [Washer, Breakfast, Air conditioning]
+        hostId:
+          type: string
+          example: 635910512572ced352c15664
+        id:
+          type: string
+          example: 635910512572ced352c15664
+        images:
+          type: array
+          example: [img/1.png, img/2.png, img/3.png]
+        isFavorite:
+          type: boolean
+          example: true
+        isPremium:
+          type: boolean
+          example: false
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+              example: 52.35514938496378
+            longitude:
+              type: number
+              example: 4.673877537499948
+            zoom:
+              type: number
+              example: 8
+        maxAdults:
+          type: number
+          example: 5
+        previewImage:
+          type: string
+          example: img/1.png
+        price:
+          type: number
+          example: 120
+        rating:
+          type: number
+          example: 4.8
+        title:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        type:
+          type: string
+          example: apartment
+    updateOffer:
+      type: object
+      properties:
+        bedrooms:
+          type: number
           example: 7
+        description:
+          type: string
+          example: Some short description string for example.
+        isFavorite:
+          type: boolean
+          example: false
+    offerItem:
+      type: object
+      properties:
+        bedrooms:
+          type: number
+          example: 3
+        city:
+          type: object
+          properties:
+            location:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                  example: 52.370216
+                longitude:
+                  type: number
+                  example: 4.895168
+                zoom:
+                  type: number
+                  example: 10
+            name:
+              type: string
+              example: Amsterdam
+        description:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+        goods:
+          type: array
+          example: [Washer, Breakfast, Air conditioning]
+        hostId:
+          type: string
+          example: 635910512572ced352c15664
+        id:
+          type: string
+          example: 635910512572ced352c15664
+        images:
+          type: array
+          example: [img/1.png, img/2.png, img/3.png]
+        isFavorite:
+          type: boolean
+          example: true
+        isPremium:
+          type: boolean
+          example: false
+        location:
+          type: object
+          properties:
+            latitude:
+              type: number
+              example: 52.35514938496378
+            longitude:
+              type: number
+              example: 4.673877537499948
+            zoom:
+              type: number
+              example: 8
+        maxAdults:
+          type: number
+          example: 5
+        previewImage:
+          type: string
+          example: img/1.png
+        price:
+          type: number
+          example: 120
+        rating:
+          type: number
+          example: 4.8
+        title:
+          type: string
+          example: Beautiful & luxurious studio at great location
+        type:
+          type: string
+          example: apartment
+        commentsCount:
+          type: number
+          example: 0
 
     сomment:
       type: object
@@ -452,31 +764,34 @@ components:
         text:
           type: string
           example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
-        date:
+        postDate:
           type: string
-          example: Sat Oct 01 2022 13:47:54 GMT+0500 (Екатеринбург, стандартное время)
-        id:
-          type: number
-          example: 1
-        rating:
+          example: 2022-10-31T19:47:35.115Z
+        rank:
           type: number
           example: 4.8
         user:
           type: object
           properties:
-            avatarUrl:
-              type: string
-              example: img/1.png
             email:
               type: string
               example: Oliver.conner@gmail.com
-            id:
-              type: string
-              example: 6329c3d6a04ab1061c6425ea
             isPro:
               type: boolean
               example: false
             name:
               type: string
               example: Oliver.conner
+            favorites:
+              type: array
+              example: ["636026416bdbf41ee967585e"]
+    сreateComment:
+      type: object
+      properties:
+        text:
+          type: string
+          example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
+        rating:
+          type: number
+          example: 4.8
 
