@@ -146,7 +146,6 @@ export default class OfferService implements OfferServiceInterface {
       .exec();
   }
 
-  // Похоже этот метод не нужен, если на последнем ДЗ не пригодится, то удалю его
   public async calcRating(offerId: number, newRating: number): Promise<DocumentType<OfferEntity> | null> {
     const oldOffer = await this.offerModel.findById(offerId).lean();
     const oldRating = oldOffer?.rating;
