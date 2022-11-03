@@ -17,9 +17,7 @@ export default class UserService implements UserServiceInterface {
   ) {}
 
   public async find(): Promise<DocumentType<UserEntity>[]> {
-    const users = await this.userModel.find();
-
-    return users;
+    return await this.userModel.find();
   }
 
   public async create(dto: CreateUserDto, salt: string): Promise<DocumentType<UserEntity>> {

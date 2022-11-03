@@ -1,5 +1,17 @@
 import typegoose, { defaultClasses, getModelForClass, Ref } from '@typegoose/typegoose';
 import { UserEntity } from '../user/user.entity.js';
+import {
+  MIN_ROOMS_NUMBER,
+  MAX_ROOMS_NUMBER,
+  MIN_DESCRIPTION_LENGTH,
+  MAX_DESCRIPTION_LENGTH,
+  MIN_ADULTS_COUNT,
+  MAX_ADULTS_COUNT,
+  MIN_OFFER_PRICE,
+  MAX_OFFER_PRICE,
+  MIN_TITLE_LENGTH,
+  MAX_TITLE_LENGTH
+} from './offer.constant.js';
 
 const {prop, modelOptions} = typegoose;
 
@@ -14,8 +26,8 @@ export interface OfferEntity extends defaultClasses.Base {}
 export class OfferEntity extends defaultClasses.TimeStamps {
   @prop({
     required: true,
-    min: [1, 'Min rooms number is 1 room'],
-    max: [8, 'Max rooms number is 8 rooms']
+    min: [MIN_ROOMS_NUMBER, 'Min rooms number is 1 room'],
+    max: [MAX_ROOMS_NUMBER, 'Max rooms number is 8 rooms']
   })
   public bedrooms!: number;
 
@@ -31,8 +43,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-    minlength: [20, 'Min length for the description is 20 simbols'],
-    maxlength: [1024, 'Max length for the description is 1024 simbols']
+    minlength: [MIN_DESCRIPTION_LENGTH, 'Min length for the description is 20 simbols'],
+    maxlength: [MAX_DESCRIPTION_LENGTH, 'Max length for the description is 1024 simbols']
   })
   public description!: string;
 
@@ -65,8 +77,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-    min: 1,
-    max: 10
+    min: MIN_ADULTS_COUNT,
+    max: MAX_ADULTS_COUNT
   })
   public maxAdults!: number;
 
@@ -75,8 +87,8 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-    min: 100,
-    max: 100000
+    min: MIN_OFFER_PRICE,
+    max: MAX_OFFER_PRICE
   })
   public price!: number;
 
@@ -85,16 +97,13 @@ export class OfferEntity extends defaultClasses.TimeStamps {
 
   @prop({
     required: true,
-    minlength: 10,
-    maxlength: 100
+    minlength: MIN_TITLE_LENGTH,
+    maxlength: MAX_TITLE_LENGTH
   })
   public title!: string;
 
   @prop()
   public type!: string;
-
-  @prop()
-  public commentsCount!: number;
 }
 
 export const OfferModel = getModelForClass(OfferEntity);
