@@ -36,15 +36,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjYyNTQyZml2ZUBtYWlsLmNvb
 ###
 
 ## Обновить оффер - добавляем оффер в избранное
-PATCH  http://localhost:5000/offers/636026416bdbf41ee96758bb HTTP/1.1
+PATCH  http://localhost:5000/offers/636026416bdbf41ee967585b HTTP/1.1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3NDE3NTU5LCJleHAiOjE2Njc1OTAzNTl9.K34oxB2_sWPXkwYXHMjaAe2Wn94LKbZh5NZmc4aGiQg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM0BtYWlsLmNvbSIsImlkIjoiNjM2MzgwZjBmY2VmOGU2NWVjZGRiM2IwIiwiaWF0IjoxNjY3NDY1NDc5LCJleHAiOjE2Njc2MzgyNzl9.k5ZLFJ-Ne5tuEspGIl3TY-S40LkjAeGqoQxP_S3zafs
 
 {
-  "bedrooms": 7,
+  "bedrooms": 2,
   "maxAdults": 1,
-  "description": "New long-long-long description2131321312!!!",
+  "description": "New long-long-long description",
   "isFavorite": true
 }
 ###
@@ -101,7 +101,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "123asdfa@gmail.com",
+  "email": "123@mail.com",
   "password": "765432",
   "name": "Adsfsad",
   "isPro": false,
@@ -115,7 +115,7 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "123asdfa@gmail.com",
+  "email": "123@mail.com",
   "password": "765432"
 }
 ###
