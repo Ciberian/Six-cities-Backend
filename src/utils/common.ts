@@ -10,10 +10,10 @@ export const createUser = (row: string) => {
   const [email, password, name, isPro] = tokens;
 
   return {
-    email: email,
-    password: password,
-    name: name,
-    isPro: isPro,
+    email,
+    password,
+    name,
+    isPro,
     favorites: []
   } as unknown as User;
 };
@@ -32,7 +32,7 @@ export const createOffer = (row: string) => {
         zoom: Number(cityZoom)
       }
     },
-    description: description,
+    description,
     goods: goods.split(','),
     images: images.split(','),
     isFavorite: Boolean(Number(isFavorite)),
@@ -48,7 +48,7 @@ export const createOffer = (row: string) => {
     price: Number(price),
     rank: Number(rank),
     title,
-    type
+    type: type.trim()
   } as unknown as Offer;
 };
 
@@ -57,8 +57,8 @@ export const createComment = (row: string) => {
   const [text, rank] = tokens;
 
   return {
-    text: text,
-    rank: rank
+    text,
+    rank
   } as unknown as Comment;
 };
 
