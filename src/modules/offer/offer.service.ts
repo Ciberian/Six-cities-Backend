@@ -142,8 +142,21 @@ export default class OfferService implements OfferServiceInterface {
     }
 
     return this.offerModel
-      .find({_id: {$in: user.favorites}})
-      .exec();
+      .aggregate([
+        {$match: { _id: {
+          $in: user.favorites.map((id) => new mongoose.Types.ObjectId(id))
+        }}},
+        {$lookup: {
+          from: 'comments',
+          localField: '_id',
+          foreignField: 'offerId',
+          as: 'commentsCount'
+        }},
+        {$set: {'commentsCount': { $size: '$commentsCount' }}},
+        {$addFields: {id: {$toString: '$_id'}}},
+      ])
+      .sort({createdAt: SortType.Down})
+      .exec() as unknown as Promise<DocumentType<OfferEntity>[]>;
   }
 
   public async calcRank(offerId: string): Promise<number> {

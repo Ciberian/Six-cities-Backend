@@ -210,7 +210,6 @@ export default class OfferController extends Controller {
       return {...favoriteOffer, isFavorite: true, rank: averageRank};
     }));
 
-    console.log('offers-------------------', offers );
     this.ok(res, fillDTO(OffersResponse, offers));
   }
 }
