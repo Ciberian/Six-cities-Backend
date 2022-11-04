@@ -20,7 +20,7 @@ export const createUser = (row: string) => {
 
 export const createOffer = (row: string) => {
   const tokens = row.replace('\n', '').split('\t');
-  const [bedrooms, cityName, cityLatitude, cityLongitude, cityZoom, description, goods, images, isFavorite, isPremium, offerLatitude, offerLongitude, offerZoom, maxAdults, postDate, previewImage, price, rating, title, type] = tokens;
+  const [bedrooms, cityName, cityLatitude, cityLongitude, cityZoom, description, goods, images, isFavorite, isPremium, offerLatitude, offerLongitude, offerZoom, maxAdults, postDate, previewImage, price, rank, title, type] = tokens;
 
   return {
     bedrooms: Number(bedrooms),
@@ -46,7 +46,7 @@ export const createOffer = (row: string) => {
     postDate: new Date(postDate),
     previewImage,
     price: Number(price),
-    rating: Number(rating),
+    rank: Number(rank),
     title,
     type
   } as unknown as Offer;

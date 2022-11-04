@@ -70,10 +70,6 @@ export default class CreateOfferDto {
   @IsDateString({}, {message: 'postDate must be valid ISO date'})
   public postDate!: Date;
 
-  @Min(1, {message: 'Field rating must be greater than 1 or equal'})
-  @Max(5, {message: 'Field rating must be lower then 5 or equal'})
-  public rating!: number;
-
   @MinLength(10, {message: 'Minimum title length must be 10'})
   @MaxLength(100, {message: 'Maximum title length must be 100'})
   public title!: string;

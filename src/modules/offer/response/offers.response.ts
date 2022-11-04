@@ -55,7 +55,7 @@ export default class OffersResponse {
   public postDate!: string;
 
   @Expose()
-  public rating!: number;
+  public rank!: number;
 
   @Expose()
   public title!: string;

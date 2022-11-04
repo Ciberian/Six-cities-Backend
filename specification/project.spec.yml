@@ -580,7 +580,7 @@ components:
         price:
           type: number
           example: 120
-        rating:
+        rank:
           type: number
           example: 4.8
         title:
@@ -658,7 +658,7 @@ components:
         price:
           type: number
           example: 120
-        rating:
+        rank:
           type: number
           example: 4.8
         title:
@@ -745,7 +745,7 @@ components:
         price:
           type: number
           example: 120
-        rating:
+        rank:
           type: number
           example: 4.8
         title:
@@ -791,7 +791,7 @@ components:
         text:
           type: string
           example: A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam.
-        rating:
+        rank:
           type: number
           example: 4.8
 

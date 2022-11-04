@@ -101,7 +101,7 @@ export default class OfferController extends Controller {
     const result = await this.offerService.create({...body, hostId: user.id});
     const offer = await this.offerService.findById(result.id);
     const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
-    this.created(res, fillDTO(OfferResponse, offerFromArray));
+    this.created(res, fillDTO(OfferResponse, {...offerFromArray, rank: 0}));
   }
 
   public async update(
@@ -109,10 +109,13 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     const {params, body, user} = req;
+
     await this.offerService.updateById(params.offerId, body, user.id);
+    const averageRank = await this.offerService.calcRank(params.offerId);
+
     const offer = await this.offerService.findById(params.offerId, user.id);
     const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
-    this.ok(res, fillDTO(OfferResponse, offerFromArray));
+    this.ok(res, fillDTO(OfferResponse, {...offerFromArray, rank: averageRank}));
   }
 
   public async show(
@@ -120,9 +123,12 @@ export default class OfferController extends Controller {
     res: Response
   ): Promise<void> {
     const {params, user} = req;
+
     const offer = await this.offerService.findById(params.offerId, user?.id);
+    const averageRank = await this.offerService.calcRank(params.offerId);
+
     const offerFromArray = (JSON.parse(JSON.stringify(offer).slice(1, -1)));
-    this.ok(res, fillDTO(OfferResponse, offerFromArray));
+    this.ok(res, fillDTO(OfferResponse, {...offerFromArray, rank: averageRank}));
   }
 
   public async delete(
@@ -164,16 +170,17 @@ export default class OfferController extends Controller {
   ): Promise<void> {
     const {query, user} = req;
     const currentUser = await this.userService.findById(user?.id);
-
     const allOffers = await this.offerService.find(query.count);
 
-    const offers = allOffers.map((offer) => {
+    const offers = await Promise.all(allOffers.map(async (offer) => {
+      const averageRank = await this.offerService.calcRank(String(offer._id));
+
       if (currentUser?.favorites.includes(String(offer._id))) {
-        return {...offer, isFavorite: true};
+        return {...offer, isFavorite: true, rank: averageRank};
       }
 
-      return {...offer, isFavorite: false};
-    });
+      return {...offer, isFavorite: false, rank: averageRank};
+    }));
 
     this.ok(res, fillDTO(OffersResponse, offers));
   }
@@ -182,20 +189,28 @@ export default class OfferController extends Controller {
     const premiumOffers = await this.offerService.findPremiums(DEFAULT_PREMIUM_OFFER_COUNT);
     const user = await this.userService.findById(req.user?.id);
 
-    const offers = premiumOffers.map((premiumOffer) => {
+    const offers = await Promise.all(premiumOffers.map(async (premiumOffer) => {
+      const averageRank = await this.offerService.calcRank(String(premiumOffer._id));
+
       if (user?.favorites.includes(String(premiumOffer._id))) {
-        return {...premiumOffer, isFavorite: true};
+        return {...premiumOffer, isFavorite: true, rank: averageRank};
       }
 
-      return {...premiumOffer, isFavorite: false};
-    });
+      return {...premiumOffer, isFavorite: false, rank: averageRank};
+    }));
 
     this.ok(res, fillDTO(OffersResponse, offers));
   }
 
   public async getFavorites(req: Request, res: Response) {
     const favoriteOffers = await this.offerService.findFavorites(req.user.id);
+    const offers = await Promise.all(favoriteOffers.map(async (favoriteOffer) => {
+      const averageRank = await this.offerService.calcRank(String(favoriteOffer._id));
 
-    this.ok(res, fillDTO(OffersResponse, favoriteOffers));
+      return {...favoriteOffer, isFavorite: true, rank: averageRank};
+    }));
+
+    console.log('offers-------------------', offers );
+    this.ok(res, fillDTO(OffersResponse, offers));
   }
 }

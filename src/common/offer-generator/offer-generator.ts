@@ -44,7 +44,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
     const postDate = dayjs().subtract(generateRandomValue(FIRST_WEEK_DAY, LAST_WEEK_DAY), 'day').toISOString();
     const previewImage = getRandomItem<string>(this.mockData.offerImages);
     const price = generateRandomValue(MIN_PRICE, MAX_PRICE);
-    const rating = generateRandomValue(MIN_RANK, MAX_RANK);
+    const rank = generateRandomValue(MIN_RANK, MAX_RANK);
     const title = getRandomItem<string>(this.mockData.titles);
     const type = getRandomItem<string>(this.mockData.offerTypes);
 
@@ -66,7 +66,7 @@ export default class OfferGenerator implements OfferGeneratorInterface {
       postDate,
       previewImage,
       price,
-      rating,
+      rank,
       title,
       type,
     ].join('\t');
