@@ -130,10 +130,10 @@ POST http://localhost:5000/users/635910512572ced352c15664/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="avatar"; filename="Ava.png"
+Content-Disposition: form-data; name="avatar"; filename="test.png"
 Content-Type: image/png
 
-< /Desktop/Ava.png
+< /Desktop/test.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 ###
 

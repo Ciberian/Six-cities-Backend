@@ -1,4 +1,5 @@
 import 'reflect-metadata';
+import cors from 'cors';
 import express, { Express } from 'express';
 import { inject, injectable } from 'inversify';
 import { LoggerInterface } from '../common/logger/logger.interface.js';
@@ -40,6 +41,7 @@ export default class Application {
 
     const authenticateMiddleware = new AuthenticateMiddleware(this.config.get('JWT_SECRET'));
     this.expressApp.use(authenticateMiddleware.execute.bind(authenticateMiddleware));
+    this.expressApp.use(cors());
   }
 
   public initExceptionFilters() {
