@@ -3,6 +3,6 @@ export type User = {
   password: string;
 	name: string;
 	isPro: boolean;
-	avatarUrl?: string;
+	avatarPath?: string;
   favorites: string[];
 };

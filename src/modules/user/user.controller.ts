@@ -22,9 +22,9 @@ import LoggedUserResponse from './response/logged-user.response.js';
 export default class UserController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
-    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
-    @inject(Component.ConfigInterface) private readonly configService: ConfigInterface,) {
-    super(logger);
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
+    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface) {
+    super(logger, configService);
 
     this.logger.info('Register routes for UserController...');
 
@@ -94,7 +94,7 @@ export default class UserController extends Controller {
       { email: user.email, id: user.id}
     );
 
-    this.ok(res, fillDTO(LoggedUserResponse, {email: user.email, token}));
+    this.ok(res, {...fillDTO(LoggedUserResponse, user), token});
   }
 
   public async uploadAvatar(req: Request, res: Response) {
@@ -104,9 +104,15 @@ export default class UserController extends Controller {
   }
 
   public async show(req: Request, res: Response): Promise<void> {
+    if (! req.user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
     const user = await this.userService.findByEmail(req.user.email);
-    const userResponse = fillDTO(UserResponse, user);
-    this.ok(res, userResponse);
+    this.ok(res, fillDTO(LoggedUserResponse, user));
   }
 }
 

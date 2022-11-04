@@ -14,7 +14,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI3Nzcxc2l4QG1haWwucnUiL
 ## Получить 5 офферов, через параметр запроса
 GET http://localhost:5000/offers?count=5 HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI3Nzcxc2l4QG1haWwucnUiLCJpZCI6IjYzNjAyNjNiNTlhMzY4MTQ5NzMxMjg1MCIsImlhdCI6MTY2NzMyMDg3NSwiZXhwIjoxNjY3NDkzNjc1fQ.3IABMotlpuep3kZ1rOYXe2wD9GFJ2ja_3cDaBBoxH20
 ###
 
 ## Получить премиальные офферы (3 оффера, по умолчанию)

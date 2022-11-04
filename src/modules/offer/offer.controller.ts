@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 import { Component } from '../../types/component.types.js';
 import { Controller } from '../../common/controller/controller.js';
 import { LoggerInterface } from '../../common/logger/logger.interface.js';
+import { ConfigInterface } from '../../common/config/config.interface.js';
 import { OfferServiceInterface } from './offer-service.interface.js';
 import { CommentServiceInterface } from '../comment/comment-service.interface.js';
 import { ValidateObjectIdMiddleware } from '../../common/middlewares/validate-objectid.middleware.js';
@@ -31,10 +32,11 @@ type ParamsGetOffer = {
 export default class OfferController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
     @inject(Component.OfferServiceInterface) private readonly offerService: OfferServiceInterface,
     @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
     @inject(Component.CommentServiceInterface) private readonly commentService: CommentServiceInterface) {
-    super(logger);
+    super(logger, configService);
 
     this.logger.info('Register routes for OfferController...');
 
