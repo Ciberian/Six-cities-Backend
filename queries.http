@@ -100,8 +100,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "123@mail.com",
-  "password": "765432",
+  "email": "123456@mail.com",
+  "password": "987654321",
   "name": "Adsfsad",
   "isPro": false,
   "favorites": []
@@ -114,15 +114,15 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "123@mail.com",
-  "password": "765432"
+  "email": "91547four@mail.com",
+  "password": "2342039fjkds"
 }
 ###
 
 ## Запрос статуса пользователя
 GET http://localhost:5000/users/login HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjU1MDMwZml2ZUBtYWlsLmNvbSIsImlkIjoiNjM2MDI2M2M1OWEzNjgxNDk3MzEyOTAwIiwiaWF0IjoxNjY3Mjk2NDI1LCJleHAiOjE2Njc0NjkyMjV9.E6r-n2O-YC88cb2klVQYqTuBI3znnmKCL5JdY_Wpt74
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyMzRAbWFpbC5jb20iLCJpZCI6IjYzNjU0MzJhZjdjMjcyZDliM2ZlZGM5OSIsImlhdCI6MTY2NzU4MDc5MCwiZXhwIjoxNjY3NzUzNTkwfQ.VSqLZ3HiplROFxLyBwG_SQcnambawlVu3N5OgrStlSI
 ###
 
 ## Отправка аватарки пользователю

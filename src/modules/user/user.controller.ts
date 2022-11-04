@@ -17,6 +17,7 @@ import LoginUserDto from './dto/login-user.dto.js';
 import CreateUserDto from './dto/create-user.dto.js';
 import UserResponse from './response/user.response.js';
 import LoggedUserResponse from './response/logged-user.response.js';
+import UploadUserAvatarResponse from './response/upload-user-avatar.response.js';
 
 @injectable()
 export default class UserController extends Controller {
@@ -98,9 +99,10 @@ export default class UserController extends Controller {
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path
-    });
+    const {userId} = req.params;
+    const uploadFile = {avatarPath: req.file?.filename};
+    await this.userService.updateById(userId, uploadFile);
+    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
   }
 
   public async show(req: Request, res: Response): Promise<void> {
