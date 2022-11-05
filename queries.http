@@ -14,7 +14,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI3Nzcxc2l4QG1haWwucnUiL
 ## Получить 5 офферов, через параметр запроса
 GET http://localhost:5000/offers?count=5 HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI3Nzcxc2l4QG1haWwucnUiLCJpZCI6IjYzNjAyNjNiNTlhMzY4MTQ5NzMxMjg1MCIsImlhdCI6MTY2NzMyMDg3NSwiZXhwIjoxNjY3NDkzNjc1fQ.3IABMotlpuep3kZ1rOYXe2wD9GFJ2ja_3cDaBBoxH20
 ###
 
 ## Получить премиальные офферы (3 оффера, по умолчанию)
@@ -36,15 +35,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjYyNTQyZml2ZUBtYWlsLmNvb
 ###
 
 ## Обновить оффер - добавляем оффер в избранное
-PATCH  http://localhost:5000/offers/636026416bdbf41ee96758bb HTTP/1.1
+PATCH  http://localhost:5000/offers/636026416bdbf41ee967585b HTTP/1.1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3NDE3NTU5LCJleHAiOjE2Njc1OTAzNTl9.K34oxB2_sWPXkwYXHMjaAe2Wn94LKbZh5NZmc4aGiQg
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM0BtYWlsLmNvbSIsImlkIjoiNjM2MzgwZjBmY2VmOGU2NWVjZGRiM2IwIiwiaWF0IjoxNjY3NDY1NDc5LCJleHAiOjE2Njc2MzgyNzl9.k5ZLFJ-Ne5tuEspGIl3TY-S40LkjAeGqoQxP_S3zafs
 
 {
-  "bedrooms": 7,
+  "bedrooms": 2,
   "maxAdults": 1,
-  "description": "New long-long-long description2131321312!!!",
+  "description": "New long-long-long description",
   "isFavorite": true
 }
 ###
@@ -101,8 +100,8 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "123asdfa@gmail.com",
-  "password": "765432",
+  "email": "123456@mail.com",
+  "password": "987654321",
   "name": "Adsfsad",
   "isPro": false,
   "favorites": []
@@ -115,15 +114,15 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "email": "123asdfa@gmail.com",
-  "password": "765432"
+  "email": "91547four@mail.com",
+  "password": "2342039fjkds"
 }
 ###
 
 ## Запрос статуса пользователя
 GET http://localhost:5000/users/login HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjU1MDMwZml2ZUBtYWlsLmNvbSIsImlkIjoiNjM2MDI2M2M1OWEzNjgxNDk3MzEyOTAwIiwiaWF0IjoxNjY3Mjk2NDI1LCJleHAiOjE2Njc0NjkyMjV9.E6r-n2O-YC88cb2klVQYqTuBI3znnmKCL5JdY_Wpt74
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyMzRAbWFpbC5jb20iLCJpZCI6IjYzNjU0MzJhZjdjMjcyZDliM2ZlZGM5OSIsImlhdCI6MTY2NzU4MDc5MCwiZXhwIjoxNjY3NzUzNTkwfQ.VSqLZ3HiplROFxLyBwG_SQcnambawlVu3N5OgrStlSI
 ###
 
 ## Отправка аватарки пользователю
@@ -131,10 +130,10 @@ POST http://localhost:5000/users/635910512572ced352c15664/avatar HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
-Content-Disposition: form-data; name="avatar"; filename="Ava.png"
+Content-Disposition: form-data; name="avatar"; filename="test.png"
 Content-Type: image/png
 
-< /Desktop/Ava.png
+< /Desktop/test.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 ###
 

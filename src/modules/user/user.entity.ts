@@ -19,7 +19,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
     this.email = data.email;
     this.password = data.password;
     this.name = data.name;
-    this.avatarUrl = data.avatarUrl;
+    this.avatarPath = data.avatarPath;
     this.isPro = data.isPro;
   }
 
@@ -49,7 +49,7 @@ export class UserEntity extends defaultClasses.TimeStamps implements User {
   @prop({
     match: [/^(?:.*\.(?=(jpg|jpeg|png)$))?[^.]*$/i, 'Only jpg or png format is allowed']
   })
-  public avatarUrl?: string;
+  public avatarPath?: string;
 
   @prop()
   public favorites!: string[];

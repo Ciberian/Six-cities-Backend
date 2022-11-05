@@ -17,14 +17,15 @@ import LoginUserDto from './dto/login-user.dto.js';
 import CreateUserDto from './dto/create-user.dto.js';
 import UserResponse from './response/user.response.js';
 import LoggedUserResponse from './response/logged-user.response.js';
+import UploadUserAvatarResponse from './response/upload-user-avatar.response.js';
 
 @injectable()
 export default class UserController extends Controller {
   constructor(
     @inject(Component.LoggerInterface) logger: LoggerInterface,
-    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface,
-    @inject(Component.ConfigInterface) private readonly configService: ConfigInterface,) {
-    super(logger);
+    @inject(Component.ConfigInterface) configService: ConfigInterface,
+    @inject(Component.UserServiceInterface) private readonly userService: UserServiceInterface) {
+    super(logger, configService);
 
     this.logger.info('Register routes for UserController...');
 
@@ -94,19 +95,26 @@ export default class UserController extends Controller {
       { email: user.email, id: user.id}
     );
 
-    this.ok(res, fillDTO(LoggedUserResponse, {email: user.email, token}));
+    this.ok(res, {...fillDTO(LoggedUserResponse, user), token});
   }
 
   public async uploadAvatar(req: Request, res: Response) {
-    this.created(res, {
-      filepath: req.file?.path
-    });
+    const {userId} = req.params;
+    const uploadFile = {avatarPath: req.file?.filename};
+    await this.userService.updateById(userId, uploadFile);
+    this.created(res, fillDTO(UploadUserAvatarResponse, uploadFile));
   }
 
   public async show(req: Request, res: Response): Promise<void> {
+    if (! req.user) {
+      throw new HttpError(
+        StatusCodes.UNAUTHORIZED,
+        'Unauthorized',
+        'UserController'
+      );
+    }
     const user = await this.userService.findByEmail(req.user.email);
-    const userResponse = fillDTO(UserResponse, user);
-    this.ok(res, userResponse);
+    this.ok(res, fillDTO(LoggedUserResponse, user));
   }
 }
 

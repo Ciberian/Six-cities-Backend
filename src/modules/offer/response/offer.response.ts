@@ -24,7 +24,12 @@ export default class OfferResponse {
   public goods!: string[];
 
   @Expose()
-  public host!: string;
+  public host!: {
+    email: string,
+    password: string,
+    name: string,
+    isPro: boolean
+  };
 
   @Expose()
   public images!: string[];
