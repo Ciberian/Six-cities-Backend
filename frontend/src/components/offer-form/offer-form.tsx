@@ -5,24 +5,22 @@ import { City, NewOffer, Offer } from '../../types/types';
 
 import LocationPicker from '../location-picker/location-picker';
 import { CITIES, CityLocation, GOODS, TYPES } from '../../const';
-import { capitalize } from '../../utils';
+import { capitalize } from '../../utils/utils';
 
 enum FormFieldName {
-  title = 'title',
-  description = 'description',
-  cityName = 'cityName',
-  previewImage = 'previewImage',
-  isPremium = 'isPremium',
-  type = 'type',
-  bedrooms = 'bedrooms',
-  maxAdults = 'maxAdults',
-  price = 'price',
-  good = 'good-',
+	title = 'title',
+	description = 'description',
+	cityName = 'cityName',
+	previewImage = 'previewImage',
+	isPremium = 'isPremium',
+	type = 'type',
+	bedrooms = 'bedrooms',
+	maxAdults = 'maxAdults',
+	price = 'price',
+	good = 'good-',
 }
 
-const getGoods = (
-  entries: IterableIterator<[string, FormDataEntryValue]>
-): string[] => {
+const getGoods = (entries: IterableIterator<[string, FormDataEntryValue]>): string[] => {
   const chosenGoods: string[] = [];
   for (const entry of entries) {
     if (entry[0].startsWith(FormFieldName.good)) {
@@ -45,27 +43,12 @@ const getCity = (cityName: FormDataEntryValue | null): City => {
 };
 
 type OfferFormProps<T> = {
-  offer: T;
-  onSubmit: (offerData: T) => void;
+	offer: T;
+	onSubmit: (offerData: T) => void;
 };
 
-const OfferForm = <T extends Offer | NewOffer>({
-  offer,
-  onSubmit,
-}: OfferFormProps<T>): JSX.Element => {
-  const {
-    title,
-    description,
-    city,
-    previewImage,
-    isPremium,
-    type,
-    bedrooms,
-    maxAdults,
-    price,
-    goods: chosenGoods,
-    location,
-  } = offer;
+const OfferForm = <T extends Offer | NewOffer>({ offer, onSubmit }: OfferFormProps<T>): JSX.Element => {
+  const { title, description, city, previewImage, isPremium, type, bedrooms, maxAdults, price, goods: chosenGoods, location } = offer;
   const [chosenLocation, setChosenLocation] = useState(location);
   const [chosenCity, setChosenCity] = useState(city);
 
@@ -74,12 +57,9 @@ const OfferForm = <T extends Offer | NewOffer>({
     setChosenLocation(CityLocation[value]);
   };
 
-  const handleLocationChange = useCallback(
-    ({ lat, lng }: { lat: number; lng: number }) => {
-      setChosenLocation({ latitude: lat, longitude: lng });
-    },
-    []
-  );
+  const handleLocationChange = useCallback(({ lat, lng }: { lat: number; lng: number }) => {
+    setChosenLocation({ latitude: lat, longitude: lng });
+  }, []);
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -104,42 +84,24 @@ const OfferForm = <T extends Offer | NewOffer>({
   };
 
   return (
-    <form
-      className="form offer-form"
-      action="#"
-      method="post"
-      onSubmit={handleFormSubmit}
-    >
+    <form className="form offer-form" action="#" method="post" onSubmit={handleFormSubmit}>
       <fieldset className="title-fieldset">
         <div className="form__input-wrapper">
           <label htmlFor="title" className="title-fieldset__label">
-            Title
+						Title
           </label>
-          <input
-            className="form__input title-fieldset__text-input"
-            placeholder="Title"
-            name={FormFieldName.title}
-            id="title"
-            required
-            defaultValue={title}
-          />
+          <input className="form__input title-fieldset__text-input" placeholder="Title" name={FormFieldName.title} id="title" required defaultValue={title} />
         </div>
         <div className="title-fieldset__checkbox-wrapper">
-          <input
-            className="form__input"
-            type="checkbox"
-            name={FormFieldName.isPremium}
-            id="isPremium"
-            defaultChecked={isPremium}
-          />
+          <input className="form__input" type="checkbox" name={FormFieldName.isPremium} id="isPremium" defaultChecked={isPremium} />
           <label htmlFor="isPremium" className="title-fieldset__checkbox-label">
-            Premium
+						Premium
           </label>
         </div>
       </fieldset>
       <div className="form__input-wrapper">
         <label htmlFor="description" className="offer-form__label">
-          Description
+					Description
         </label>
         <textarea
           className="form__input offer-form__textarea"
@@ -152,7 +114,7 @@ const OfferForm = <T extends Offer | NewOffer>({
       </div>
       <div className="form__input-wrapper">
         <label htmlFor="previewImage" className="offer-form__label">
-          Preview Image
+					Preview Image
         </label>
         <input
           className="form__input offer-form__text-input"
@@ -167,7 +129,7 @@ const OfferForm = <T extends Offer | NewOffer>({
       <fieldset className="type-fieldset">
         <div className="form__input-wrapper">
           <label htmlFor="type" className="type-fieldset__label">
-            Type
+						Type
           </label>
           <Select
             className="type-fieldset__select"
@@ -183,20 +145,13 @@ const OfferForm = <T extends Offer | NewOffer>({
         </div>
         <div className="form__input-wrapper">
           <label htmlFor="price" className="type-fieldset__label">
-            Price
+						Price
           </label>
-          <input
-            className="form__input type-fieldset__number-input"
-            type="number"
-            placeholder="100"
-            name={FormFieldName.price}
-            id="price"
-            defaultValue={price}
-          />
+          <input className="form__input type-fieldset__number-input" type="number" placeholder="100" name={FormFieldName.price} id="price" defaultValue={price} />
         </div>
         <div className="form__input-wrapper">
           <label htmlFor="bedrooms" className="type-fieldset__label">
-            Bedrooms
+						Bedrooms
           </label>
           <input
             className="form__input type-fieldset__number-input"
@@ -211,7 +166,7 @@ const OfferForm = <T extends Offer | NewOffer>({
         </div>
         <div className="form__input-wrapper">
           <label htmlFor="maxAdults" className="type-fieldset__label">
-            Max adults
+						Max adults
           </label>
           <input
             className="form__input type-fieldset__number-input"
@@ -230,12 +185,7 @@ const OfferForm = <T extends Offer | NewOffer>({
         <ul className="goods-list__list">
           {GOODS.map((good) => (
             <li key={good} className="goods-list__item">
-              <input
-                type="checkbox"
-                id={good}
-                name={`${FormFieldName.good}${good}`}
-                defaultChecked={chosenGoods.includes(good)}
-              />
+              <input type="checkbox" id={good} name={`${FormFieldName.good}${good}`} defaultChecked={chosenGoods.includes(good)} />
               <label className="goods-list__label" htmlFor={good}>
                 {good}
               </label>
@@ -245,7 +195,7 @@ const OfferForm = <T extends Offer | NewOffer>({
       </fieldset>
       <div className="form__input-wrapper location-picker">
         <label htmlFor="cityName" className="location-picker__label">
-          Location
+					Location
         </label>
         <Select
           className="location-picker__select"
@@ -264,13 +214,9 @@ const OfferForm = <T extends Offer | NewOffer>({
           }}
         />
       </div>
-      <LocationPicker
-        city={chosenCity}
-        onChange={handleLocationChange}
-        location={chosenLocation}
-      />
+      <LocationPicker city={chosenCity} onChange={handleLocationChange} location={chosenLocation} />
       <button className="form__submit button" type="submit">
-        Save
+				Save
       </button>
     </form>
   );

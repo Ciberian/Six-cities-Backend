@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 
 import type { Offer } from '../../types/types';
 import { AppRoute } from '../../const';
-import { capitalize, getStarsWidth } from '../../utils';
+import { capitalize, getStarsWidth } from '../../utils/utils';
 import Bookmark from '../bookmark/bookmark';
 
 type CardProps = Offer & {
-  onMouseEnter?: (id: string) => void;
-  onMouseLeave?: () => void;
-  isMini?: boolean;
-  classPrefix?: string;
+	onMouseEnter?: (id: string) => void;
+	onMouseLeave?: () => void;
+	isMini?: boolean;
+	classPrefix?: string;
 };
 
 const Card = ({
@@ -32,11 +32,7 @@ const Card = ({
   };
 
   return (
-    <article
-      className={`${classPrefix}__card place-card`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
+    <article className={`${classPrefix}__card place-card`} onMouseEnter={handleMouseEnter} onMouseLeave={onMouseLeave}>
       {isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
@@ -44,13 +40,7 @@ const Card = ({
       )}
       <div className={`${classPrefix}__image-wrapper place-card__image-wrapper`}>
         <Link to={`${AppRoute.Property}/${id}`}>
-          <img
-            className="place-card__image"
-            src={previewImage}
-            width={isMini ? 150 : 260}
-            height={isMini ? 110 : 200}
-            alt={title}
-          />
+          <img className="place-card__image" src={previewImage} width={isMini ? 150 : 260} height={isMini ? 110 : 200} alt={title} />
         </Link>
       </div>
       <div className="place-card__info">

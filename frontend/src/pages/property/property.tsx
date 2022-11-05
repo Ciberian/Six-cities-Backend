@@ -5,24 +5,12 @@ import ReviewList from '../../components/review-list/review-list';
 import Map from '../../components/map/map';
 import Card from '../../components/card/card';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import {
-  fetchOffer,
-  fetchPremiumOffers,
-  fetchComments,
-  postComment,
-  deleteOffer,
-} from '../../store/action';
+import { fetchOffer, fetchPremiumOffers, fetchComments, postComment, deleteOffer } from '../../store/action';
 import Spinner from '../../components/spinner/spinner';
-import { capitalize, getStarsWidth, pluralize } from '../../utils';
+import { capitalize, getStarsWidth, pluralize } from '../../utils/utils';
 import { CommentAuth } from '../../types/types';
 import { getIsAuthorized } from '../../store/user-process/selectors';
-import {
-  getIsOfferLoading,
-  getPremiumOffers,
-  getOffer,
-  selectComments,
-  getCommentStatus,
-} from '../../store/site-data/selectors';
+import { getIsOfferLoading, getPremiumOffers, getOffer, selectComments, getCommentStatus } from '../../store/site-data/selectors';
 import { getUser } from '../../store/user-process/selectors';
 import Bookmark from '../../components/bookmark/bookmark';
 import { AppRoute } from '../../const';
@@ -60,30 +48,12 @@ const Property = (): JSX.Element | null => {
     return null;
   }
 
-  const {
-    id,
-    images,
-    isPremium,
-    isFavorite,
-    title,
-    rating,
-    type,
-    bedrooms,
-    maxAdults,
-    price,
-    goods,
-    host,
-    description,
-    city,
-    location,
-  } = offer;
+  const { id, images, isPremium, isFavorite, title, rating, type, bedrooms, maxAdults, price, goods, host, description, city, location } = offer;
   const isAuthor = host.email === user;
-  const locations = premiumOffers.map(
-    ({ id: premiumId, location: premiumLocation }) => ({
-      id: premiumId,
-      ...premiumLocation,
-    })
-  );
+  const locations = premiumOffers.map(({ id: premiumId, location: premiumLocation }) => ({
+    id: premiumId,
+    ...premiumLocation,
+  }));
   locations.push({ id, ...location });
 
   const handleDeleteClick = () => {
@@ -120,18 +90,11 @@ const Property = (): JSX.Element | null => {
               </div>
               {isAuthor && (
                 <div className="property__controls">
-                  <Link
-                    to={`${AppRoute.Property}/${id}${AppRoute.Edit}`}
-                    className="property__edit-link"
-                  >
-                    Edit
+                  <Link to={`${AppRoute.Property}/${id}${AppRoute.Edit}`} className="property__edit-link">
+										Edit
                   </Link>
-                  <button
-                    className="property__delete-button"
-                    type="button"
-                    onClick={handleDeleteClick}
-                  >
-                    Delete
+                  <button className="property__delete-button" type="button" onClick={handleDeleteClick}>
+										Delete
                   </button>
                 </div>
               )}
@@ -140,19 +103,15 @@ const Property = (): JSX.Element | null => {
                   <span style={{ width: getStarsWidth(rating) }} />
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">
-                  {rating}
-                </span>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
-                <li className="property__feature property__feature--entire">
-                  {capitalize(type)}
-                </li>
+                <li className="property__feature property__feature--entire">{capitalize(type)}</li>
                 <li className="property__feature property__feature--bedrooms">
                   {bedrooms} {pluralize('Bedroom', bedrooms)}
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {maxAdults} {pluralize('adult', maxAdults)}
+									Max {maxAdults} {pluralize('adult', maxAdults)}
                 </li>
               </ul>
               <div className="property__price">
@@ -174,55 +133,27 @@ const Property = (): JSX.Element | null => {
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div
-                    className={`property__avatar-wrapper${
-                      host.isPro ? ' property__avatar-wrapper--pro' : ''
-                    } user__avatar-wrapper`}
-                  >
-                    <img
-                      className="property__avatar user__avatar"
-                      src={host.avatarUrl}
-                      width={74}
-                      height={74}
-                      alt={host.name}
-                    />
+                  <div className={`property__avatar-wrapper${host.isPro ? ' property__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                    <img className="property__avatar user__avatar" src={host.avatarUrl} width={74} height={74} alt={host.name} />
                   </div>
                   <span className="property__user-name">{host.name}</span>
-                  {host.isPro && (
-                    <span className="property__user-status">Pro</span>
-                  )}
+                  {host.isPro && <span className="property__user-status">Pro</span>}
                 </div>
                 <div className="property__description">
                   <p className="property__text">{description}</p>
                 </div>
               </div>
-              <ReviewList
-                reviews={comments}
-                isAuthorized={isAuthorized}
-                onSubmit={handleFormSubmit}
-                submitStatus={commentStatus}
-              />
+              <ReviewList reviews={comments} isAuthorized={isAuthorized} onSubmit={handleFormSubmit} submitStatus={commentStatus} />
             </div>
           </div>
-          <Map
-            city={city}
-            locations={locations}
-            activeOffer={id}
-            place="property"
-          />
+          <Map city={city} locations={locations} activeOffer={id} place="property" />
         </section>
         <div className="container">
           <section className="near-places places">
-            <h2 className="near-places__title">
-              Premium offers
-            </h2>
+            <h2 className="near-places__title">Premium offers</h2>
             <div className="near-places__list places__list">
               {premiumOffers.map((premiumOffer) => (
-                <Card
-                  key={premiumOffer.id}
-                  {...premiumOffer}
-                  classPrefix="near-places"
-                />
+                <Card key={premiumOffer.id} {...premiumOffer} classPrefix="near-places" />
               ))}
             </div>
           </section>

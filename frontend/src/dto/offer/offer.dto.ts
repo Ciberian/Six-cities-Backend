@@ -1,4 +1,8 @@
-export default class CreateOfferDto {
+import { Type } from '../../types/types';
+
+export default class OffersDto {
+  public id!: string;
+
   public bedrooms!: number;
 
   public city!: {
@@ -12,6 +16,13 @@ export default class CreateOfferDto {
   public description!: string;
 
   public goods!: string[];
+
+  public host!: {
+    name: string;
+    email: string;
+    isPro: boolean;
+    avatarPath: string;
+  };
 
   public images!: string[];
 
@@ -30,9 +41,13 @@ export default class CreateOfferDto {
 
   public price!: number;
 
-  public postDate!: Date;
+  public postDate!: string;
+
+  public rank!: number;
 
   public title!: string;
 
-  public type!: string;
+  public type!: Type;
+
+  public commentsCount!: number;
 }

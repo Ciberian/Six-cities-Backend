@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import type { CityName, UserRegister } from '../../types/types';
 import { useAppDispatch } from '../../hooks';
 import { registerUser } from '../../store/action';
-import { getRandomElement } from '../../utils';
+import { getRandomElement } from '../../utils/utils';
 import { AppRoute, CITIES } from '../../const';
 import { setCity } from '../../store/site-process/site-process';
 
@@ -43,76 +43,30 @@ const Register = (): JSX.Element => {
           <form className="login__form form register-form" action="#" method="post" onSubmit={handleFormSubmit}>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Name</label>
-              <input
-                className="login__input form__input"
-                type="text"
-                name="name"
-                placeholder="Name"
-                required
-                minLength={1}
-                maxLength={15}
-              />
+              <input className="login__input form__input" type="text" name="name" placeholder="Name" required minLength={1} maxLength={15} />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">E-mail</label>
-              <input
-                className="login__input form__input"
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-              />
+              <input className="login__input form__input" type="email" name="email" placeholder="Email" required />
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
-              <input
-                className="login__input form__input"
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                minLength={6}
-                maxLength={12}
-              />
+              <input className="login__input form__input" type="password" name="password" placeholder="Password" required minLength={6} maxLength={12} />
             </div>
-            <div
-              className="login__input-wrapper form__input-wrapper register-form__avatar-wrapper"
-            >
-              <input
-                className="visually-hidden"
-                type="file"
-                name="avatar"
-                id="avatar"
-                accept="image/png, image/jpeg"
-                onChange={handleAvatarUpload}
-              />
+            <div className="login__input-wrapper form__input-wrapper register-form__avatar-wrapper">
+              <input className="visually-hidden" type="file" name="avatar" id="avatar" accept="image/png, image/jpeg" onChange={handleAvatarUpload} />
               <label htmlFor="avatar" className="register-form__avatar-label">
-                {avatar ? (
-                  <img
-                    src={URL.createObjectURL(avatar)}
-                    alt="Avatar preview"
-                    className="register-form__avatar-preview"
-                  />
-                ) : (
-                  'Upload avatar'
-                )}
+                {avatar ? <img src={URL.createObjectURL(avatar)} alt="Avatar preview" className="register-form__avatar-preview" /> : 'Upload avatar'}
               </label>
             </div>
             <div className="register-form__is-pro-wrapper">
-              <input
-                type="checkbox"
-                name="isPro"
-                id="isPro"
-              />
+              <input type="checkbox" name="isPro" id="isPro" />
               <label htmlFor="isPro" className="register-form__is-pro-label">
-          Create pro account
+								Create pro account
               </label>
             </div>
-            <button
-              className="login__submit form__submit button"
-              type="submit"
-            >
-                Sign up
+            <button className="login__submit form__submit button" type="submit">
+							Sign up
             </button>
           </form>
         </section>

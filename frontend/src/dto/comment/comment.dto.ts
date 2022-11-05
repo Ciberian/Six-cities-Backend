@@ -1,3 +1,5 @@
+import UserDto from '../user/user.dto';
+
 export default class CommentDto {
   public id!: string;
 
@@ -7,8 +9,5 @@ export default class CommentDto {
 
   public postDate!: string;
 
-  public user!: {
-    name: string;
-    avatarPath: string;
-  };
+  public user!: UserDto;
 }
