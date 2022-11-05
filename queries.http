@@ -52,7 +52,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM0BtYWlsLmNvbSIsImlkI
 POST http://localhost:5000/offers/create HTTP/1.1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvbSIsImlkIjoiNjM2MjQwM2Q4MzkyMWQ1ZTVmZGI3YWI1IiwiaWF0IjoxNjY3Mzg0MDU2LCJleHAiOjE2Njc1NTY4NTZ9.z9fAP9Ury1a1Z4v-khpPSju5hx9HNZpGfhJw6A5pRA8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjkxNTQ3Zm91ckBtYWlsLmNvbSIsImlkIjoiNjM2M2I5N2FkYTMyNzQ1ODUyZGU0MjU1IiwiaWF0IjoxNjY3NjU0OTI2LCJleHAiOjE2Njc4Mjc3MjZ9.nPVwEeFymfbb1uFJAKNLhXoVPMrTkcI1B8MChKd7s1w
 
 {
   "bedrooms": 2,
@@ -68,7 +68,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvb
   "goods": [
     "Breakfast,Towels,Dishwasher"
   ],
-  "hostId":  "635910512572ced352c15664",
   "images": [
     "https://10.react.pages.academy/static/hotel/3.jpg,https://10.react.pages.academy/static/hotel/20.jpg,https://10.react.pages.academy/static/hotel/15.jpg,https://10.react.pages.academy/static/hotel/19.jpg"
   ],

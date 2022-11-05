@@ -26,7 +26,12 @@ export const adaptOffersToClient = (offers: OfferDto[]): Offer[] =>
       bedrooms: offer.bedrooms,
       description: offer.description,
       goods: offer.goods,
-      host: {...offer.host, avatarUrl: offer.host.avatarPath},
+      host: {
+        name: ' ',
+        avatarUrl: ' ',
+        isPro: false,
+        email: ' ',
+      },
       images: offer.images,
       maxAdults: offer.maxAdults,
     }));

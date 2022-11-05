@@ -4,6 +4,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { Token } from '../utils/utils';
 import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';
+import OfferDto from '../dto/offer/offer.dto';
+import { adaptOffersToClient } from '../utils/adapters/adaptersToClient';
 // import CommentDto from '../dto/comment/comment.dto';
 // import CreateCommentDto from '../dto/comment/create-comment.dto';
 // import CreateOfferDto from '../dto/offer/create-offer.dto';
@@ -36,17 +38,20 @@ export const Action = {
 
 export const fetchOffers = createAsyncThunk<Offer[], undefined, {extra: Extra}>(Action.FETCH_OFFERS, async (_, {extra}) => {
   const {api} = extra;
-  const {data} = await api.get<Offer[]>(ApiRoute.Offers);
+  const {data} = await api.get<OfferDto[]>(ApiRoute.Offers);
 
-  return data;
+  return adaptOffersToClient(data);
 });
 
-export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, {extra: Extra}>(Action.FETCH_FAVORITE_OFFERS, async (_, {extra}) => {
-  const {api} = extra;
-  const {data} = await api.get<Offer[]>(ApiRoute.Favorite);
+export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, {extra: Extra}>(
+  Action.FETCH_FAVORITE_OFFERS,
+  async (_, {extra}) => {
+    const {api} = extra;
+    const {data} = await api.get<OfferDto[]>(ApiRoute.Favorite);
 
-  return data;
-});
+
+    return adaptOffersToClient(data);
+  });
 
 export const fetchOffer = createAsyncThunk<Offer, Offer['id'], {extra: Extra}>(Action.FETCH_OFFER, async (id, {extra}) => {
   const {api, history} = extra;
@@ -86,9 +91,9 @@ export const deleteOffer = createAsyncThunk<void, string, {extra: Extra}>(Action
 
 export const fetchPremiumOffers = createAsyncThunk<Offer[], string, {extra: Extra}>(Action.FETCH_PREMIUM_OFFERS, async (cityName, {extra}) => {
   const {api} = extra;
-  const {data} = await api.get<Offer[]>(`${ApiRoute.Premium}?city=${cityName}`);
+  const {data} = await api.get<OfferDto[]>(`${ApiRoute.Premium}?city=${cityName}`);
 
-  return data;
+  return adaptOffersToClient(data);
 });
 
 export const fetchComments = createAsyncThunk<Comment[], Offer['id'], {extra: Extra}>(Action.FETCH_COMMENTS, async (id, {extra}) => {

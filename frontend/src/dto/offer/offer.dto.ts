@@ -1,6 +1,6 @@
 import { Type } from '../../types/types';
 
-export default class OffersDto {
+export default class OfferDto {
   public id!: string;
 
   public bedrooms!: number;
