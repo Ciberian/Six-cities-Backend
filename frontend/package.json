@@ -1,5 +1,5 @@
 {
-  "name": "Шесть городов",
+  "name": "6_cities",
   "version": "2.0.0",
   "dependencies": {
     "@reduxjs/toolkit": "^1.5.0",
