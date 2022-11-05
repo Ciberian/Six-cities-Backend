@@ -8,7 +8,7 @@ HEAD http://localhost:5000/offers HTTP/1.1
 ## Получить список офферов (60 офферов, по умолчанию)
 GET http://localhost:5000/offers/ HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI3Nzcxc2l4QG1haWwucnUiLCJpZCI6IjYzNjAyNjNiNTlhMzY4MTQ5NzMxMjg1MCIsImlhdCI6MTY2NzMyMDg3NSwiZXhwIjoxNjY3NDkzNjc1fQ.3IABMotlpuep3kZ1rOYXe2wD9GFJ2ja_3cDaBBoxH20
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjkxNTQ3Zm91ckBtYWlsLmNvbSIsImlkIjoiNjM2M2I5N2FkYTMyNzQ1ODUyZGU0MjU1IiwiaWF0IjoxNjY3NjU0OTI2LCJleHAiOjE2Njc4Mjc3MjZ9.nPVwEeFymfbb1uFJAKNLhXoVPMrTkcI1B8MChKd7s1w
 ###
 
 ## Получить 5 офферов, через параметр запроса
@@ -29,9 +29,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM2FzZGZhQGdtYWlsLmNvb
 ###
 
 ## Получить подробную информацию по одному офферу
-GET http://localhost:5000/offers/636026426bdbf41ee9675972 HTTP/1.1
+GET http://localhost:5000/offers/6363b9bbdbccb23edf88ea1f HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjYyNTQyZml2ZUBtYWlsLmNvbSIsImlkIjoiNjM2MDI2M2I1OWEzNjgxNDk3MzEyODRjIiwiaWF0IjoxNjY3MzE3NTY2LCJleHAiOjE2Njc0OTAzNjZ9.7KEjTK4XUuX13eyR7EirRTv4DVl0H5qUXAgJ_2ILyo0
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjkxNTQ3Zm91ckBtYWlsLmNvbSIsImlkIjoiNjM2M2I5N2FkYTMyNzQ1ODUyZGU0MjU1IiwiaWF0IjoxNjY3NjU0OTI2LCJleHAiOjE2Njc4Mjc3MjZ9.nPVwEeFymfbb1uFJAKNLhXoVPMrTkcI1B8MChKd7s1w
 ###
 
 ## Обновить оффер - добавляем оффер в избранное
