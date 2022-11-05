@@ -23,7 +23,7 @@ const App = (): JSX.Element => (
         <Route
           path={`${AppRoute.Property}/:id${AppRoute.Edit}`}
           element={
-            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Login}>
+            <PrivateRoute restrictedFor={AuthorizationStatus.Unauthorized} redirectTo={AppRoute.Login}>
               <EditOffer />
             </PrivateRoute>
           }
@@ -31,7 +31,7 @@ const App = (): JSX.Element => (
         <Route
           path={AppRoute.Add}
           element={
-            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Login}>
+            <PrivateRoute restrictedFor={AuthorizationStatus.Unauthorized} redirectTo={AppRoute.Login}>
               <AddOffer />
             </PrivateRoute>
           }
@@ -39,7 +39,7 @@ const App = (): JSX.Element => (
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute restrictedFor={AuthorizationStatus.NoAuth} redirectTo={AppRoute.Login}>
+            <PrivateRoute restrictedFor={AuthorizationStatus.Unauthorized} redirectTo={AppRoute.Login}>
               <Favorites />
             </PrivateRoute>
           }

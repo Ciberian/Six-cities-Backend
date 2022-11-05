@@ -120,7 +120,7 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, { 
     } catch (error) {
       const axiosError = error as AxiosError;
 
-      if (axiosError.response?.status === HttpCode.NoAuth) {
+      if (axiosError.response?.status === HttpCode.Unauthorized) {
         Token.drop();
       }
 
@@ -187,7 +187,7 @@ export const postFavorite = createAsyncThunk<Offer, FavoriteAuth, { extra: Extra
     } catch (error) {
       const axiosError = error as AxiosError;
 
-      if (axiosError.response?.status === HttpCode.NoAuth) {
+      if (axiosError.response?.status === HttpCode.Unauthorized) {
         history.push(AppRoute.Login);
       }
 

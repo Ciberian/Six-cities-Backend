@@ -43,19 +43,19 @@ export enum AppRoute {
 }
 
 export enum ApiRoute {
-  Offers = '/hotels',
-  Login = '/login',
-  Logout = '/logout',
-  Register = '/register',
+  Offers = '/offers',
+  Favorite = '/bundles/favorites',
+  Premium = '/bundles/premiums',
+  Register = '/users/register',
+  Login = '/users/login',
+  Logout = '/users/logout',
   Avatar = '/avatar',
   Comments = '/comments',
-  Favorite = '/favorite',
-  Premium = '/premium',
 }
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',
-  NoAuth = 'NO_AUTH',
+  Unauthorized = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
 
@@ -73,8 +73,14 @@ export enum StoreSlice {
 }
 
 export enum HttpCode {
+  OK = 200,
+  Created = 201,
+  BadRequest = 400,
+  Unauthorized = 401,
   NotFound = 404,
-  NoAuth = 401,
+  NotAcceptable = 406,
+  RequestTimeout = 408,
+  Conflict = 409,
 }
 
 export enum SubmitStatus {
