@@ -17,9 +17,9 @@ Accept: application/json
 ###
 
 ## Получить премиальные офферы (3 оффера, по умолчанию)
-GET http://localhost:5000/offers/bundles/premiums HTTP/1.1
+GET http://localhost:5000/offers/bundles/premiums?city=Cologne HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjI3Nzcxc2l4QG1haWwucnUiLCJpZCI6IjYzNjAyNjNiNTlhMzY4MTQ5NzMxMjg1MCIsImlhdCI6MTY2NzMyMDg3NSwiZXhwIjoxNjY3NDkzNjc1fQ.3IABMotlpuep3kZ1rOYXe2wD9GFJ2ja_3cDaBBoxH20
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjkxNTQ3Zm91ckBtYWlsLmNvbSIsImlkIjoiNjM2M2I5N2FkYTMyNzQ1ODUyZGU0MjU1IiwiaWF0IjoxNjY3NjU0OTI2LCJleHAiOjE2Njc4Mjc3MjZ9.nPVwEeFymfbb1uFJAKNLhXoVPMrTkcI1B8MChKd7s1w
 ###
 
 ## Получить избранные офферы

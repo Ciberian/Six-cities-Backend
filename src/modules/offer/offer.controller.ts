@@ -187,14 +187,18 @@ export default class OfferController extends Controller {
     this.ok(res, fillDTO(OffersResponse, offers));
   }
 
-  public async getPremiums(req: Request, res: Response) {
-    const premiumOffers = await this.offerService.findPremiums(DEFAULT_PREMIUM_OFFER_COUNT);
-    const user = await this.userService.findById(req.user?.id);
+  public async getPremiums(
+    req: Request<core.ParamsDictionary | unknown, unknown, unknown, RequestQuery>,
+    res: Response
+  ): Promise<void> {
+    const {query, user} = req;
+    const premiumOffers = await this.offerService.findPremiums(DEFAULT_PREMIUM_OFFER_COUNT, query.city);
+    const currentUser = await this.userService.findById(user?.id);
 
     const offers = await Promise.all(premiumOffers.map(async (premiumOffer) => {
       const averageRank = await this.offerService.calcRank(String(premiumOffer._id));
 
-      if (user?.favorites.includes(String(premiumOffer._id))) {
+      if (currentUser?.favorites.includes(String(premiumOffer._id))) {
         return {...premiumOffer, isFavorite: true, rank: averageRank};
       }
 

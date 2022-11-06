@@ -116,10 +116,15 @@ export default class OfferService implements OfferServiceInterface {
       .exec() as unknown as Promise<DocumentType<OfferEntity>>;
   }
 
-  public async findPremiums(count: number): Promise<DocumentType<OfferEntity>[]> {
+  public async findPremiums(count: number, city='Paris'): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
       .aggregate([
-        {$match: {isPremium: true}},
+        {$match:{
+          $and: [
+            {'city.name': city},
+            {isPremium: true},
+          ]
+        }},
         {$lookup: {
           from: 'comments',
           localField: '_id',
