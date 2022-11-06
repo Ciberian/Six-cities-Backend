@@ -14,15 +14,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { Token } from '../utils/utils';
 import { adaptCommentsToClient, adaptOffersToClient } from '../utils/adapters/adaptersToClient';
-import { adaptOfferToServer, adaptUserRegisterToServer } from '../utils/adapters/adaptersToServer';
+import { adaptCreateCommentToServer, adaptOfferToServer, adaptUserRegisterToServer } from '../utils/adapters/adaptersToServer';
 import CommentDto from '../dto/comment/comment.dto';
 import OfferDto from '../dto/offer/offer.dto';
-// import CreateCommentDto from '../dto/comment/create-comment.dto';
-// import CreateOfferDto from '../dto/offer/create-offer.dto';
-// import UpdateOfferDto from '../dto/offer/update-offer.dto';
-// import CreateUserDto from '../dto/user/create-user.dto';
-// import LoginUserDto from '../dto/user/login-user.dto';
-// import UpdateUserDto from '../dto/user/update-user.dto';
 
 type Extra = {
 	api: AxiosInstance;
@@ -48,7 +42,7 @@ export const Action = {
 
 export const fetchOffers = createAsyncThunk<Offer[], undefined, {extra: Extra}>(Action.FETCH_OFFERS, async (_, {extra}) => {
   const {api} = extra;
-  const {data} = await api.get<OfferDto[]>(ApiRoute.Offers);
+  const {data} = await api.get<OfferDto[]>(ApiRoute.Offers, {headers: {'Authorization': `Bearer ${Token.get()}`}});
 
   return adaptOffersToClient(data);
 });
@@ -57,7 +51,7 @@ export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, {extra: 
   Action.FETCH_FAVORITE_OFFERS,
   async (_, {extra}) => {
     const {api} = extra;
-    const {data} = await api.get<OfferDto[]>(ApiRoute.Favorite);
+    const {data} = await api.get<OfferDto[]>(ApiRoute.Favorite, {headers: {'Authorization': `Bearer ${Token.get()}`}});
 
 
     return adaptOffersToClient(data);
@@ -117,7 +111,7 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, {e
   const {api} = extra;
 
   try {
-    const {data} = await api.get<User>(ApiRoute.Login);
+    const {data} = await api.get<User>(ApiRoute.Login, {headers: {'Authorization': `Bearer ${Token.get()}`}});
 
     return data.email;
   } catch (error) {
@@ -164,9 +158,9 @@ export const registerUser = createAsyncThunk<void, UserRegister, {extra: Extra}>
 
 export const postComment = createAsyncThunk<Comment[], CommentAuth, { extra: Extra }>(Action.POST_COMMENT, async ({ id, comment, rating }, { extra }) => {
   const {api} = extra;
-  const {data} = await api.post<Comment[]>(`${ApiRoute.Comments}/${id}`, {comment, rating});
+  const {data} = await api.post<CommentDto[]>(`${ApiRoute.Comments}/${id}`, adaptCreateCommentToServer({comment, rating, id}), {headers: {'Authorization': `Bearer ${Token.get()}`}});
 
-  return data;
+  return adaptCommentsToClient(data);
 });
 
 export const postFavorite = createAsyncThunk<Offer, FavoriteAuth, {extra: Extra}>(Action.POST_FAVORITE, async ({id, status}, {extra}) => {

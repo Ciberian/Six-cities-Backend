@@ -40,11 +40,17 @@ export const adaptCommentsToClient = (comments: CommentDto[]): Comment[] =>
   comments
     .filter((comment: CommentDto) => comment.user !== null)
     .map((comment: CommentDto) => ({
-      id: comment.id,
+      id: comment._id,
       comment: comment.text,
       date: comment.postDate,
       rating: comment.rank,
       user: adaptUserToClient(comment.user)
     }));
 
-
+export const adaptCreatedCommentToClient = (comment: CommentDto): Comment => ({
+  id: comment._id,
+  comment: comment.text,
+  date: comment.postDate,
+  rating: comment.rank,
+  user: adaptUserToClient(comment.user)
+});

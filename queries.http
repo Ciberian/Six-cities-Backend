@@ -121,7 +121,7 @@ Content-Type: application/json
 ## Запрос статуса пользователя
 GET http://localhost:5000/users/login HTTP/1.1
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyMzRAbWFpbC5jb20iLCJpZCI6IjYzNjU0MzJhZjdjMjcyZDliM2ZlZGM5OSIsImlhdCI6MTY2NzU4MDc5MCwiZXhwIjoxNjY3NzUzNTkwfQ.VSqLZ3HiplROFxLyBwG_SQcnambawlVu3N5OgrStlSI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjkxNTQ3Zm91ckBtYWlsLmNvbSIsImlkIjoiNjM2M2I5N2FkYTMyNzQ1ODUyZGU0MjU1IiwiaWF0IjoxNjY3NjU0OTI2LCJleHAiOjE2Njc4Mjc3MjZ9.nPVwEeFymfbb1uFJAKNLhXoVPMrTkcI1B8MChKd7s1w
 ###
 
 ## Отправка аватарки пользователю
@@ -143,8 +143,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjkxNTQ3Zm91ckBtYWlsLmNvbSIsImlkIjoiNjM2M2I5N2FkYTMyNzQ1ODUyZGU0MjU1IiwiaWF0IjoxNjY3NjU0OTI2LCJleHAiOjE2Njc4Mjc3MjZ9.nPVwEeFymfbb1uFJAKNLhXoVPMrTkcI1B8MChKd7s1w
 
 {
-  "text": "The commentary is represented by a set of information1111111111",
-  "rank": 1
+  "text": "The commentary is represented by a set of information",
+  "rank": 5
 }
 ###
 
