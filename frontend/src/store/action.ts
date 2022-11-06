@@ -5,7 +5,8 @@ import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { Token } from '../utils/utils';
 import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';
 import OfferDto from '../dto/offer/offer.dto';
-import { adaptOffersToClient } from '../utils/adapters/adaptersToClient';
+import { adaptCommentsToClient, adaptOffersToClient } from '../utils/adapters/adaptersToClient';
+import CommentDto from '../dto/comment/comment.dto';
 // import CommentDto from '../dto/comment/comment.dto';
 // import CreateCommentDto from '../dto/comment/create-comment.dto';
 // import CreateOfferDto from '../dto/offer/create-offer.dto';
@@ -98,9 +99,9 @@ export const fetchPremiumOffers = createAsyncThunk<Offer[], string, {extra: Extr
 
 export const fetchComments = createAsyncThunk<Comment[], Offer['id'], {extra: Extra}>(Action.FETCH_COMMENTS, async (id, {extra}) => {
   const {api} = extra;
-  const {data} = await api.get<Comment[]>(`${ApiRoute.Comments}/${id}`);
+  const {data} = await api.get<CommentDto[]>(`offers/${id}${ApiRoute.Comments}/`);
 
-  return data;
+  return adaptCommentsToClient(data);
 });
 
 export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, {extra: Extra}>(Action.FETCH_USER_STATUS, async (_, {extra}) => {
