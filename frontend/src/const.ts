@@ -74,14 +74,9 @@ export enum StoreSlice {
 }
 
 export enum HttpCode {
-  OK = 200,
-  Created = 201,
   BadRequest = 400,
   Unauthorized = 401,
   NotFound = 404,
-  NotAcceptable = 406,
-  RequestTimeout = 408,
-  Conflict = 409,
 }
 
 export enum SubmitStatus {

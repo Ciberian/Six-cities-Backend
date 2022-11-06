@@ -47,10 +47,3 @@ export const adaptCommentsToClient = (comments: CommentDto[]): Comment[] =>
       user: adaptUserToClient(comment.user)
     }));
 
-export const adaptCreatedCommentToClient = (comment: CommentDto): Comment => ({
-  id: comment._id,
-  comment: comment.text,
-  date: comment.postDate,
-  rating: comment.rank,
-  user: adaptUserToClient(comment.user)
-});
