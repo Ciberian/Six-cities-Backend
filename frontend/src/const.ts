@@ -44,6 +44,7 @@ export enum AppRoute {
 
 export enum ApiRoute {
   Offers = '/offers',
+  OfferCreate = '/offers/create',
   Favorite = 'offers/bundles/favorites',
   Premium = 'offers/bundles/premiums',
   Register = '/users/register',

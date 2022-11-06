@@ -1,14 +1,22 @@
 import type { History } from 'history';
 import type { AxiosInstance, AxiosError } from 'axios';
+import type {
+  User,
+  Offer,
+  Comment,
+  UserAuth,
+  CommentAuth,
+  FavoriteAuth,
+  UserRegister,
+  NewOffer
+} from '../types/types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiRoute, AppRoute, HttpCode } from '../const';
 import { Token } from '../utils/utils';
-import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserRegister, NewOffer } from '../types/types';
-import OfferDto from '../dto/offer/offer.dto';
 import { adaptCommentsToClient, adaptOffersToClient } from '../utils/adapters/adaptersToClient';
+import { adaptOfferToServer, adaptUserRegisterToServer } from '../utils/adapters/adaptersToServer';
 import CommentDto from '../dto/comment/comment.dto';
-import { adaptUserRegisterToServer } from '../utils/adapters/adaptersToServer';
-// import CommentDto from '../dto/comment/comment.dto';
+import OfferDto from '../dto/offer/offer.dto';
 // import CreateCommentDto from '../dto/comment/create-comment.dto';
 // import CreateOfferDto from '../dto/offer/create-offer.dto';
 // import UpdateOfferDto from '../dto/offer/update-offer.dto';
@@ -75,7 +83,7 @@ export const fetchOffer = createAsyncThunk<Offer, Offer['id'], {extra: Extra}>(A
 
 export const postOffer = createAsyncThunk<void, NewOffer, {extra: Extra}>(Action.POST_OFFER, async (newOffer, {extra}) => {
   const {api, history} = extra;
-  const {data} = await api.post<Offer>(ApiRoute.Offers, newOffer);
+  const {data} = await api.post<Offer>(ApiRoute.OfferCreate, adaptOfferToServer(newOffer), {headers: {'Authorization': `Bearer ${Token.get()}`}});
   history.push(`${AppRoute.Property}/${data.id}`);
 });
 
