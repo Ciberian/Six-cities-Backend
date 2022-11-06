@@ -42,7 +42,7 @@ export const Action = {
 
 export const fetchOffers = createAsyncThunk<Offer[], undefined, {extra: Extra}>(Action.FETCH_OFFERS, async (_, {extra}) => {
   const {api} = extra;
-  const {data} = await api.get<OfferDto[]>(ApiRoute.Offers, {headers: {'Authorization': `Bearer ${Token.get()}`}});
+  const {data} = await api.get<OfferDto[]>(ApiRoute.Offers);
 
   return adaptOffersToClient(data);
 });
@@ -51,7 +51,7 @@ export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, {extra: 
   Action.FETCH_FAVORITE_OFFERS,
   async (_, {extra}) => {
     const {api} = extra;
-    const {data} = await api.get<OfferDto[]>(ApiRoute.Favorite, {headers: {'Authorization': `Bearer ${Token.get()}`}});
+    const {data} = await api.get<OfferDto[]>(ApiRoute.Favorite);
 
 
     return adaptOffersToClient(data);
@@ -77,7 +77,7 @@ export const fetchOffer = createAsyncThunk<Offer, Offer['id'], {extra: Extra}>(A
 
 export const postOffer = createAsyncThunk<void, NewOffer, {extra: Extra}>(Action.POST_OFFER, async (newOffer, {extra}) => {
   const {api, history} = extra;
-  const {data} = await api.post<Offer>(ApiRoute.OfferCreate, adaptOfferToServer(newOffer), {headers: {'Authorization': `Bearer ${Token.get()}`}});
+  const {data} = await api.post<Offer>(ApiRoute.OfferCreate, adaptOfferToServer(newOffer));
   history.push(`${AppRoute.Property}/${data.id}`);
 });
 
@@ -111,7 +111,7 @@ export const fetchUserStatus = createAsyncThunk<UserAuth['email'], undefined, {e
   const {api} = extra;
 
   try {
-    const {data} = await api.get<User>(ApiRoute.Login, {headers: {'Authorization': `Bearer ${Token.get()}`}});
+    const {data} = await api.get<User>(ApiRoute.Login);
 
     return data.email;
   } catch (error) {
@@ -158,7 +158,7 @@ export const registerUser = createAsyncThunk<void, UserRegister, {extra: Extra}>
 
 export const postComment = createAsyncThunk<Comment[], CommentAuth, { extra: Extra }>(Action.POST_COMMENT, async ({ id, comment, rating }, { extra }) => {
   const {api} = extra;
-  const {data} = await api.post<CommentDto[]>(`${ApiRoute.Comments}/${id}`, adaptCreateCommentToServer({comment, rating, id}), {headers: {'Authorization': `Bearer ${Token.get()}`}});
+  const {data} = await api.post<CommentDto[]>(`${ApiRoute.Comments}/${id}`, adaptCreateCommentToServer({comment, rating, id}));
 
   return adaptCommentsToClient(data);
 });
