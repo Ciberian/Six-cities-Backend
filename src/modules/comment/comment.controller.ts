@@ -50,7 +50,10 @@ export default class CommentController extends Controller {
     }
 
     const comment = await this.commentService.create({...body, userId: user.id, offerId: params.offerId});
-    this.created(res, fillDTO(CommentResponse, comment));
+
+    if (comment) {
+      this.created(res, fillDTO(CommentResponse, comment));
+    }
   }
 }
 

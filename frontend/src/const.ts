@@ -1,4 +1,4 @@
-import { Offer, Location, CityName, SortName } from './types/types';
+import { Location, CityName, SortName, OfferShort } from './types/types';
 
 export const CITIES = [
   'Paris',
@@ -87,7 +87,7 @@ export enum SubmitStatus {
 }
 
 export const Comparator: {
-  [key in SortName]: (a: Offer, b: Offer) => number;
+  [key in SortName]: (a: OfferShort, b: OfferShort) => number;
 } = {
   Popular: () => 0,
   PriceIncrease: (a, b) => a.price - b.price,

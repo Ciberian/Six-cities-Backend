@@ -3,6 +3,7 @@ import type { AxiosInstance, AxiosError } from 'axios';
 import type {
   User,
   Offer,
+  OfferShort,
   Comment,
   UserAuth,
   CommentAuth,
@@ -40,14 +41,14 @@ export const Action = {
   REGISTER_USER: 'user/register',
 };
 
-export const fetchOffers = createAsyncThunk<Offer[], undefined, {extra: Extra}>(Action.FETCH_OFFERS, async (_, {extra}) => {
+export const fetchOffers = createAsyncThunk<OfferShort[], undefined, {extra: Extra}>(Action.FETCH_OFFERS, async (_, {extra}) => {
   const {api} = extra;
   const {data} = await api.get<OfferDto[]>(ApiRoute.Offers);
 
   return adaptOffersToClient(data);
 });
 
-export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, {extra: Extra}>(
+export const fetchFavoriteOffers = createAsyncThunk<OfferShort[], undefined, {extra: Extra}>(
   Action.FETCH_FAVORITE_OFFERS,
   async (_, {extra}) => {
     const {api} = extra;
@@ -56,6 +57,13 @@ export const fetchFavoriteOffers = createAsyncThunk<Offer[], undefined, {extra: 
 
     return adaptOffersToClient(data);
   });
+
+export const fetchPremiumOffers = createAsyncThunk<OfferShort[], string, {extra: Extra}>(Action.FETCH_PREMIUM_OFFERS, async (cityName, {extra}) => {
+  const {api} = extra;
+  const {data} = await api.get<OfferDto[]>(`${ApiRoute.Premium}?city=${cityName}`);
+
+  return adaptOffersToClient(data);
+});
 
 export const fetchOffer = createAsyncThunk<Offer, Offer['id'], {extra: Extra}>(Action.FETCH_OFFER, async (id, {extra}) => {
   const {api, history} = extra;
@@ -91,13 +99,6 @@ export const deleteOffer = createAsyncThunk<void, string, {extra: Extra}>(Action
   const {api, history} = extra;
   await api.delete(`${ApiRoute.Offers}/${id}`);
   history.push(AppRoute.Root);
-});
-
-export const fetchPremiumOffers = createAsyncThunk<Offer[], string, {extra: Extra}>(Action.FETCH_PREMIUM_OFFERS, async (cityName, {extra}) => {
-  const {api} = extra;
-  const {data} = await api.get<OfferDto[]>(`${ApiRoute.Premium}?city=${cityName}`);
-
-  return adaptOffersToClient(data);
 });
 
 export const fetchComments = createAsyncThunk<Comment[], Offer['id'], {extra: Extra}>(Action.FETCH_COMMENTS, async (id, {extra}) => {

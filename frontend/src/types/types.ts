@@ -53,6 +53,19 @@ export type Offer = {
   maxAdults: number;
 };
 
+export type OfferShort = {
+  id: string;
+  city: City;
+  location: Location;
+  price: number;
+  rating: number;
+  title: string;
+  isPremium: boolean;
+  isFavorite: boolean;
+  previewImage: string;
+  type: Type;
+};
+
 export type NewOffer = {
   title: string;
   description: string;
