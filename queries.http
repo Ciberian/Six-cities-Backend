@@ -35,10 +35,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjkxNTQ3Zm91ckBtYWlsLmNvb
 ###
 
 ## Обновить оффер - добавляем оффер в избранное
-PATCH  http://localhost:5000/offers/636026416bdbf41ee967585b HTTP/1.1
+PATCH  http://localhost:5000/offers/6363b9bbdbccb23edf88ea1f HTTP/1.1
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM0BtYWlsLmNvbSIsImlkIjoiNjM2MzgwZjBmY2VmOGU2NWVjZGRiM2IwIiwiaWF0IjoxNjY3NDY1NDc5LCJleHAiOjE2Njc2MzgyNzl9.k5ZLFJ-Ne5tuEspGIl3TY-S40LkjAeGqoQxP_S3zafs
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6IjEyM0BhYWQucnUiLCJpZCI6IjYzNjdhYzkxMzM4NGJhZjU4YjQxODc1YSIsImlhdCI6MTY2NzczODg0OCwiZXhwIjoxNjY3OTExNjQ4fQ.HU_mGvL2y9A3R-UYnY78qWbonBRpedj8_3tqMahfZ3Y
 
 {
   "bedrooms": 2,

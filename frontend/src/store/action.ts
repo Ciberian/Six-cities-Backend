@@ -7,6 +7,7 @@ import type { UserAuth, User, Offer, Comment, CommentAuth, FavoriteAuth, UserReg
 import OfferDto from '../dto/offer/offer.dto';
 import { adaptCommentsToClient, adaptOffersToClient } from '../utils/adapters/adaptersToClient';
 import CommentDto from '../dto/comment/comment.dto';
+import { adaptUserRegisterToServer } from '../utils/adapters/adaptersToServer';
 // import CommentDto from '../dto/comment/comment.dto';
 // import CreateCommentDto from '../dto/comment/create-comment.dto';
 // import CreateOfferDto from '../dto/offer/create-offer.dto';
@@ -142,11 +143,11 @@ export const logoutUser = createAsyncThunk<void, undefined, {extra: Extra}>(Acti
 
 export const registerUser = createAsyncThunk<void, UserRegister, {extra: Extra}>(Action.REGISTER_USER, async ({email, password, name, avatar, isPro}, {extra}) => {
   const {api, history} = extra;
-  const {data} = await api.post<{id: string}>(ApiRoute.Register, {email, password, name, isPro});
+  const {data} = await api.post<{id: string}>(ApiRoute.Register, adaptUserRegisterToServer({email, password, name, isPro}));
   if (avatar) {
     const payload = new FormData();
     payload.append('avatar', avatar);
-    await api.post(`/${data.id}${ApiRoute.Avatar}`, payload, {
+    await api.post(`/users/${data.id}${ApiRoute.Avatar}`, payload, {
       headers: {'Content-Type': 'multipart/form-data'},
     });
   }

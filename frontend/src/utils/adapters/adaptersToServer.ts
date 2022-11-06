@@ -7,7 +7,7 @@ export const adaptUserRegisterToServer = (user: UserRegister): CreateUserDto => 
   email: user.email,
   password: user.password,
   name: user.name,
-  isPro: user.isPro,
+  isPro: Boolean(user.isPro),
   favorites: [],
 });
 
