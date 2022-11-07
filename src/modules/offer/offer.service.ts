@@ -71,13 +71,7 @@ export default class OfferService implements OfferServiceInterface {
 
     return this.offerModel
       .aggregate([
-        {$lookup: {
-          from: 'comments',
-          localField: '_id',
-          foreignField: 'offerId',
-          as: 'commentsCount'
-        }},
-        {$set: {'commentsCount': { $size: '$commentsCount' }}},
+        {$project: {city: 1, location: 1, price: 1, title: 1, isPremium: 1, isFavorite: 1, previewImage: 1, type: 1}},
         {$addFields: { id: { $toString: '$_id'}}},
         {$limit: Number(limit)}
       ]).exec();
@@ -116,17 +110,16 @@ export default class OfferService implements OfferServiceInterface {
       .exec() as unknown as Promise<DocumentType<OfferEntity>>;
   }
 
-  public async findPremiums(count: number): Promise<DocumentType<OfferEntity>[]> {
+  public async findPremiums(count: number, city='Paris'): Promise<DocumentType<OfferEntity>[]> {
     return this.offerModel
       .aggregate([
-        {$match: {isPremium: true}},
-        {$lookup: {
-          from: 'comments',
-          localField: '_id',
-          foreignField: 'offerId',
-          as: 'commentsCount'
+        {$match:{
+          $and: [
+            {'city.name': city},
+            {isPremium: true},
+          ]
         }},
-        {$set: {'commentsCount': { $size: '$commentsCount' }}},
+        {$project: {city: 1, location: 1, price: 1, title: 1, isPremium: 1, isFavorite: 1, previewImage: 1, type: 1}},
         {$addFields: {id: {$toString: '$_id'}}},
       ])
       .sort({createdAt: SortType.Down})
@@ -146,13 +139,7 @@ export default class OfferService implements OfferServiceInterface {
         {$match: { _id: {
           $in: user.favorites.map((id) => new mongoose.Types.ObjectId(id))
         }}},
-        {$lookup: {
-          from: 'comments',
-          localField: '_id',
-          foreignField: 'offerId',
-          as: 'commentsCount'
-        }},
-        {$set: {'commentsCount': { $size: '$commentsCount' }}},
+        {$project: {city: 1, location: 1, price: 1, title: 1, isPremium: 1, isFavorite: 1, previewImage: 1, type: 1}},
         {$addFields: {id: {$toString: '$_id'}}},
       ])
       .sort({createdAt: SortType.Down})

@@ -1,4 +1,4 @@
-export default class CreateUserDto {
+export default class UpdateUserDto {
   email?: string;
   password?: string;
   avatarPath?: string;

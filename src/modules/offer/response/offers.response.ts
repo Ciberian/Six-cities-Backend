@@ -5,9 +5,6 @@ export default class OffersResponse {
   public id!: string;
 
   @Expose()
-  public bedrooms!: number;
-
-  @Expose()
   public city!: {
     name: string;
     location: {
@@ -18,24 +15,6 @@ export default class OffersResponse {
   };
 
   @Expose()
-  public description!: string;
-
-  @Expose()
-  public goods!: string[];
-
-  @Expose()
-  public hostId!: string;
-
-  @Expose()
-  public images!: string[];
-
-  @Expose()
-  public isFavorite!: boolean;
-
-  @Expose()
-  public isPremium!: boolean;
-
-  @Expose()
   public location!: {
     latitude: number;
     longitude: number;
@@ -43,16 +22,7 @@ export default class OffersResponse {
   };
 
   @Expose()
-  public maxAdults!: number;
-
-  @Expose()
-  public previewImage!: string;
-
-  @Expose()
   public price!: number;
-
-  @Expose()
-  public postDate!: string;
 
   @Expose()
   public rank!: number;
@@ -61,8 +31,14 @@ export default class OffersResponse {
   public title!: string;
 
   @Expose()
-  public type!: string;
+  public isPremium!: boolean;
 
   @Expose()
-  public commentsCount!: number;
+  public isFavorite!: boolean;
+
+  @Expose()
+  public previewImage!: string;
+
+  @Expose()
+  public type!: string;
 }
